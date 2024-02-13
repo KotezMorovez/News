@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.News" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorAccent">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/blue_700</item>
+    </style>
+
+    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorError">@color/pink_500</item>
+        <item name="colorPrimary">@color/white</item>
+
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeErrorColor">@color/pink_500</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="boxCornerRadiusBottomEnd">24dp</item>
+        <item name="boxCornerRadiusTopEnd">24dp</item>
+        <item name="boxCornerRadiusBottomStart">24dp</item>
+        <item name="boxCornerRadiusTopStart">24dp</item>
+
+        <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox</item>
+    </style>
+
+    <style name="Theme.News.AuthEditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+        <item name="hintTextColor">@color/white</item>
+    </style>
+
+    <style name="Theme.News.Button" parent="Widget.AppCompat.Button">
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/auth_field_border</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/purple_500</item>
+    </style>
+</resources>

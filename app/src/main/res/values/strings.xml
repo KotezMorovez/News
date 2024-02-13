@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">News</string>
+    <string name="sign_up_title">Добро пожаловать</string>
+    <string name="sign_up_email_field_hint">Email</string>
+    <string name="sign_up_password_field_hint">Пароль</string>
+    <string name="sign_up_name_field_hint">Имя</string>
+    <string name="sign_up_button">ЗАРЕГИСТРИРОВАТЬСЯ</string>
+    <string name="sign_up_login_link">Уже есть аккаунт? Войти</string>
+
+    <string name="auth_title">Добро пожаловать</string>
+    <string name="auth_password_field_hint">Пароль</string>
+    <string name="sign_up_forget_password_link">Забыли пароль?</string>
+    <string name="auth_name_field_hint">Имя</string>
+    <string name="auth_button">ВОЙТИ</string>
+    <string name="auth_sign_up_link">Нет аккаунта? Зарегистрироваться</string>
+
+</resources>
