@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/authTextView"
+            android:id="@+id/loginTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -66,29 +66,31 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/login_forget_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/sign_up_forget_password_link"
+            android:text="@string/login_forget_password_link"
             android:gravity="end"
             android:textColor="@color/white"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/authButton"
+            android:id="@+id/loginButton"
             style="@style/Theme.News.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="36dp"
-            android:text="@string/auth_button" />
+            android:text="@string/login_button" />
 
         <TextView
-            android:id="@+id/authLinkTextView"
+            android:id="@+id/loginLinkTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/auth_sign_up_link"
+            android:text="@string/login_sign_up_link"
             android:gravity="center"
-            android:textColor="@color/white"/>
+            android:textColor="@color/grey"
+            android:clickable="true"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

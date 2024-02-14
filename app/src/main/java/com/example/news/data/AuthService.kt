@@ -1,7 +1,5 @@
 package com.example.news.data
 
-import android.util.Log
-import com.google.firebase.FirebaseError
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -20,13 +18,13 @@ interface AuthService {
 
     suspend fun deleteAccount(): Result<Unit>
 
-    suspend fun getCurrentUser(): Result<AuthUserEntity?>
+    suspend fun getCurrentUser(): Result<LoginUserEntity?>
 
     suspend fun registerUser(user: UserRegisterEntity): Result<Unit>
 
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
 
-    suspend fun getUserById(userId: String): Result<AuthUserEntity>
+    suspend fun getUserById(userId: String): Result<LoginUserEntity>
 }
 
 class FirebaseAuthService() : AuthService {
@@ -81,7 +79,7 @@ class FirebaseAuthService() : AuthService {
         }
     }
 
-    override suspend fun getCurrentUser(): Result<AuthUserEntity?> {
+    override suspend fun getCurrentUser(): Result<LoginUserEntity?> {
         val currentId = getCurrentUserId()
         return if (currentId != null) {
             suspendCoroutine { continuation ->
@@ -90,7 +88,7 @@ class FirebaseAuthService() : AuthService {
                     .addOnSuccessListener {
                         continuation.resumeWith(
                             Result.success(
-                                Result.success(AuthUserEntity.fromDocument(it))
+                                Result.success(LoginUserEntity.fromDocument(it))
                             )
                         )
                     }
@@ -116,7 +114,7 @@ class FirebaseAuthService() : AuthService {
                         return@addOnSuccessListener
                     }
 
-                    val userEntity = AuthUserEntity(
+                    val userEntity = LoginUserEntity(
                         id = result.user!!.uid,
                         email = user.email,
                         name = user.name
@@ -154,14 +152,14 @@ class FirebaseAuthService() : AuthService {
         }
     }
 
-    override suspend fun getUserById(userId: String): Result<AuthUserEntity> {
+    override suspend fun getUserById(userId: String): Result<LoginUserEntity> {
         return suspendCoroutine { continuation ->
             val docRef = database.collection("users").document(userId).get()
             docRef
                 .addOnSuccessListener { userDocument ->
                     continuation.resumeWith(
                         Result.success(
-                            Result.success(AuthUserEntity.fromDocument(userDocument))
+                            Result.success(LoginUserEntity.fromDocument(userDocument))
                         )
                     )
                 }
