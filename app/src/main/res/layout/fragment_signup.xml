@@ -86,6 +86,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/signUpButton"
             style="@style/Theme.News.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,11 +95,13 @@
             android:text="@string/sign_up_button" />
 
         <TextView
+            android:id="@+id/signUpLinkTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/sign_up_login_link"
             android:gravity="center"
-            android:textColor="@color/white"/>
+            android:textColor="@color/grey"
+            android:clickable="true"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
