@@ -1,4 +1,4 @@
-package com.example.news.domain.model.auth
+package com.example.news.ui.auth
 
 data class LoginUserItem(
     val email: String,

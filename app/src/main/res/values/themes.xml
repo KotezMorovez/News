@@ -18,7 +18,6 @@
         <item name="boxCornerRadiusTopEnd">24dp</item>
         <item name="boxCornerRadiusBottomStart">24dp</item>
         <item name="boxCornerRadiusTopStart">24dp</item>
-
         <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox</item>
     </style>
 
@@ -33,5 +32,13 @@
         <item name="android:background">@drawable/auth_field_border</item>
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/purple_500</item>
+    </style>
+
+    <style name="Theme.News.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="android:background">@color/blue_500</item>
+        <item name="titleTextColor">@color/material_on_surface_emphasis_high_type</item>
+        <item name="subtitleTextColor">@color/material_on_surface_emphasis_medium</item>
+
+        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Toolbar.Surface</item>
     </style>
 </resources>

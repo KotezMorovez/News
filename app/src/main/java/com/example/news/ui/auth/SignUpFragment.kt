@@ -12,8 +12,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentSignupBinding
 import com.example.news.ui.common.BaseFragment
+import com.google.android.material.snackbar.Snackbar
 
-class SignUpFragment: BaseFragment<FragmentSignupBinding>() {
+class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
     private val viewModel = SignUpViewModel()
     override fun createViewBinding(): FragmentSignupBinding {
         return FragmentSignupBinding.inflate(layoutInflater)
@@ -52,23 +53,28 @@ class SignUpFragment: BaseFragment<FragmentSignupBinding>() {
             val spanTextList = signUpLinkTextView.text.toString().split("?")
             val spannableString = makeLinks(
                 signUpLinkTextView.text.toString(),
-                spanTextList[1].trim(),
-                View.OnClickListener{
-                    this@SignUpFragment.findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
-                })
+                spanTextList[1].trim()
+            ) {
+                this@SignUpFragment.findNavController()
+                    .navigate(R.id.action_signUpFragment_to_loginFragment)
+            }
             signUpLinkTextView.movementMethod = LinkMovementMethod.getInstance()
             signUpLinkTextView.setText(spannableString, TextView.BufferType.SPANNABLE)
         }
     }
 
-    private fun makeLinks(text: String, phrase: String, listener: View.OnClickListener): SpannableString {
+    private fun makeLinks(
+        text: String,
+        phrase: String,
+        listener: View.OnClickListener
+    ): SpannableString {
         val spannableString = SpannableString(text)
         val start = text.indexOf(phrase)
         val end = start + phrase.length
 
-        val clickableSpan = object: ClickableSpan() {
+        val clickableSpan = object : ClickableSpan() {
 
-            override fun updateDrawState(ds: TextPaint){
+            override fun updateDrawState(ds: TextPaint) {
                 ds.color = resources.getColor(R.color.white, null)
                 ds.isUnderlineText = false
             }
@@ -90,25 +96,46 @@ class SignUpFragment: BaseFragment<FragmentSignupBinding>() {
             passwordEditText.clearFocus()
         }
     }
+
     override fun observeData() {
-        viewModel.signUpUser.observe(viewLifecycleOwner, Observer {
+        viewModel.signUpUser.observe(viewLifecycleOwner) {
             with(viewBinding) {
                 nameEditText.setText(it.name)
 
                 emailEditText.setText(it.email)
-                if (!it.isValidEmail){
+                if (!it.isValidEmail) {
                     emailContainer.error = resources.getText(R.string.sign_up_email_error)
                 } else {
                     emailContainer.error = null
                 }
 
                 passwordEditText.setText(it.password)
-                if (!it.isValidPassword){
+                if (!it.isValidPassword) {
                     passwordContainer.error = resources.getText(R.string.sign_up_password_error)
                 } else {
                     passwordContainer.error = null
                 }
             }
-        })
+        }
+
+        viewModel.errorEvent.observe(viewLifecycleOwner) {
+            val snackBar = Snackbar.make(
+                requireContext(),
+                viewBinding.signUpButton,
+                resources.getText(R.string.login_toast_error),
+                Snackbar.LENGTH_SHORT
+            )
+            snackBar.show()
+        }
+
+        viewModel.signUpSuccessEvent.observe(viewLifecycleOwner) {
+            this@SignUpFragment.findNavController()
+                .navigate(R.id.action_loginFragment_to_homePageFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        clearAllFocus()
+        super.onDestroyView()
     }
 }

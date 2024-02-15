@@ -1,5 +1,9 @@
-package com.example.news.data
+package com.example.news.data.auth
 
+import com.example.news.data.auth.model.ProfileEntity
+import com.example.news.data.auth.model.UserRegisterEntity
+import com.example.news.data.auth.model.toDocument
+import com.example.news.data.auth.model.toProfileEntity
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -18,18 +22,28 @@ interface AuthService {
 
     suspend fun deleteAccount(): Result<Unit>
 
-    suspend fun getCurrentUser(): Result<LoginUserEntity?>
+    suspend fun getCurrentUser(): Result<ProfileEntity?>
 
     suspend fun registerUser(user: UserRegisterEntity): Result<Unit>
 
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
 
-    suspend fun getUserById(userId: String): Result<LoginUserEntity>
+    suspend fun getProfileById(userId: String): Result<ProfileEntity>
 }
 
 class FirebaseAuthService() : AuthService {
     private val database = Firebase.firestore
     private val auth = FirebaseAuth.getInstance()
+
+    companion object {
+        private var instance: FirebaseAuthService? = null
+        fun getInstance(): FirebaseAuthService {
+            if (instance == null) {
+                instance = FirebaseAuthService()
+            }
+            return instance!!
+        }
+    }
 
     override suspend fun getCurrentUserId(): String? {
         return if (auth.currentUser != null) {
@@ -58,13 +72,13 @@ class FirebaseAuthService() : AuthService {
     }
 
     override suspend fun logoutUser() {
-        auth.signOut()
+        return auth.signOut()
     }
 
     override suspend fun deleteAccount(): Result<Unit> {
         return suspendCoroutine { continuation ->
             val id = auth.currentUser!!.uid
-            database.collection("users")
+            database.collection("profiles")
                 .document(id)
                 .delete()
                 .addOnSuccessListener {
@@ -79,16 +93,16 @@ class FirebaseAuthService() : AuthService {
         }
     }
 
-    override suspend fun getCurrentUser(): Result<LoginUserEntity?> {
+    override suspend fun getCurrentUser(): Result<ProfileEntity?> {
         val currentId = getCurrentUserId()
         return if (currentId != null) {
             suspendCoroutine { continuation ->
-                val user = database.collection("users").document(currentId).get()
+                val user = database.collection("profiles").document(currentId).get()
                 user
                     .addOnSuccessListener {
                         continuation.resumeWith(
                             Result.success(
-                                Result.success(LoginUserEntity.fromDocument(it))
+                                Result.success(it.toProfileEntity())
                             )
                         )
                     }
@@ -104,30 +118,33 @@ class FirebaseAuthService() : AuthService {
     override suspend fun registerUser(user: UserRegisterEntity): Result<Unit> {
         return suspendCoroutine { continuation ->
             auth.createUserWithEmailAndPassword(user.email, user.password)
-                .addOnSuccessListener {result ->
+                .addOnSuccessListener { result ->
                     if (result.user == null) {
-                        continuation.resumeWith(Result.success(
-                            Result.failure(
-                                IllegalStateException("User must be returned from authorization")
+                        continuation.resumeWith(
+                            Result.success(
+                                Result.failure(
+                                    IllegalStateException("User must be returned from authorization")
+                                )
                             )
-                        ))
+                        )
                         return@addOnSuccessListener
                     }
 
-                    val userEntity = LoginUserEntity(
+                    val userEntity = ProfileEntity(
                         id = result.user!!.uid,
                         email = user.email,
-                        name = user.name
+                        name = user.name,
+                        imageUrl = ""
                     )
 
-                    database.collection("users")
+                    database.collection("profiles")
                         .document(userEntity.id)
                         .set(userEntity.toDocument())
 
                     continuation.resumeWith(Result.success(Result.success(Unit)))
                 }
                 .addOnFailureListener {
-
+                    continuation.resumeWith(Result.success(Result.failure(it)))
                 }
         }
     }
@@ -152,14 +169,14 @@ class FirebaseAuthService() : AuthService {
         }
     }
 
-    override suspend fun getUserById(userId: String): Result<LoginUserEntity> {
+    override suspend fun getProfileById(userId: String): Result<ProfileEntity> {
         return suspendCoroutine { continuation ->
-            val docRef = database.collection("users").document(userId).get()
+            val docRef = database.collection("profiles").document(userId).get()
             docRef
                 .addOnSuccessListener { userDocument ->
                     continuation.resumeWith(
                         Result.success(
-                            Result.success(LoginUserEntity.fromDocument(userDocument))
+                            Result.success(userDocument.toProfileEntity())
                         )
                     )
                 }

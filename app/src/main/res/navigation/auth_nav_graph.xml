@@ -12,6 +12,11 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment"/>
+
+        <action
+            android:id="@+id/action_loginFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment"/>
+
     </fragment>
 
     <fragment
@@ -23,4 +28,8 @@
             app:destination="@id/loginFragment"/>
     </fragment>
 
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.example.news.ui.homepage.HomePageFragment"
+        tools:layout="@layout/fragment_home_page"/>
 </navigation>

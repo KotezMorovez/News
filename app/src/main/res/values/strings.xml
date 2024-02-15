@@ -19,5 +19,5 @@
     <string name="login_sign_up_link">Нет аккаунта? Зарегистрироваться</string>
     <string name="login_email_error">Неправильный адрес почты</string>
     <string name="login_password_error">Неверный формат пароля.\nПароль должен содержать 8\-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&amp;+=!</string>
-
+    <string name="login_toast_error">Что-то пошло не так</string>
 </resources>
