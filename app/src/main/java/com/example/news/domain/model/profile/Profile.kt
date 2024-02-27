@@ -1,6 +1,4 @@
-package com.example.news.domain.model.auth
-
-import java.net.IDN
+package com.example.news.domain.model.profile
 
 data class Profile(
     val id: String,

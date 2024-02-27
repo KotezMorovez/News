@@ -8,6 +8,7 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentSignupBinding
@@ -15,12 +16,13 @@ import com.example.news.ui.common.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 
 class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
-    private val viewModel = SignUpViewModel()
+    private lateinit var viewModel: SignUpViewModel
     override fun createViewBinding(): FragmentSignupBinding {
         return FragmentSignupBinding.inflate(layoutInflater)
     }
 
     override fun initUi(isFirstLaunch: Boolean) {
+        viewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
         with(viewBinding) {
             nameEditText.setOnFocusChangeListener { v, hasFocus ->
                 if (!hasFocus) {
@@ -130,7 +132,7 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
 
         viewModel.signUpSuccessEvent.observe(viewLifecycleOwner) {
             this@SignUpFragment.findNavController()
-                .navigate(R.id.action_loginFragment_to_homePageFragment)
+                .navigate(R.id.action_signUpFragment_to_loginFragment)
         }
     }
 

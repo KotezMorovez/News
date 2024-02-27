@@ -1,9 +1,7 @@
-package com.example.news.data.auth.model
+package com.example.news.data.mapper
 
-import com.example.news.domain.model.User
-import com.example.news.domain.model.auth.Profile
-import com.example.news.domain.model.auth.SignUpRequest
-import com.google.firebase.auth.FirebaseUser
+import com.example.news.data.model.ProfileEntity
+import com.example.news.domain.model.profile.Profile
 import com.google.firebase.firestore.DocumentSnapshot
 
 fun ProfileEntity.toDomain(): Profile {
@@ -31,17 +29,11 @@ fun ProfileEntity.toDocument(): Map <String, Any>{
     )
 }
 
-fun SignUpRequest.toEntity(): UserRegisterEntity {
-    return UserRegisterEntity(
-        email = this.email,
-        password = this.password,
+fun Profile.toEntity(): ProfileEntity {
+    return ProfileEntity(
+        id = this.id,
         name = this.name,
-    )
-}
-
-fun FirebaseUser.toDomain(): User {
-    return User(
-        id = this.uid,
-        email = this.email ?: ""
+        email = this.email,
+        imageUrl = this.imageUrl
     )
 }

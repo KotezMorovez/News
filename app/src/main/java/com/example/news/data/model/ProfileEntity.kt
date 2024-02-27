@@ -1,6 +1,4 @@
-package com.example.news.data.auth.model
-
-import com.google.firebase.firestore.DocumentSnapshot
+package com.example.news.data.model
 
 class ProfileEntity(
    val id: String,

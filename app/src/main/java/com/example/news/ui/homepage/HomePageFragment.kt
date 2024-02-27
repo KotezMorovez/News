@@ -16,6 +16,7 @@ class HomePageFragment: BaseFragment<FragmentHomePageBinding>() {
 
     override fun initUi(isFirstLaunch: Boolean) {
         with(viewBinding){
+
         }
     }
 
