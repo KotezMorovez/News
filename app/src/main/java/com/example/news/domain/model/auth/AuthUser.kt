@@ -1,7 +1,7 @@
 package com.example.news.domain.model
 
 
-data class User (
+data class AuthUser (
     val id: String,
     val email: String
 )
