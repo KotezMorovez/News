@@ -62,7 +62,7 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingHorizontal="12dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView

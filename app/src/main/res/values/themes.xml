@@ -34,11 +34,29 @@
         <item name="android:textColor">@color/purple_500</item>
     </style>
 
-    <style name="Theme.News.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
-        <item name="android:background">@color/blue_500</item>
-        <item name="titleTextColor">@color/material_on_surface_emphasis_high_type</item>
-        <item name="subtitleTextColor">@color/material_on_surface_emphasis_medium</item>
+    <style name="Theme.News.Button.Profile.Exit" parent="Widget.AppCompat.Button">
+        <item name="backgroundTint">#EA4242</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/auth_field_border</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
-        <item name="android:theme">@style/ThemeOverlay.MaterialComponents.Toolbar.Surface</item>
+    <style name="Theme.News.Button.Profile" parent="Widget.AppCompat.Button">
+        <item name="backgroundTint">@color/blue_500</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/auth_field_border</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Theme.News.Toolbar">
+        <item name="subtitleTextColor">@color/grey</item>
+    </style>
+
+    <style name="Theme.News.Toolbar.Title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

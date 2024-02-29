@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentLoginBinding
@@ -16,13 +17,15 @@ import com.example.news.ui.common.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    private val viewModel = LoginViewModel()
+    private lateinit var viewModel: LoginViewModel
 
     override fun createViewBinding(): FragmentLoginBinding {
         return FragmentLoginBinding.inflate(layoutInflater)
     }
 
     override fun initUi(isFirstLaunch: Boolean) {
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
         with(viewBinding) {
             emailEditText.setOnFocusChangeListener { v, hasFocus ->
                 if (!hasFocus) {
@@ -123,7 +126,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         viewModel.loginSuccessEvent.observe(viewLifecycleOwner) {
             this@LoginFragment.findNavController()
-                .navigate(R.id.action_loginFragment_to_homePageFragment)
+                .navigate(R.id.action_loginFragment_to_profileFragment)
         }
     }
 

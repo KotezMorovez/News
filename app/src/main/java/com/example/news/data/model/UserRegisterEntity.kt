@@ -1,4 +1,4 @@
-package com.example.news.data.auth.model
+package com.example.news.data.model
 
 class UserRegisterEntity (
     val name: String,

@@ -6,15 +6,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news.data.auth.AuthRepositoryImpl
+import com.example.news.data.repository.AuthRepositoryImpl
 import com.example.news.domain.model.auth.LoginRequest
+import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.common.SingleLiveEvent
 import com.google.common.base.Strings.isNullOrEmpty
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
 class LoginViewModel : ViewModel() {
-    private val repository = AuthRepositoryImpl.getInstance()
+    private val repository: AuthRepository = AuthRepositoryImpl.getInstance()
 
     private var _loginUser = MutableLiveData(LoginUserItem.default())
     val loginUser: LiveData<LoginUserItem>

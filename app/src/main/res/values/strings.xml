@@ -10,7 +10,6 @@
     <string name="sign_up_email_error">Неправильный адрес почты</string>
     <string name="sign_up_password_error">Неверный формат пароля.\nПароль должен содержать 8\-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&amp;+=!</string>
 
-
     <string name="login_title">Добро пожаловать</string>
     <string name="login_password_field_hint">Пароль</string>
     <string name="login_forget_password_link">Забыли пароль?</string>
@@ -20,4 +19,26 @@
     <string name="login_email_error">Неправильный адрес почты</string>
     <string name="login_password_error">Неверный формат пароля.\nПароль должен содержать 8\-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&amp;+=!</string>
     <string name="login_toast_error">Что-то пошло не так</string>
+
+    <string name="profile_load_toast_error">Ошибка отображения профиля, попробуйте снова</string>
+    <string name="profile_delete_toast_error">Произошла ошибка при удалении аккаунта</string>
+    <string name="profile_exit_toast_error">Не удалось выйти из аккаунта, попробуйте снова</string>
+    <string name="profile_title">Мой профиль</string>
+    <string name="profile_edit_button">Редактировать профиль</string>
+    <string name="profile_delete_button">Удалить аккаунт</string>
+    <string name="profile_exit_button">Выйти из аккаунта</string>
+
+    <string name="profile_dialog_positive">Да</string>
+    <string name="profile_dialog_negative">Нет</string>
+    <string name="profile_dialog_delete">Вы действительно хотите удалить аккаунт?\nВнимание, восстановление аккаунта невозможно</string>
+    <string name="profile_dialog_exit">Вы действительно хотите выйти из аккаунта?</string>
+
+    <string name="profile_edit_hint_name_field">Имя</string>
+    <string name="profile_edit_hint_email_field">Email</string>
+    <string name="profile_edit_title">Редактировать профиль</string>
+    <string name="profile_edit_save_button">Сохранить</string>
+    <string name="profile_edit_name_error">Имя слишком короткое</string>
+    <string name="profile_edit_save_error">Что-то пошло не так, попробуйте снова</string>
+
+    <string name="home_page_title">Главная</string>
 </resources>
