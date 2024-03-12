@@ -9,8 +9,8 @@ data class LoginUserItem(
     companion object {
         fun default(): LoginUserItem {
             return LoginUserItem(
-                "kotez.morovez@gmail.com",
-                "123123Az!",
+                "",
+                "",
                 true,
                 true
             )

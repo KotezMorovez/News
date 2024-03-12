@@ -14,8 +14,8 @@
             app:destination="@id/signUpFragment" />
 
         <action
-            android:id="@+id/action_loginFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            android:id="@+id/action_loginFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
 
     </fragment>
 
@@ -31,7 +31,25 @@
     <fragment
         android:id="@+id/homePageFragment"
         android:name="com.example.news.ui.homepage.HomePageFragment"
-        tools:layout="@layout/fragment_home_page" />
+        tools:layout="@layout/fragment_home_page">
+        <action
+            android:id="@+id/action_homePageFragment_to_profileFragment"
+            app:destination="@id/profileFragment"/>
+        <action
+            android:id="@+id/action_homePageFragment_to_homePageShowImageFragment"
+            app:destination="@id/homePageShowImageFragment"/>
+        <argument
+            android:name="imageUrlList"
+            app:argType="string[]" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homePageShowImageFragment"
+        android:name="com.example.news.ui.homepage.show_image.HomePageShowImageFragment"
+        tools:layout="@layout/fragment_home_page_show_image"/>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -66,6 +84,6 @@
         <argument
             android:name="imageUrl"
             app:argType="string"
-            android:defaultValue='""' />
+            android:defaultValue='' />
     </fragment>
 </navigation>

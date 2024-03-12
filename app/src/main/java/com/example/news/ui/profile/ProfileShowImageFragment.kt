@@ -14,7 +14,7 @@ class ProfileShowImageFragment : BaseFragment<FragmentProfileShowImageBinding>()
         return FragmentProfileShowImageBinding.inflate(layoutInflater)
     }
 
-    override fun initUi(isFirstLaunch: Boolean) {
+    override fun initUi() {
         val imageUrl = arguments?.getString("imageUrl")
 
         with(viewBinding) {

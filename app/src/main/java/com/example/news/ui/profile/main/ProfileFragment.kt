@@ -8,9 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileBinding
 import com.example.news.ui.common.BaseFragment
-import com.example.news.ui.profile.ProfileViewModel
-import com.example.news.ui.profile.adapter.ProfileAdapter
-import com.example.news.ui.profile.edit.ProfileEditViewModel
+import com.example.news.ui.profile.main.adapter.ProfileAdapter
 import com.google.android.material.snackbar.Snackbar
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
@@ -21,7 +19,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         return FragmentProfileBinding.inflate(layoutInflater)
     }
 
-    override fun initUi(isFirstLaunch: Boolean) {
+    override fun initUi() {
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
         with(viewBinding) {

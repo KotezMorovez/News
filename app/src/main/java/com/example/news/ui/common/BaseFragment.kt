@@ -13,8 +13,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     protected abstract fun createViewBinding(): T
 
-    private var isFirstLaunch: Boolean = true
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,11 +24,11 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUi(isFirstLaunch)
+        initUi()
         observeData()
     }
 
-    protected abstract fun initUi(isFirstLaunch: Boolean)
+    protected abstract fun initUi()
 
     protected abstract fun observeData()
 }

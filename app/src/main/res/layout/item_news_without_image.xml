@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/news_recycler_card"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/newsHeaderTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="News Header" />
+
+    <TextView
+        android:id="@+id/dataTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:textColor="@color/black_800"
+        tools:text="5 minutes ago" />
+
+    <TextView
+        android:id="@+id/newsBodyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="News Body Text" />
+
+    <ImageView
+        android:id="@+id/addToFavoritesButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="bottom|end"
+        tools:src="@drawable/ic_recycler_favourite_inactive_24"
+        android:contentDescription="@string/home_page_description_favourite_button" />
+</LinearLayout>

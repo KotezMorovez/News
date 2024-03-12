@@ -1,4 +1,4 @@
-package com.example.news.ui.profile
+package com.example.news.ui.profile.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import com.example.news.data.repository.ProfileRepositoryImpl
 import com.example.news.domain.repository.AuthRepository
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
-import com.example.news.ui.profile.adapter.ProfileInfoItem
+import com.example.news.ui.profile.main.adapter.ProfileInfoItem
 import kotlinx.coroutines.launch
 
 
@@ -42,7 +42,6 @@ class ProfileViewModel : ViewModel() {
     fun loadProfile() {
         viewModelScope.launch {
             val result = profileRepository.getProfile()
-            println(result)
 
             if (result.isSuccess) {
                 val profile = result.getOrNull()

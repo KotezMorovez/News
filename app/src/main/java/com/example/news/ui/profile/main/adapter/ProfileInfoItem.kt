@@ -1,4 +1,4 @@
-package com.example.news.ui.profile.adapter
+package com.example.news.ui.profile.main.adapter
 
 
 data class ProfileInfoItem (

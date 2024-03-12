@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileEditBinding
-import com.example.news.ui.auth.SignUpViewModel
 import com.example.news.ui.common.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -32,7 +31,7 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
         return FragmentProfileEditBinding.inflate(layoutInflater)
     }
 
-    override fun initUi(isFirstLaunch: Boolean) {
+    override fun initUi() {
         viewModel = ViewModelProvider(this)[ProfileEditViewModel::class.java]
 
         with(viewBinding) {
