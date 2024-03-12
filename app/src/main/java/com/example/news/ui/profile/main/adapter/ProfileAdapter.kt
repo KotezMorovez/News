@@ -1,14 +1,12 @@
-package com.example.news.ui.profile.adapter
+package com.example.news.ui.profile.main.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.databinding.ItemProfileInfoBinding
-import com.google.protobuf.Type
 
 class ProfileAdapter : RecyclerView.Adapter<ViewHolder>() {
 

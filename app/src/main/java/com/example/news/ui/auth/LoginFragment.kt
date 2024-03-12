@@ -7,8 +7,6 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
@@ -23,7 +21,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         return FragmentLoginBinding.inflate(layoutInflater)
     }
 
-    override fun initUi(isFirstLaunch: Boolean) {
+    override fun initUi() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         with(viewBinding) {
@@ -126,7 +124,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         viewModel.loginSuccessEvent.observe(viewLifecycleOwner) {
             this@LoginFragment.findNavController()
-                .navigate(R.id.action_loginFragment_to_profileFragment)
+                .navigate(R.id.action_loginFragment_to_homePageFragment)
         }
     }
 

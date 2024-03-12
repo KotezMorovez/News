@@ -7,7 +7,6 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
@@ -21,7 +20,7 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
         return FragmentSignupBinding.inflate(layoutInflater)
     }
 
-    override fun initUi(isFirstLaunch: Boolean) {
+    override fun initUi() {
         viewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
         with(viewBinding) {
             nameEditText.setOnFocusChangeListener { v, hasFocus ->

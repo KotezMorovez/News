@@ -41,4 +41,8 @@
     <string name="profile_edit_save_error">Что-то пошло не так, попробуйте снова</string>
 
     <string name="home_page_title">Главная</string>
+    <string name="home_page_show_avatar_toast_error">Ошибка отображения фото профиля</string>
+    <string name="home_page_search_field">︎Поиск</string>
+    <string name="home_page_close_search_field">Отмена</string>
+    <string name="home_page_description_favourite_button">favouriteButton</string>
 </resources>

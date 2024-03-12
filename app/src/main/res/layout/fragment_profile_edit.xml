@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/blue_500"
+        android:background="@color/blue_700"
         app:navigationIcon="@drawable/ic_arrow_back_24">
 
         <TextView
@@ -35,8 +34,6 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_gravity="center"
-            android:clipToOutline="true"
-            android:contentDescription="Avatar"
             android:src="@drawable/avatar_placeholder"
             app:shapeAppearanceOverlay="@drawable/profile_avatar_border" />
 
@@ -46,7 +43,6 @@
             android:layout_height="48dp"
             android:layout_gravity="end|bottom"
             android:src="@drawable/ic_edit_profile_image" />
-
 
     </FrameLayout>
 

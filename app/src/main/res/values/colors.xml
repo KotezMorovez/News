@@ -3,6 +3,7 @@
     <color name="purple_500">#FF7751B5</color>
     <color name="blue_500">#FF6180E5</color>
     <color name="blue_700">#FF5567A5</color>
+    <color name="blue_800">#414F80</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
@@ -11,4 +12,5 @@
     <color name="grey">#B5B1CB</color>
     <color name="grey_300">#E9E6F6</color>
     <color name="black_800">#80000000</color>
+    <color name="black_300">#30000000</color>
 </resources>
