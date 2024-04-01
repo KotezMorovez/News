@@ -1,7 +1,6 @@
 package com.example.news.ui.profile.edit
 
 import android.content.ContentResolver
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
@@ -15,6 +14,7 @@ import com.example.news.domain.repository.ProfileRepository
 import com.example.news.common.BitmapUtils
 import com.example.news.ui.common.SingleLiveEvent
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.regex.Pattern
 
 class ProfileEditViewModel : ViewModel() {
@@ -37,6 +37,8 @@ class ProfileEditViewModel : ViewModel() {
 
     private lateinit var currentUserId: String
     private lateinit var currentUserEmail: String
+    private lateinit var currentUserName: String
+    private var currentUserImageUri: String? = null
 
     fun getUserInfo() {
         viewModelScope.launch {
@@ -47,6 +49,8 @@ class ProfileEditViewModel : ViewModel() {
                 if (profile != null) {
                     currentUserId = profile.id
                     currentUserEmail = profile.email
+                    currentUserName = profile.name
+                    currentUserImageUri = profile.imageUrl
 
                     _profileEditLiveData.value = ProfileEditItem(
                         name = profile.name,
@@ -67,11 +71,18 @@ class ProfileEditViewModel : ViewModel() {
         viewModelScope.launch {
             val selectedImageUri = _profileEditLiveData.value?.imageURL
             var image: String? = null
-            if (selectedImageUri != null) {
-                image = uploadImage(selectedImageUri.toUri(), contentResolver)
+            val validName = isValidName(_profileEditLiveData.value!!.name)
+
+            if (!selectedImageUri.isNullOrEmpty() && selectedImageUri != currentUserImageUri) {
+                Log.i("News", selectedImageUri.toString())
+                image = uploadImage(File(selectedImageUri).toUri(), contentResolver)
             }
 
-            if (image != null) {
+            if (
+                image != null &&
+                validName &&
+                profileEditLiveData.value!!.name != currentUserName
+            ) {
                 val profile = Profile(
                     name = profileEditLiveData.value!!.name,
                     email = currentUserEmail,
@@ -85,7 +96,6 @@ class ProfileEditViewModel : ViewModel() {
                 } else if (result.isFailure) {
                     val exception = result.exceptionOrNull()
                     if (exception != null) {
-                        Log.e("News", exception.stackTraceToString())
                         _errorEvent.call()
                     }
                 }
@@ -123,7 +133,7 @@ class ProfileEditViewModel : ViewModel() {
         _profileEditLiveData.value = oldProfileInfo.copy(imageURL = imageURL)
     }
 
-    fun isValidName(name: String): Boolean {
+    private fun isValidName(name: String): Boolean {
         val namePattern = "^[0-9a-zA-Z].{1,30}$"
         val pattern = Pattern.compile(namePattern)
         val matcher = pattern.matcher(name)

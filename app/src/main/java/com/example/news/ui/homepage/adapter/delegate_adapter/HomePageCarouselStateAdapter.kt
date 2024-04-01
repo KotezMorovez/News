@@ -3,10 +3,8 @@ package com.example.news.ui.homepage.adapter.delegate_adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.news.R
 import com.example.news.databinding.ItemCarouselImageBinding
+import com.example.news.ui.common.setImageWithProgressbar
 
 class HomePageCarouselStateAdapter(
     private val imageUrlList: List<String>,
@@ -35,11 +33,13 @@ class HomePageCarouselStateAdapter(
     inner class ViewPagerViewHolder(val binding: ItemCarouselImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun setData(imageUrl: String) {
-            Glide.with(binding.root.context)
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_homepage_placeholder)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.carouselImageView)
+            binding.carouselImageView.setImageWithProgressbar(
+                binding.root.context,
+                binding.carouselImageView,
+                imageUrl,
+                60f,
+                10f
+            )
         }
     }
 }

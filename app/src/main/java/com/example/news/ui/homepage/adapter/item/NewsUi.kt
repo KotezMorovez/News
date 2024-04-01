@@ -4,7 +4,7 @@ data class NewsUi(
     val id: String,
     val header: String,
     val body: String,
-    val imagesUriList: List<String>,
-    val data: String,
+    val imagesUriList: List<String>?,
+    val date: String,
     val isFavorite: Boolean
 )
