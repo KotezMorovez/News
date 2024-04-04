@@ -23,19 +23,19 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
     override fun initUi() {
         viewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
         with(viewBinding) {
-            nameEditText.setOnFocusChangeListener { v, hasFocus ->
+            nameEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     viewModel.setName(nameEditText.text.toString())
                 }
             }
 
-            emailEditText.setOnFocusChangeListener { v, hasFocus ->
+            emailEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     viewModel.setEmail(emailEditText.text.toString())
                 }
             }
 
-            passwordEditText.setOnFocusChangeListener { v, hasFocus ->
+            passwordEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     viewModel.setPassword(passwordEditText.text.toString())
                 }
@@ -43,7 +43,6 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
 
             signUpButton.setOnClickListener {
                 clearAllFocus()
-                viewModel.signUpUser.value!!.isValidEmail
                 viewModel.signUp(
                     nameEditText.text.toString(),
                     emailEditText.text.toString(),
@@ -102,6 +101,11 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
         viewModel.signUpUser.observe(viewLifecycleOwner) {
             with(viewBinding) {
                 nameEditText.setText(it.name)
+                if (!it.isValidName) {
+                    nameContainer.error = resources.getText(R.string.sign_up_name_error)
+                } else {
+                    nameContainer.error = null
+                }
 
                 emailEditText.setText(it.email)
                 if (!it.isValidEmail) {

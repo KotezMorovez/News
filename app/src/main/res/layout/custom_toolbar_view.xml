@@ -22,7 +22,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/home_page_profile_placeholder" />
+            tools:src="@drawable/avatar_placeholder_light" />
 
         <TextView
             android:id="@+id/homePageToolbarTitle"
@@ -96,7 +96,7 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:hint="@string/home_page_search_field"
-                android:imeOptions="actionSearch"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingHorizontal="12dp"

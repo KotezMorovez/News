@@ -24,18 +24,15 @@ class ProfileViewModel : ViewModel() {
         get() = _image
 
     private val _errorEvent = SingleLiveEvent<Int>()
-
     val errorEvent: LiveData<Int>
         get() = _errorEvent
 
     private val _profileLiveData: MutableLiveData<List<ProfileInfoItem>> =
         MutableLiveData(listOf())
-
     val profileLiveData: LiveData<List<ProfileInfoItem>>
         get() = _profileLiveData
 
     private val _goToAuthEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
-
     val goToAuthEvent: LiveData<Unit>
         get() = _goToAuthEvent
 

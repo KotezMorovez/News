@@ -39,12 +39,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
             loginButton.setOnClickListener {
                 clearAllFocus()
-                viewModel.loginUser.value!!.isValidEmail
                 viewModel.login(
                     emailEditText.text.toString(),
                     passwordEditText.text.toString()
                 )
-
             }
 
             val spanTextList = loginLinkTextView.text.toString().split("?")

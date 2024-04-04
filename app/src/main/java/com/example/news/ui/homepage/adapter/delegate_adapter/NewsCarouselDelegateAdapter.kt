@@ -41,7 +41,7 @@ class NewsCarouselDelegateAdapter(
 
 
             imageCarousel.adapter = HomePageCarouselStateAdapter(
-                model.ui.imagesUriList,
+                model.ui.imagesUriList!!,
                 onImageItemClickListener = {
                     onImageClickListener.invoke(model.ui.id, it)
                 }
@@ -53,7 +53,7 @@ class NewsCarouselDelegateAdapter(
             )
 
             dotsCarousel.removeAllTabs()
-            model.ui.imagesUriList.forEach { dotsCarousel.addTab(dotsCarousel.newTab()) }
+            model.ui.imagesUriList.forEach { _ -> dotsCarousel.addTab(dotsCarousel.newTab()) }
 
             TabbedListMediator(
                 imageCarousel,
@@ -83,8 +83,6 @@ class NewsCarouselDelegateAdapter(
             addToFavoritesButton.setOnClickListener {
                 onFavouriteClickListener.invoke(model.ui.id)
             }
-
-            dataTextView.text = model.ui.data
         }
     }
 

@@ -4,17 +4,22 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
 import com.example.news.databinding.FragmentHomePageBinding
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.CompositeDelegateAdapter
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsCarouselDelegateAdapter
+import com.example.news.ui.homepage.adapter.delegate_adapter.NewsEndingDelegateAdapter
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsImageDelegateAdapter
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsTextDelegateAdapter
 import com.google.android.material.snackbar.Snackbar
 
+
 class HomePageFragment : BaseFragment<FragmentHomePageBinding>() {
     private lateinit var viewModel: HomePageViewModel
+    private lateinit var viewModelFactory: HomeViewModelFactory
+
     private val compositeDelegateAdapter by lazy {
         CompositeDelegateAdapter.Builder()
             .add(NewsCarouselDelegateAdapter(
@@ -36,6 +41,7 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>() {
             .add(NewsTextDelegateAdapter(onFavouriteClickListener = { itemId ->
                 viewModel.handleFavouriteItemClick(itemId)
             }))
+            .add(NewsEndingDelegateAdapter())
             .build()
     }
 
@@ -43,25 +49,71 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>() {
         return FragmentHomePageBinding.inflate(layoutInflater)
     }
 
-    override fun initUi() {
-        viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewModelFactory = HomeViewModelFactory(requireContext())
+        viewModel = ViewModelProvider(this, viewModelFactory)[HomePageViewModel::class.java]
+        super.onCreate(savedInstanceState)
 
+        viewModel.getProfileAvatar()
+
+        if (viewModel.isFirstLaunch) {
+            viewModel.loadNews()
+            viewModel.isFirstLaunch = false
+        }
+    }
+
+    override fun initUi() {
         with(viewBinding) {
+            newsSwipeRefresh.setColorSchemeResources(
+                R.color.blue_500,
+                R.color.blue_600,
+                R.color.blue_700,
+                R.color.blue_800
+            )
+            newsSwipeRefresh.setOnRefreshListener {
+                viewModel.resetPagination()
+                viewModel.loadNews()
+            }
+
             newsRecyclerView.adapter = compositeDelegateAdapter
             newsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-            customToolbar.setGoToProfileListener {
+            newsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy > 0) {
+                        if (viewModel.isPaginationEnabled && isLastVisible()) {
+                            viewModel.loadNews()
+                        }
+                    }
+                }
+            })
+
+            customToolbar.onProfileIconClickedListener {
                 this@HomePageFragment.findNavController()
                     .navigate(R.id.action_homePageFragment_to_profileFragment)
             }
 
-            customToolbar.setGoToFavouriteListener {
+            customToolbar.setOnFavouriteIconClickedListener {
                 this@HomePageFragment.findNavController()
 //                    .navigate(R.id.action_homePageFragment_to_favoriteFragment)
             }
 
-            viewModel.getProfileAvatar()
-            viewModel.loadNews()
+            customToolbar.setOnSearchTextChangeListener {
+                viewModel.applySearchText(it)
+            }
+            customToolbar.setOnSearchCanceledListener {
+                viewModel.resetSearchField()
+            }
+        }
+    }
+
+    private fun isLastVisible(): Boolean{
+        with(viewBinding){
+            val layoutManager = newsRecyclerView.layoutManager as LinearLayoutManager
+            val pos = layoutManager.findLastCompletelyVisibleItemPosition()
+            val numItems = (newsRecyclerView.adapter as CompositeDelegateAdapter).itemCount
+            return (pos >= numItems - 1)
         }
     }
 
@@ -91,6 +143,10 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>() {
 
             this@HomePageFragment.findNavController()
                 .navigate(R.id.action_homePageFragment_to_homePageShowImageFragment, bundle)
+        }
+
+        viewModel.endRefreshingEvent.observe(viewLifecycleOwner){
+            viewBinding.newsSwipeRefresh.isRefreshing = false
         }
     }
 }

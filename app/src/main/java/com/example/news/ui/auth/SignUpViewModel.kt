@@ -31,9 +31,9 @@ class SignUpViewModel : ViewModel() {
         get() = _signUpSuccessEvent
 
 
-    fun setName(name: String){
+    fun setName(name: String) {
         val oldUser = _signUpUser.value ?: SignUpUserItem.default()
-        _signUpUser.value = oldUser.copy(name = name)
+        _signUpUser.value = oldUser.copy(name = name, isValidName = isValidName(name))
     }
 
     fun setEmail(email: String) {
@@ -43,11 +43,16 @@ class SignUpViewModel : ViewModel() {
 
     fun setPassword(password: String) {
         val oldUser = _signUpUser.value ?: SignUpUserItem.default()
-        _signUpUser.value = oldUser.copy(password = password, isValidPassword = isValidPassword(password))
+        _signUpUser.value =
+            oldUser.copy(password = password, isValidPassword = isValidPassword(password))
     }
 
-    fun signUp(name: String, email: String, password: String){
-        if (_signUpUser.value!!.isValidEmail && _signUpUser.value!!.isValidPassword){
+    fun signUp(name: String, email: String, password: String) {
+        val validName = isValidName(name)
+        val validEmail = isValidEmail(email)
+        val validPassword = isValidPassword(password)
+
+        if (validName && validEmail && validPassword) {
             val user = SignUpRequest(
                 name = name,
                 email = email,
@@ -67,10 +72,32 @@ class SignUpViewModel : ViewModel() {
                     _signUpSuccessEvent.call()
                 }
             }
+        } else {
+            var oldUser = _signUpUser.value ?: SignUpUserItem.default()
+
+            if (!validName) {
+                _signUpUser.value = oldUser.copy(isValidName = false)
+                oldUser = _signUpUser.value!!
+            }
+            if (!validEmail) {
+                _signUpUser.value = oldUser.copy(isValidEmail = false)
+                oldUser = _signUpUser.value!!
+            }
+            if (!validPassword) {
+                _signUpUser.value = oldUser.copy(isValidPassword = false)
+            }
         }
     }
 
-    companion object{
+    companion object {
+        private fun isValidName(name: String): Boolean {
+            val namePattern = "^(?:[а-яёА-ЯЁ]{2,16}|[a-zA-Z]{2,16})\$"
+            val pattern = Pattern.compile(namePattern)
+            val matcher = pattern.matcher(name)
+
+            return matcher.matches()
+        }
+
         private fun isValidPassword(password: String): Boolean {
             val passwordPattern = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,16}$"
             val pattern = Pattern.compile(passwordPattern)
@@ -79,7 +106,7 @@ class SignUpViewModel : ViewModel() {
             return matcher.matches()
         }
 
-        private fun isValidEmail(email: String): Boolean{
+        private fun isValidEmail(email: String): Boolean {
             return !Strings.isNullOrEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
         }
     }

@@ -1,12 +1,15 @@
-package com.example.news.common.views
+package com.example.news.ui.homepage.views
 
 import android.content.Context
+import android.text.Editable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.news.R
+import com.example.news.common.Debouncer
 import com.example.news.databinding.CustomToolbarViewBinding
 
 class CustomToolbarView @JvmOverloads constructor(
@@ -16,15 +19,25 @@ class CustomToolbarView @JvmOverloads constructor(
     private val viewBinding =
         CustomToolbarViewBinding.inflate(LayoutInflater.from(context), this, false)
 
-    private var goToProfile: (() -> Unit)? = null
-    private var goToFavourite: (() -> Unit)? = null
+    private var onProfileIconClickedListener: (() -> Unit)? = null
+    private var onFavouriteIconClickedListener: (() -> Unit)? = null
+    private var onSearchTextChangeListener: ((value: String) -> Unit)? = null
+    private var onSearchCanceledListener: (() -> Unit)? = null
 
-    fun setGoToProfileListener(listener: () -> Unit) {
-        goToProfile = listener
+    fun onProfileIconClickedListener(listener: () -> Unit) {
+        onProfileIconClickedListener = listener
     }
 
-    fun setGoToFavouriteListener(listener: () -> Unit) {
-        goToFavourite = listener
+    fun setOnFavouriteIconClickedListener(listener: () -> Unit) {
+        onFavouriteIconClickedListener = listener
+    }
+
+    fun setOnSearchTextChangeListener(listener: (value: String) -> Unit) {
+        onSearchTextChangeListener = listener
+    }
+
+    fun setOnSearchCanceledListener(listener: () -> Unit) {
+        onSearchCanceledListener = listener
     }
 
     init {
@@ -32,11 +45,11 @@ class CustomToolbarView @JvmOverloads constructor(
 
         with(viewBinding) {
             homePageToolbarProfile.setOnClickListener {
-                goToProfile?.invoke()
+                onProfileIconClickedListener?.invoke()
             }
 
             homePageToolbarFavorite.setOnClickListener {
-                goToFavourite?.invoke()
+                onFavouriteIconClickedListener?.invoke()
             }
 
             homePageToolbarSearch.setOnClickListener {
@@ -44,7 +57,20 @@ class CustomToolbarView @JvmOverloads constructor(
             }
 
             homePageToolbarSearchClose.setOnClickListener {
+                onSearchCanceledListener?.invoke()
+
                 hideSearchField()
+                homePageSearchEditText.text = null
+            }
+
+            homePageSearchEditText.addTextChangedListener { editable ->
+                if (editable != null) {
+                    Debouncer<Editable> (
+                        listener = {
+                            onSearchTextChangeListener?.invoke(editable.toString())
+                        }
+                    ).updateValue(editable)
+                }
             }
         }
     }
@@ -52,7 +78,7 @@ class CustomToolbarView @JvmOverloads constructor(
     fun setImage(url: String) {
         Glide.with(viewBinding.homePageToolbarProfile)
             .load(url)
-            .placeholder(R.drawable.avatar_placeholder)
+            .placeholder(R.drawable.avatar_placeholder_light)
             .circleCrop()
             .apply(RequestOptions().override(50, 50))
             .into(viewBinding.homePageToolbarProfile)

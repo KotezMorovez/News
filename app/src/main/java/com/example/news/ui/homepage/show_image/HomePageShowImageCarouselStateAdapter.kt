@@ -3,10 +3,12 @@ package com.example.news.ui.homepage.show_image
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.news.R
 import com.example.news.databinding.ItemHomePageShowImageCarouselBinding
+import com.example.news.ui.common.setImageWithProgressbar
 
 class HomePageShowImageCarouselStateAdapter(
     private val imageUrlList: Array<String>
@@ -32,12 +34,15 @@ class HomePageShowImageCarouselStateAdapter(
 
     inner class ViewPagerViewHolder(private val binding: ItemHomePageShowImageCarouselBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun setData(imageUrl: String) {
-            Glide.with(binding.root.context)
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_homepage_placeholder)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.carouselImageView)
+            binding.carouselImageView.setImageWithProgressbar(
+                binding.root.context,
+                binding.carouselImageView,
+                imageUrl,
+                180f,
+                10f
+            )
         }
     }
 }

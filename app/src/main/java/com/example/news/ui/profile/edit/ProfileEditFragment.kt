@@ -48,14 +48,7 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
 
             saveButton.setOnClickListener {
                 clearAllFocus()
-
-                if (viewModel.isValidName(nameProfileEditText.text.toString())) {
-                    viewModel.saveData(requireContext().contentResolver)
-
-                    nameProfileContainer.error = null
-                } else {
-                    nameProfileContainer.error = resources.getText(R.string.profile_edit_name_error)
-                }
+                viewModel.saveData(requireContext().contentResolver)
             }
 
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
@@ -70,7 +63,7 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
         viewModel.profileEditLiveData.observe(viewLifecycleOwner) {
             with(viewBinding) {
                 nameProfileEditText.setText(it.name)
-                emailProfileEditText.setText(it.email)
+                emailProfileEditText.text = it.email
 
                 Glide.with(profileImage)
                     .load(it.imageURL)
@@ -127,6 +120,7 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
         return isPermissionGranted
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

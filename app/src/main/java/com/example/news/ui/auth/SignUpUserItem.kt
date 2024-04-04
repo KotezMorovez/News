@@ -5,7 +5,8 @@ data class SignUpUserItem(
     val email: String,
     val password: String,
     val isValidEmail: Boolean,
-    val isValidPassword: Boolean
+    val isValidPassword: Boolean,
+    val isValidName: Boolean
 ) {
     companion object {
         fun default(): SignUpUserItem {
@@ -13,6 +14,7 @@ data class SignUpUserItem(
                 "",
                 "",
                 "",
+                true,
                 true,
                 true
             )

@@ -12,17 +12,23 @@ import com.example.news.ui.homepage.adapter.item.NewsTextItem
 
 class NewsTextDelegateAdapter(
     private val onFavouriteClickListener: (id: String) -> Unit
-) : BaseDelegateAdapter<NewsTextItem, NewsTextDelegateAdapter.ViewHolder>(NewsTextItem:: class.java) {
+) : BaseDelegateAdapter<NewsTextItem, NewsTextDelegateAdapter.ViewHolder>(NewsTextItem::class.java) {
 
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
-        ViewHolder(ItemNewsWithoutImageBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(
+            ItemNewsWithoutImageBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun bindViewHolder(
         model: NewsTextItem,
         viewHolder: ViewHolder,
         payloads: List<IDelegateAdapterItem.Payloadable>
     ) {
-        with(viewHolder.binding){
+        with(viewHolder.binding) {
             newsHeaderTextView.text = model.ui.header
             newsBodyTextView.text = model.ui.body
 
@@ -38,9 +44,10 @@ class NewsTextDelegateAdapter(
                 onFavouriteClickListener.invoke(model.ui.id)
             }
 
-            dataTextView.text = model.ui.data
+            dataTextView.text = model.ui.date.toString()
         }
     }
 
-    inner class ViewHolder(val binding: ItemNewsWithoutImageBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemNewsWithoutImageBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

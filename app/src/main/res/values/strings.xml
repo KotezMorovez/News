@@ -7,6 +7,7 @@
     <string name="sign_up_name_field_hint">Имя</string>
     <string name="sign_up_button">ЗАРЕГИСТРИРОВАТЬСЯ</string>
     <string name="sign_up_login_link">Уже есть аккаунт? Войти</string>
+    <string name="sign_up_name_error">"Минимальная длина имени 2 символа"</string>
     <string name="sign_up_email_error">Неправильный адрес почты</string>
     <string name="sign_up_password_error">Неверный формат пароля.\nПароль должен содержать 8\-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&amp;+=!</string>
 
@@ -45,4 +46,15 @@
     <string name="home_page_search_field">︎Поиск</string>
     <string name="home_page_close_search_field">Отмена</string>
     <string name="home_page_description_favourite_button">favouriteButton</string>
+    <string name="home_page_search_toast_error">Ошибка загрузки ленты новостей, попробуйте снова</string>
+    <string name="home_page_ending_item_text">Загружено новостей: %1$d</string>
+
+    <string name="date_less_minute_ago">менее минуты назад</string>
+    <string name="date_minutes_ago">%1$d мин. назад</string>
+    <string name="date_hours_ago">%1$d час. назад</string>
+    <string name="date_today_at">сегодня в %1$s</string>
+    <string name="date_yesterday_at">вчера в %1$s</string>
+    <string name="date_less_year_ago">%1$s в %2$s</string>
+    <string name="date_years_ago">%1$sг.</string>
+
 </resources>

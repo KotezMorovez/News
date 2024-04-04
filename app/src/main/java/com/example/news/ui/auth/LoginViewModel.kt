@@ -42,7 +42,10 @@ class LoginViewModel : ViewModel() {
     }
 
     fun login(email: String, password: String) {
-        if (_loginUser.value!!.isValidEmail && _loginUser.value!!.isValidPassword) {
+        val validEmail = isValidEmail(email)
+        val validPassword = isValidPassword(password)
+
+        if (validEmail && validPassword) {
             val user = LoginRequest(
                 email = email,
                 password = password,

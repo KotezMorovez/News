@@ -59,7 +59,7 @@
                 android:layout_height="56dp"
                 android:hint="@string/sign_up_password_field_hint"
                 android:imeOptions="actionDone"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:maxLines="1"
                 android:paddingHorizontal="12dp"
                 android:textColor="@color/white" />
