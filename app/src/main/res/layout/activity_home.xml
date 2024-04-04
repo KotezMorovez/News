@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_host_fragment"
+    android:id="@+id/nav_host_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:name="androidx.navigation.fragment.NavHostFragment"
-    app:navGraph="@navigation/auth_nav_graph"
+    app:navGraph="@navigation/home_nav_graph"
     app:defaultNavHost="true"
-    tools:context="com.example.news.ui.MainActivity"/>
+    tools:context="com.example.news.ui.homepage.HomeActivity"/>
