@@ -1,5 +1,6 @@
 package com.example.news.ui.auth
 
+import android.content.Intent
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentLoginBinding
 import com.example.news.ui.common.BaseFragment
+import com.example.news.ui.homepage.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
@@ -25,13 +27,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
 
         with(viewBinding) {
-            emailEditText.setOnFocusChangeListener { v, hasFocus ->
+            emailEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     viewModel.setEmail(emailEditText.text.toString())
                 }
             }
 
-            passwordEditText.setOnFocusChangeListener { v, hasFocus ->
+            passwordEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     viewModel.setPassword(passwordEditText.text.toString())
                 }
@@ -121,8 +123,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
 
         viewModel.loginSuccessEvent.observe(viewLifecycleOwner) {
-            this@LoginFragment.findNavController()
-                .navigate(R.id.action_loginFragment_to_homePageFragment)
+            val intent = Intent(requireContext(), HomeActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 

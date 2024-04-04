@@ -1,5 +1,6 @@
 package com.example.news.ui.homepage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import com.example.news.ui.homepage.adapter.delegate_adapter.NewsCarouselDelegat
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsEndingDelegateAdapter
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsImageDelegateAdapter
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsTextDelegateAdapter
+import com.example.news.ui.profile.main.ProfileActivity
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -90,8 +92,8 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>() {
             })
 
             customToolbar.onProfileIconClickedListener {
-                this@HomePageFragment.findNavController()
-                    .navigate(R.id.action_homePageFragment_to_profileFragment)
+                val intent = Intent(requireContext(), ProfileActivity::class.java)
+                startActivity(intent)
             }
 
             customToolbar.setOnFavouriteIconClickedListener {

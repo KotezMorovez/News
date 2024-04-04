@@ -1,5 +1,6 @@
 package com.example.news.ui.profile.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -7,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileBinding
+import com.example.news.ui.MainActivity
 import com.example.news.ui.common.BaseFragment
+import com.example.news.ui.homepage.HomeActivity
 import com.example.news.ui.profile.main.adapter.ProfileAdapter
 import com.google.android.material.snackbar.Snackbar
 
@@ -77,8 +80,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
 
         viewModel.goToAuthEvent.observe(viewLifecycleOwner) {
-            this@ProfileFragment.findNavController()
-                .navigate(R.id.action_profileFragment_to_loginFragment)
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            requireActivity().finish()
         }
 
         viewModel.profileLiveData.observe(viewLifecycleOwner) {
