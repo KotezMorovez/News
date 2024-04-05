@@ -2,6 +2,7 @@ package com.example.news.ui.profile.main
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             infoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             infoRecyclerView.adapter = adapter
             viewModel.loadProfile()
+
+            (activity as AppCompatActivity).setSupportActionBar(toolbar)
+            (activity as AppCompatActivity).supportActionBar?.title = ""
+            toolbar.setNavigationOnClickListener {
+                (activity as AppCompatActivity).onBackPressedDispatcher.onBackPressed()
+            }
 
             profileImage.setOnClickListener {
                 val bundle = Bundle()

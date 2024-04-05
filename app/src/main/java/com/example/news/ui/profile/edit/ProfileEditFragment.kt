@@ -52,7 +52,7 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
             }
 
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
-            toolbar.title = null
+            (activity as AppCompatActivity).supportActionBar?.title = ""
             toolbar.setNavigationOnClickListener {
                 (activity as AppCompatActivity).onBackPressedDispatcher.onBackPressed()
             }
