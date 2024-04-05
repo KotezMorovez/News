@@ -6,6 +6,13 @@
         <item name="colorPrimaryDark">@color/blue_700</item>
     </style>
 
+    <style name="Theme.News.Launcher">
+        <item name="android:windowBackground">@drawable/auth_background</item>
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorAccent">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/blue_700</item>
+    </style>
+
     <style name="ThemeOverlay.App.TextInputLayout" parent="">
         <item name="colorOnSurface">@color/white</item>
         <item name="colorError">@color/pink_500</item>

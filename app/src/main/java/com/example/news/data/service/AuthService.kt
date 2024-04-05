@@ -42,6 +42,7 @@ class FirebaseAuthService() : AuthService {
     }
 
     override suspend fun getCurrentUserId(): String? {
+        Log.i("News", auth.currentUser.toString())
         return if (auth.currentUser != null) {
             auth.currentUser!!.uid
         } else {
