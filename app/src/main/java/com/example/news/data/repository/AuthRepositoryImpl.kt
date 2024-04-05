@@ -1,5 +1,6 @@
 package com.example.news.data.repository
 
+import android.util.Log
 import com.example.news.data.service.AuthService
 import com.example.news.data.service.FirebaseAuthService
 import com.example.news.data.mapper.toDomain
@@ -27,6 +28,7 @@ class AuthRepositoryImpl : AuthRepository {
     private val userService: FirebaseService = FirestoreService.getInstance()
 
     override suspend fun isUserAuthorized(): Boolean {
+        Log.i("News", "go to service")
         return !authService.getCurrentUserId().isNullOrEmpty()
     }
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.News.Launcher">
+        <item name="android:windowBackground">@drawable/auth_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@color/transparent</item>
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorAccent">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/blue_700</item>
+    </style>
+</resources>
