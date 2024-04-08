@@ -25,6 +25,8 @@ interface AuthService {
 
     suspend fun registerUser(user: UserRegisterEntity): Result<String>
 
+    suspend fun resetPassword(email: String): Result<Unit>
+
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
 }
 
@@ -42,7 +44,6 @@ class FirebaseAuthService() : AuthService {
     }
 
     override suspend fun getCurrentUserId(): String? {
-        Log.i("News", auth.currentUser.toString())
         return if (auth.currentUser != null) {
             auth.currentUser!!.uid
         } else {
@@ -94,6 +95,18 @@ class FirebaseAuthService() : AuthService {
                             Result.success(Result.success(result.user!!.uid))
                         )
                     }
+                }
+                .addOnFailureListener {
+                    continuation.resumeWith(Result.success(Result.failure(it)))
+                }
+        }
+    }
+
+    override suspend fun resetPassword(email: String): Result<Unit> {
+        return suspendCoroutine { continuation ->
+            auth.sendPasswordResetEmail(email)
+                .addOnSuccessListener {
+                    continuation.resumeWith(Result.success(Result.success(Unit)))
                 }
                 .addOnFailureListener {
                     continuation.resumeWith(Result.success(Result.failure(it)))

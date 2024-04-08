@@ -9,4 +9,4 @@
     android:name="androidx.navigation.fragment.NavHostFragment"
     app:navGraph="@navigation/profile_nav_graph"
     app:defaultNavHost="true"
-    tools:context="com.example.news.ui.profile.main.ProfileActivity"/>
+    tools:context="com.example.news.ui.profile.ProfileActivity"/>

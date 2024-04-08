@@ -1,4 +1,4 @@
-package com.example.news.ui.auth
+package com.example.news.ui.auth.signup
 
 import android.util.Log
 import android.util.Patterns

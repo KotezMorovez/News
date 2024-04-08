@@ -1,6 +1,5 @@
-package com.example.news.ui.auth
+package com.example.news.ui.auth.signup
 
-import android.content.Intent
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -11,22 +10,25 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
-import com.example.news.databinding.FragmentLoginBinding
+import com.example.news.databinding.FragmentSignupBinding
 import com.example.news.ui.common.BaseFragment
-import com.example.news.ui.homepage.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    private lateinit var viewModel: LoginViewModel
-
-    override fun createViewBinding(): FragmentLoginBinding {
-        return FragmentLoginBinding.inflate(layoutInflater)
+class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
+    private lateinit var viewModel: SignUpViewModel
+    override fun createViewBinding(): FragmentSignupBinding {
+        return FragmentSignupBinding.inflate(layoutInflater)
     }
 
     override fun initUi() {
-        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
+        viewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
         with(viewBinding) {
+            nameEditText.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) {
+                    viewModel.setName(nameEditText.text.toString())
+                }
+            }
+
             emailEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     viewModel.setEmail(emailEditText.text.toString())
@@ -39,24 +41,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 }
             }
 
-            loginButton.setOnClickListener {
+            signUpButton.setOnClickListener {
                 clearAllFocus()
-                viewModel.login(
+                viewModel.signUp(
+                    nameEditText.text.toString(),
                     emailEditText.text.toString(),
                     passwordEditText.text.toString()
                 )
             }
 
-            val spanTextList = loginLinkTextView.text.toString().split("?")
+            val spanTextList = signUpLinkTextView.text.toString().split("?")
             val spannableString = makeLinks(
-                loginLinkTextView.text.toString(),
+                signUpLinkTextView.text.toString(),
                 spanTextList[1].trim()
             ) {
-                this@LoginFragment.findNavController()
-                    .navigate(R.id.action_loginFragment_to_signUpFragment)
+                this@SignUpFragment.findNavController()
+                    .navigate(R.id.action_signUpFragment_to_loginFragment)
             }
-            loginLinkTextView.movementMethod = LinkMovementMethod.getInstance()
-            loginLinkTextView.setText(spannableString, TextView.BufferType.SPANNABLE)
+            signUpLinkTextView.movementMethod = LinkMovementMethod.getInstance()
+            signUpLinkTextView.setText(spannableString, TextView.BufferType.SPANNABLE)
         }
     }
 
@@ -88,24 +91,32 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     private fun clearAllFocus() {
         with(viewBinding) {
+            nameEditText.clearFocus()
             emailEditText.clearFocus()
             passwordEditText.clearFocus()
         }
     }
 
     override fun observeData() {
-        viewModel.loginUser.observe(viewLifecycleOwner) {
+        viewModel.signUpUser.observe(viewLifecycleOwner) {
             with(viewBinding) {
+                nameEditText.setText(it.name)
+                if (!it.isValidName) {
+                    nameContainer.error = resources.getText(R.string.sign_up_name_error)
+                } else {
+                    nameContainer.error = null
+                }
+
                 emailEditText.setText(it.email)
                 if (!it.isValidEmail) {
-                    emailContainer.error = resources.getText(R.string.login_email_error)
+                    emailContainer.error = resources.getText(R.string.sign_up_email_error)
                 } else {
                     emailContainer.error = null
                 }
 
                 passwordEditText.setText(it.password)
                 if (!it.isValidPassword) {
-                    passwordContainer.error = resources.getText(R.string.login_password_error)
+                    passwordContainer.error = resources.getText(R.string.sign_up_password_error)
                 } else {
                     passwordContainer.error = null
                 }
@@ -115,17 +126,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         viewModel.errorEvent.observe(viewLifecycleOwner) {
             val snackBar = Snackbar.make(
                 requireContext(),
-                viewBinding.loginButton,
+                viewBinding.signUpButton,
                 resources.getText(R.string.login_toast_error),
                 Snackbar.LENGTH_SHORT
             )
             snackBar.show()
         }
 
-        viewModel.loginSuccessEvent.observe(viewLifecycleOwner) {
-            val intent = Intent(requireContext(), HomeActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
+        viewModel.signUpSuccessEvent.observe(viewLifecycleOwner) {
+            this@SignUpFragment.findNavController()
+                .navigate(R.id.action_signUpFragment_to_loginFragment)
         }
     }
 

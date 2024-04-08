@@ -28,7 +28,6 @@ class AuthRepositoryImpl : AuthRepository {
     private val userService: FirebaseService = FirestoreService.getInstance()
 
     override suspend fun isUserAuthorized(): Boolean {
-        Log.i("News", "go to service")
         return !authService.getCurrentUserId().isNullOrEmpty()
     }
 
@@ -62,6 +61,10 @@ class AuthRepositoryImpl : AuthRepository {
                 return Result.success(Unit)
             } else return Result.failure(result.exceptionOrNull()!!)
         } else return Result.failure(NullPointerException())
+    }
+
+    override suspend fun resetPassword(email: String): Result<Unit> {
+        return authService.resetPassword(email)
     }
 
     override suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit> {

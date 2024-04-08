@@ -16,13 +16,11 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i("News", "onCreate")
         setTheme(R.style.Theme_News)
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this)[SplashViewModel::class.java]
         setContentView(R.layout.activity_splash)
-        Log.i("News", "observe")
         observeData()
 
         viewModel.check()
@@ -30,14 +28,12 @@ class SplashActivity : AppCompatActivity() {
 
     private fun observeData() {
         viewModel.checkSuccessEvent.observe(this) {
-            Log.i("News", "go to home Activity")
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             this.finish()
         }
 
         viewModel.checkFailureEvent.observe(this) {
-            Log.i("News", "go to auth Activity")
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             this.finish()

@@ -14,7 +14,7 @@ import com.example.news.ui.homepage.adapter.delegate_adapter.NewsCarouselDelegat
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsEndingDelegateAdapter
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsImageDelegateAdapter
 import com.example.news.ui.homepage.adapter.delegate_adapter.NewsTextDelegateAdapter
-import com.example.news.ui.profile.main.ProfileActivity
+import com.example.news.ui.profile.ProfileActivity
 import com.google.android.material.snackbar.Snackbar
 
 

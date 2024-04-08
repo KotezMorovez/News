@@ -1,4 +1,4 @@
-package com.example.news.ui.auth
+package com.example.news.ui.auth.signup
 
 data class SignUpUserItem(
     val name: String,
