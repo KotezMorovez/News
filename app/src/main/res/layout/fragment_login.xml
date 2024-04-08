@@ -21,9 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/sign_up_title"
+            android:text="@string/login_title"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailContainer"
@@ -36,7 +37,7 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:hint="@string/sign_up_email_field_hint"
+                android:hint="@string/login_email_field_hint"
                 android:textColor="@color/white"
                 android:imeOptions="actionNext"
                 android:inputType="text"
@@ -57,7 +58,7 @@
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:hint="@string/sign_up_password_field_hint"
+                android:hint="@string/login_password_field_hint"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLines="1"

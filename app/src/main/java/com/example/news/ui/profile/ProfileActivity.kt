@@ -1,4 +1,4 @@
-package com.example.news.ui.profile.main
+package com.example.news.ui.profile
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

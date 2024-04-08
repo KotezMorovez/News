@@ -23,7 +23,6 @@ class SplashViewModel : ViewModel() {
 
     fun check() {
         viewModelScope.launch {
-            Log.i("News", "go to Repository")
 
             val result = repository.isUserAuthorized()
 
