@@ -80,7 +80,7 @@ class CustomToolbarView @JvmOverloads constructor(
             .load(url)
             .placeholder(R.drawable.avatar_placeholder_light)
             .circleCrop()
-            .apply(RequestOptions().override(50, 50))
+            .apply(RequestOptions().override(100, 100))
             .into(viewBinding.homePageToolbarProfile)
     }
 

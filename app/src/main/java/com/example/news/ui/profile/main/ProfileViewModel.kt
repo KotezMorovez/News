@@ -62,21 +62,6 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
-    fun deleteAccount() {
-        viewModelScope.launch {
-            val result = authRepository.deleteAccount()
-            if (result.isFailure) {
-                val exception = result.exceptionOrNull()
-                if (exception != null) {
-                    Log.e("News", exception.stackTraceToString())
-                    _errorEvent.value = R.string.profile_delete_toast_error
-                }
-            } else if (result.isSuccess) {
-                _goToAuthEvent.call()
-            }
-        }
-    }
-
     fun logout() {
         viewModelScope.launch {
             val result = authRepository.logoutUser()

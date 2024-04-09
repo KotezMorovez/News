@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/profileImageToolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="56dp"
         android:background="@color/blue_700"
         app:navigationIcon="@drawable/ic_arrow_back_24"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,20 +4,29 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Outline
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileEditBinding
+import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.common.BaseFragment
+import com.example.news.ui.profile.main.ProfileDialogFragment
 import com.google.android.material.snackbar.Snackbar
+
 
 class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
     private lateinit var viewModel: ProfileEditViewModel
@@ -35,15 +44,23 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
         viewModel = ViewModelProvider(this)[ProfileEditViewModel::class.java]
 
         with(viewBinding) {
-            nameProfileEditText.setOnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus) {
-                    viewModel.setName(nameProfileEditText.text.toString())
+            profileImage.outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(view: View?, outline: Outline?) {
+                    val corner = 48f
+                    outline?.setRoundRect(0, -corner.toInt(), view!!.width, view.height, corner)
                 }
             }
+            profileImage.clipToOutline = true
 
             editImageButton.setOnClickListener {
                 clearAllFocus()
                 selectImage()
+            }
+
+            nameProfileEditText.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) {
+                    viewModel.setName(nameProfileEditText.text.toString())
+                }
             }
 
             saveButton.setOnClickListener {
@@ -56,6 +73,16 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
             toolbar.setNavigationOnClickListener {
                 (activity as AppCompatActivity).onBackPressedDispatcher.onBackPressed()
             }
+
+            deleteButton.setOnClickListener {
+                val message = resources.getText(R.string.profile_dialog_delete).toString()
+                ProfileDialogFragment(message) {
+                    viewModel.deleteAccount()
+                }.show(
+                    childFragmentManager,
+                    ProfileDialogFragment.TAG
+                )
+            }
         }
     }
 
@@ -67,10 +94,16 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
 
                 Glide.with(profileImage)
                     .load(it.imageURL)
-                    .circleCrop()
                     .placeholder(R.drawable.avatar_placeholder)
                     .into(profileImage)
             }
+        }
+
+        viewModel.goToAuthEvent.observe(viewLifecycleOwner) {
+            val intent = Intent(requireContext(), AuthActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            requireActivity().finish()
         }
 
         viewModel.errorEvent.observe(viewLifecycleOwner){
@@ -100,7 +133,7 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
         super.onDestroy()
     }
 
-    fun clearAllFocus() {
+    private fun clearAllFocus() {
         with(viewBinding) {
             nameProfileEditText.clearFocus()
         }

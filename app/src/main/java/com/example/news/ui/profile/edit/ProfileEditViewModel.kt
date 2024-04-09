@@ -9,16 +9,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.news.R
 import com.example.news.data.repository.ProfileRepositoryImpl
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.common.BitmapUtils
+import com.example.news.data.repository.AuthRepositoryImpl
+import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.common.SingleLiveEvent
 import kotlinx.coroutines.launch
-import java.io.File
 import java.util.regex.Pattern
 
 class ProfileEditViewModel : ViewModel() {
     private val userRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
+    private val authRepository: AuthRepository = AuthRepositoryImpl.getInstance()
 
     private val _profileEditLiveData: MutableLiveData<ProfileEditItem> = MutableLiveData()
 
@@ -30,10 +33,14 @@ class ProfileEditViewModel : ViewModel() {
     val goToProfileScreen: LiveData<Unit>
         get() = _goToProfileScreen
 
-    private val _errorEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    private val _errorEvent: SingleLiveEvent<Int> = SingleLiveEvent()
 
-    val errorEvent: LiveData<Unit>
+    val errorEvent: LiveData<Int>
         get() = _errorEvent
+
+    private val _goToAuthEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val goToAuthEvent: LiveData<Unit>
+        get() = _goToAuthEvent
 
     private lateinit var currentUserId: String
     private lateinit var currentUserEmail: String
@@ -73,13 +80,15 @@ class ProfileEditViewModel : ViewModel() {
             var image: String? = null
             val validName = isValidName(_profileEditLiveData.value!!.name)
 
-            if (!selectedImageUri.isNullOrEmpty() && selectedImageUri != currentUserImageUri) {
-                Log.i("News", selectedImageUri.toString())
-                image = uploadImage(File(selectedImageUri).toUri(), contentResolver)
+            if (selectedImageUri != null) {
+                if (selectedImageUri.isNotEmpty() && selectedImageUri != currentUserImageUri) {
+
+                    image = uploadImage(selectedImageUri.toUri(), contentResolver)
+                }
             }
 
             if (
-                image != null &&
+                image != null ||
                 validName &&
                 profileEditLiveData.value!!.name != currentUserName
             ) {
@@ -100,8 +109,8 @@ class ProfileEditViewModel : ViewModel() {
                     }
                 }
             } else {
-                Log.e("News", "Null in image")
-                _errorEvent.call()
+                Log.e("News", "Error in image or name")
+                _errorEvent.value = R.string.profile_edit_save_error
             }
         }
     }
@@ -115,7 +124,7 @@ class ProfileEditViewModel : ViewModel() {
             val exception = storageUriResult.exceptionOrNull()
             if (exception != null) {
                 Log.e("News", exception.stackTraceToString())
-                _errorEvent.call()
+                _errorEvent.value = R.string.profile_edit_upload_error
             }
             return null
         }
@@ -131,6 +140,21 @@ class ProfileEditViewModel : ViewModel() {
     fun saveImage(imageURL: String) {
         val oldProfileInfo = _profileEditLiveData.value ?: ProfileEditItem.default()
         _profileEditLiveData.value = oldProfileInfo.copy(imageURL = imageURL)
+    }
+
+    fun deleteAccount() {
+        viewModelScope.launch {
+            val result = authRepository.deleteAccount()
+            if (result.isFailure) {
+                val exception = result.exceptionOrNull()
+                if (exception != null) {
+                    Log.e("News", exception.stackTraceToString())
+                    _errorEvent.value = R.string.profile_edit_delete_error
+                }
+            } else if (result.isSuccess) {
+                _goToAuthEvent.call()
+            }
+        }
     }
 
     private fun isValidName(name: String): Boolean {

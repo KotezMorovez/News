@@ -1,8 +1,16 @@
 package com.example.news.ui.profile.main
 
 import android.content.Intent
+import android.graphics.Outline
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,9 +18,12 @@ import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileBinding
 import com.example.news.ui.auth.AuthActivity
+import com.example.news.ui.common.AppBarStateChangeListener
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.profile.main.adapter.ProfileAdapter
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
+
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private lateinit var viewModel: ProfileViewModel
@@ -23,6 +34,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     override fun initUi() {
+        setTranslucentStatusBar(true)
+
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
         with(viewBinding) {
@@ -52,16 +65,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     .navigate(R.id.action_profileFragment_to_profileEditFragment)
             }
 
-            deleteButton.setOnClickListener {
-                val message = resources.getText(R.string.profile_dialog_delete).toString()
-                ProfileDialogFragment(message) {
-                    viewModel.deleteAccount()
-                }.show(
-                    childFragmentManager,
-                    ProfileDialogFragment.TAG
-                )
-            }
-
             exitButton.setOnClickListener {
                 val message = resources.getText(R.string.profile_dialog_exit).toString()
                 ProfileDialogFragment(message) {
@@ -71,7 +74,31 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     ProfileDialogFragment.TAG
                 )
             }
+            profileAppBar.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+                override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
+                    if (state == State.COLLAPSED) {
+                        toolbar.setBackgroundColor(resources.getColor(R.color.blue_700, null))
+                    }
+                    if (state == State.IDLE)
+                        toolbar.setBackgroundColor(resources.getColor(R.color.blue_700_08, null))
+                }
+            })
+
+            collapsingToolbar.setStatusBarScrimColor(resources.getColor(R.color.blue_700, null))
+
+            profileImage.outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(view: View?, outline: Outline?) {
+                    val corner = 48f
+                    outline?.setRoundRect(0, -corner.toInt(), view!!.width, view.height, corner)
+                }
+            }
+            profileImage.clipToOutline = true
         }
+    }
+
+    override fun onDestroyView() {
+        setTranslucentStatusBar(false)
+        super.onDestroyView()
     }
 
     override fun observeData() {
@@ -101,9 +128,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 Glide.with(profileImage)
                     .load(it)
                     .placeholder(R.drawable.avatar_placeholder)
-                    .circleCrop()
                     .into(profileImage)
             }
+        }
+    }
+
+    private fun setTranslucentStatusBar(isTranslucent: Boolean) {
+        val window = requireActivity().window
+        if (isTranslucent) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            window.statusBarColor = resources.getColor(R.color.blue_700_08, null)
+        } else {
+            window.statusBarColor = resources.getColor(R.color.blue_700, null)
+            WindowCompat.setDecorFitsSystemWindows(window, true)
         }
     }
 }

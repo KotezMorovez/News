@@ -6,6 +6,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import java.io.ByteArrayOutputStream
 
 object BitmapUtils {
@@ -20,6 +21,7 @@ object BitmapUtils {
         return if (Build.VERSION.SDK_INT < 28) {
             MediaStore.Images.Media.getBitmap(contentResolver, uri)
         } else {
+            Log.i("News", uri.toString())
             val source: ImageDecoder.Source = ImageDecoder.createSource(contentResolver, uri)
             ImageDecoder.decodeBitmap(source)
         }
