@@ -1,4 +1,4 @@
-package com.example.news.ui.homepage
+package com.example.news.ui.homepage.main
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -18,15 +18,11 @@ import com.example.news.ui.homepage.adapter.item.NewsCarouselItem
 import com.example.news.ui.homepage.adapter.item.NewsShowImageCarouselItem
 import kotlinx.coroutines.launch
 import com.example.news.domain.model.home_page.request.NewsEverythingRequest
-import com.example.news.domain.model.home_page.response.Article
 import com.example.news.ui.common.DateUtils
 import com.example.news.ui.homepage.adapter.item.NewsEndingItem
 import com.example.news.ui.homepage.adapter.item.NewsUi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
-import org.joda.time.DateTime
-import org.joda.time.Period
-import org.joda.time.format.PeriodFormatterBuilder
 
 class HomePageViewModel(private val dateUtils: DateUtils) : ViewModel() {
     var isFirstLaunch = true
@@ -211,6 +207,7 @@ class HomePageViewModel(private val dateUtils: DateUtils) : ViewModel() {
     fun resetSearchField() {
         currentQuery = ""
         applySearchText(currentQuery!!)
+
     }
 
     fun handleFavouriteItemClick(id: String) {

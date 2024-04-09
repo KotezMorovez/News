@@ -58,7 +58,7 @@ class CustomToolbarView @JvmOverloads constructor(
 
             homePageToolbarSearchClose.setOnClickListener {
                 onSearchCanceledListener?.invoke()
-
+                homePageToolbarSearch.clearFocus()
                 hideSearchField()
                 homePageSearchEditText.text = null
             }

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/homePageFragment"
-        android:name="com.example.news.ui.homepage.HomePageFragment"
+        android:name="com.example.news.ui.homepage.main.HomePageFragment"
         tools:layout="@layout/fragment_home_page">
 
 <!--        <action-->
