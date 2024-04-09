@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/grey_300"
+
     android:orientation="vertical">
 
     <com.example.news.ui.homepage.views.CustomToolbarView

@@ -36,6 +36,7 @@
 
         <activity
             android:name=".ui.profile.ProfileActivity"
+            android:theme="@style/Theme.News.Profile"
             android:exported="false" />
     </application>
 

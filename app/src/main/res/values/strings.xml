@@ -31,7 +31,7 @@
     <string name="forget_password_email_error">Неверный формат адреса электронной почты</string>
 
     <string name="profile_load_toast_error">Ошибка отображения профиля, попробуйте снова</string>
-    <string name="profile_delete_toast_error">Произошла ошибка при удалении аккаунта</string>
+
     <string name="profile_exit_toast_error">Не удалось выйти из аккаунта, попробуйте снова</string>
     <string name="profile_title">Мой профиль</string>
     <string name="profile_edit_button">Редактировать профиль</string>
@@ -48,7 +48,9 @@
     <string name="profile_edit_title">Редактировать профиль</string>
     <string name="profile_edit_save_button">Сохранить</string>
     <string name="profile_edit_name_error">Имя слишком короткое</string>
-    <string name="profile_edit_save_error">Что-то пошло не так, попробуйте снова</string>
+    <string name="profile_edit_save_error">Некорректное изображение/имя</string>
+    <string name="profile_edit_delete_error">Произошла ошибка при удалении аккаунта</string>
+    <string name="profile_edit_upload_error">Ошибка загрузки</string>
 
     <string name="home_page_title">Главная</string>
     <string name="home_page_show_avatar_toast_error">Ошибка отображения фото профиля</string>

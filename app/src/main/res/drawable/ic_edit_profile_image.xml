@@ -2,28 +2,32 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <shape>
-            <stroke
-                android:width="1dp"
-                android:color="@color/purple_500"/>
+        <shape
+            android:shape="oval">
             <solid
-                android:color="@color/purple_500"/>
-            <corners
-                android:radius="8dp"/>
-            <padding android:left="1dp" android:top="1dp" android:right="1dp"
-                android:bottom="1dp" />
+                android:color="@color/black_500"/>
+            <padding android:left="6dp" android:top="6dp" android:right="6dp"
+                android:bottom="6dp" />
+            <size
+                android:width="48dp"
+                android:height="48dp" />
         </shape>
     </item>
 
     <item>
         <vector
-            android:width="24dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:height="24dp"
-            android:viewportWidth="960"
-            android:viewportHeight="960">
+            android:tint="@color/black_800"
+            android:viewportHeight="24"
+            android:viewportWidth="24"
+            android:width="24dp">
+
             <path
-                android:fillColor="#FFFFFF"
-                android:pathData="M200,760h57l391,-391 -57,-57 -391,391v57ZM120,840v-170l528,-527q12,-11 26.5,-17t30.5,-6q16,0 31,6t26,18l55,56q12,11 17.5,26t5.5,30q0,16 -5.5,30.5T817,313L290,840L120,840ZM760,256 L704,200 760,256ZM619,341 L591,312 648,369 619,341Z"/>
+                android:fillColor="@android:color/white"
+                android:pathData="M14.12,4l1.83,2L20,6v12L4,18L4,6h4.05l1.83,-2h4.24M15,2L9,2L7.17,4L4,4c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2L22,6c0,-1.1 -0.9,-2 -2,-2h-3.17L15,2zM12,9c1.65,0 3,1.35 3,3s-1.35,3 -3,3 -3,-1.35 -3,-3 1.35,-3 3,-3m0,-2c-2.76,0 -5,2.24 -5,5s2.24,5 5,5 5,-2.24 5,-5 -2.24,-5 -5,-5z"/>
+
         </vector>
+
     </item>
 </layer-list>
