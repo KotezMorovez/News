@@ -1,7 +1,9 @@
-package com.example.news.ui.homepage
+package com.example.news.ui.homepage.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -105,6 +107,11 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>() {
                 viewModel.applySearchText(it)
             }
             customToolbar.setOnSearchCanceledListener {
+                val v = requireActivity().currentFocus
+                val imm =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v?.windowToken, 0)
+
                 viewModel.resetSearchField()
             }
         }
