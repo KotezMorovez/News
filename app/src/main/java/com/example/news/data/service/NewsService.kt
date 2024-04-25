@@ -3,10 +3,8 @@ package com.example.news.data.service
 import android.util.Log
 import com.example.news.BuildConfig
 import com.example.news.data.model.news_api.NewsEntity
-import com.example.news.domain.model.home_page.request.NewsEverythingRequest
-import com.example.news.domain.model.home_page.request.NewsHeadlineRequest
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import com.example.news.domain.model.home.request.NewsEverythingRequest
+import com.example.news.domain.model.home.request.NewsHeadlineRequest
 import retrofit2.awaitResponse
 
 interface NewsServiceInterface {}

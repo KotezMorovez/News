@@ -4,6 +4,9 @@
         <item name="colorPrimary">@color/blue_500</item>
         <item name="colorAccent">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/blue_700</item>
+
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:navigationBarColor">@color/blue_700</item>
     </style>
 
     <style name="Theme.News.Profile" parent="Theme.Material3.DayNight.NoActionBar">

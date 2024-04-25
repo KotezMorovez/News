@@ -1,10 +1,9 @@
 package com.example.news.data.repository
 
-import android.util.Log
 import com.example.news.data.mapper.toDomain
 import com.example.news.data.service.NewsService
-import com.example.news.domain.model.home_page.request.NewsEverythingRequest
-import com.example.news.domain.model.home_page.response.News
+import com.example.news.domain.model.home.request.NewsEverythingRequest
+import com.example.news.domain.model.home.response.News
 import com.example.news.domain.repository.NewsRepository
 
 class NewsRepositoryImpl : NewsRepository {

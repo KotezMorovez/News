@@ -67,4 +67,6 @@
     <string name="date_yesterday_at">вчера в %1$s</string>
     <string name="date_less_year_ago">%1$s в %2$s</string>
     <string name="date_years_ago">%1$sг.</string>
-    </resources>
+
+    <string name="details_toolbar">Запись</string>
+</resources>

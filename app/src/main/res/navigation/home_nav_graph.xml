@@ -3,31 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_graph"
-    app:startDestination="@id/homePageFragment">
-
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/homePageFragment"
-        android:name="com.example.news.ui.homepage.main.HomePageFragment"
-        tools:layout="@layout/fragment_home_page">
-
-<!--        <action-->
-<!--            android:id="@+id/action_homePageFragment_to_profileFragment"-->
-<!--            app:destination="@id/profileFragment" />-->
+        android:id="@+id/homeFragment"
+        android:name="com.example.news.ui.home.main.HomeFragment"
+        tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_homePageFragment_to_homePageShowImageFragment"
-            app:destination="@id/homePageShowImageFragment"/>
+            android:id="@+id/action_homeFragment_to_homeShowImageFragment"
+            app:destination="@id/homeShowImageFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_homeDetailsFragment"
+            app:destination="@id/homeDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeShowImageFragment"
+        android:name="com.example.news.ui.home.show_image.HomeShowImageFragment"
+        tools:layout="@layout/fragment_home_show_image">
+
         <argument
             android:name="imageUrlList"
             app:argType="string[]" />
         <argument
             android:name="position"
             app:argType="integer" />
+
     </fragment>
 
     <fragment
-        android:id="@+id/homePageShowImageFragment"
-        android:name="com.example.news.ui.homepage.show_image.HomePageShowImageFragment"
-        tools:layout="@layout/fragment_home_page_show_image"/>
+        android:id="@+id/homeDetailsFragment"
+        android:name="com.example.news.ui.home.details.HomeDetailsFragment"
+        tools:layout="@layout/fragment_home_details">
+
+        <action
+            android:id="@+id/action_homeDetailsFragment_to_homeShowImageFragment"
+            app:destination="@id/homeShowImageFragment" />
+
+    </fragment>
 </navigation>

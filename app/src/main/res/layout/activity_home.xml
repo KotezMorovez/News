@@ -9,4 +9,4 @@
     android:name="androidx.navigation.fragment.NavHostFragment"
     app:navGraph="@navigation/home_nav_graph"
     app:defaultNavHost="true"
-    tools:context="com.example.news.ui.homepage.HomeActivity"/>
+    tools:context="com.example.news.ui.home.HomeActivity"/>
