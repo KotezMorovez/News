@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.news.R
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.home.HomeActivity
+import com.example.news.ui.verification.VerificationActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -27,6 +28,12 @@ class SplashActivity : AppCompatActivity() {
     private fun observeData() {
         viewModel.checkSuccessEvent.observe(this) {
             val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            this.finish()
+        }
+
+        viewModel.checkVerificationEvent.observe(this) {
+            val intent = Intent(this, VerificationActivity::class.java)
             startActivity(intent)
             this.finish()
         }

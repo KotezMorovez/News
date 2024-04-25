@@ -6,8 +6,9 @@ import com.example.news.domain.model.profile.Profile
 import com.example.news.domain.model.auth.SignUpRequest
 
 interface AuthRepository {
-
     suspend fun isUserAuthorized(): Boolean
+    suspend fun isUserVerified(): Boolean
+    suspend fun sendVerificationEmail(): Result<Unit>
     suspend fun getUserId(): String?
     suspend fun loginUser(loginUser: LoginRequest): Result<AuthUser>
     suspend fun registerUser(user: SignUpRequest): Result<Unit>

@@ -1,6 +1,5 @@
 package com.example.news.data.repository
 
-import android.util.Log
 import com.example.news.data.service.AuthService
 import com.example.news.data.service.FirebaseAuthService
 import com.example.news.data.mapper.toDomain
@@ -31,8 +30,16 @@ class AuthRepositoryImpl : AuthRepository {
         return !authService.getCurrentUserId().isNullOrEmpty()
     }
 
+    override suspend fun isUserVerified(): Boolean {
+        return authService.getUserVerificationStatus()
+    }
+
     override suspend fun getUserId(): String? {
         return authService.getCurrentUserId()
+    }
+
+    override suspend fun sendVerificationEmail(): Result<Unit> {
+        return authService.sendVerificationEmail()
     }
 
     override suspend fun loginUser(loginUser: LoginRequest): Result<AuthUser> {

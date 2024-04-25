@@ -39,6 +39,10 @@
             android:name=".ui.profile.ProfileActivity"
             android:theme="@style/Theme.News.Profile"
             android:exported="false" />
+
+        <activity android:name=".ui.verification.VerificationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.News.Launcher"/>
     </application>
 
 </manifest>
