@@ -73,7 +73,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.databinding:viewbinding:8.3.1")
+    implementation("androidx.databinding:viewbinding:8.3.2")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20")
 
 //    Retrofit
@@ -82,7 +82,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
 //    Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore-ktx")

@@ -2,6 +2,7 @@ package com.example.news.data.service
 
 import com.example.news.data.model.news_api.NewsEntity
 import okhttp3.OkHttpClient
+import okhttp3.internal.notify
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit

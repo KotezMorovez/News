@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentLoginBinding
 import com.example.news.ui.common.BaseFragment
-import com.example.news.ui.homepage.HomeActivity
+import com.example.news.ui.home.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {

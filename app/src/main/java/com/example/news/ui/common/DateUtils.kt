@@ -19,10 +19,6 @@ class DateUtils(private val context: Context) {
 
     private val dateFormatter = SimpleDateFormat("dd MMM", Locale.forLanguageTag("ru"))
     private val timeFormatter = SimpleDateFormat("HH:mm", Locale.forLanguageTag("ru"))
-//    private val dateFormatter = DateTimeFormatter
-//    .ofPattern("dd/MM/yyyy - HH:mm", Locale.getDefault())
-//    .format(localDateTime.toJavaLocalDateTime())
-//    private val timeFormatter = SimpleDateFormat("HH:mm", Locale.forLanguageTag("ru"))
 
     fun getElapsedTime(fromDate: DateTime): String {
         val now = DateTime()

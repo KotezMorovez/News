@@ -3,13 +3,11 @@ package com.example.news.ui.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.R
 import com.example.news.ui.auth.AuthActivity
-import com.example.news.ui.homepage.HomeActivity
+import com.example.news.ui.home.HomeActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
