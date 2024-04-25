@@ -11,22 +11,18 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.lang.Exception
 import kotlin.coroutines.suspendCoroutine
 
 interface AuthService {
-
+    suspend fun getUserVerificationStatus(): Boolean
     suspend fun getCurrentUserId(): String?
-
     suspend fun loginUser(login: String, password: String): Result<FirebaseUser>
-
     suspend fun logoutUser(): Result<Unit>
-
+    suspend fun sendVerificationEmail(): Result<Unit>
     suspend fun deleteAccount()
-
     suspend fun registerUser(user: UserRegisterEntity): Result<String>
-
     suspend fun resetPassword(email: String): Result<Unit>
-
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
 }
 
@@ -41,6 +37,10 @@ class FirebaseAuthService() : AuthService {
             }
             return instance!!
         }
+    }
+
+    override suspend fun getUserVerificationStatus(): Boolean {
+        return auth.currentUser?.isEmailVerified ?: false
     }
 
     override suspend fun getCurrentUserId(): String? {
@@ -91,14 +91,45 @@ class FirebaseAuthService() : AuthService {
                             )
                         )
                     } else {
-                        continuation.resumeWith(
-                            Result.success(Result.success(result.user!!.uid))
+                        sendVerificationEmail(
+                            onSuccess = {
+                                continuation.resumeWith(
+                                    Result.success(
+                                        Result.success(
+                                            result.user!!.uid
+                                        )
+                                    )
+                                )
+                            },
+                            onFailure = { continuation.resumeWith(Result.success(Result.failure(it))) }
                         )
                     }
                 }
                 .addOnFailureListener {
                     continuation.resumeWith(Result.success(Result.failure(it)))
                 }
+        }
+    }
+
+    override suspend fun sendVerificationEmail(): Result<Unit> {
+        return suspendCoroutine { continuation ->
+            sendVerificationEmail(
+                onSuccess = { continuation.resumeWith(Result.success(Result.success(Unit))) },
+                onFailure = { continuation.resumeWith(Result.success(Result.failure(it))) }
+            )
+        }
+    }
+
+    private fun sendVerificationEmail(
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        if (auth.currentUser == null) {
+            onFailure(IllegalStateException("User must be returned from authorization"))
+        } else {
+            auth.currentUser!!.sendEmailVerification()
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { onFailure(it) }
         }
     }
 

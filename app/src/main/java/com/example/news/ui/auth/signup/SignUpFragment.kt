@@ -127,13 +127,21 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
             val snackBar = Snackbar.make(
                 requireContext(),
                 viewBinding.signUpButton,
-                resources.getText(R.string.login_toast_error),
+                resources.getText(R.string.sign_up_toast_error),
                 Snackbar.LENGTH_SHORT
             )
             snackBar.show()
         }
 
         viewModel.signUpSuccessEvent.observe(viewLifecycleOwner) {
+            val snackBar = Snackbar.make(
+                requireContext(),
+                viewBinding.signUpButton,
+                resources.getText(R.string.sign_up_verification_toast),
+                Snackbar.LENGTH_SHORT
+            )
+            snackBar.show()
+
             this@SignUpFragment.findNavController()
                 .navigate(R.id.action_signUpFragment_to_loginFragment)
         }

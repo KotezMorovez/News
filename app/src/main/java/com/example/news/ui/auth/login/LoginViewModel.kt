@@ -25,10 +25,13 @@ class LoginViewModel : ViewModel() {
     val errorEvent: LiveData<Unit>
         get() = _errorEvent
 
-    private val _loginSuccessEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    private val _verificationSuccessEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val verificationSuccessEvent: LiveData<Unit>
+        get() = _verificationSuccessEvent
 
-    val loginSuccessEvent: LiveData<Unit>
-        get() = _loginSuccessEvent
+    private val _verificationFailureEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val verificationFailureEvent: LiveData<Unit>
+        get() = _verificationFailureEvent
 
     fun setEmail(email: String) {
         val oldUser = _loginUser.value ?: LoginUserItem.default()
@@ -53,6 +56,7 @@ class LoginViewModel : ViewModel() {
 
             viewModelScope.launch {
                 val result = repository.loginUser(user)
+                val verification = repository.isUserVerified()
 
                 if (result.isFailure) {
                     val exception = result.exceptionOrNull()
@@ -61,7 +65,11 @@ class LoginViewModel : ViewModel() {
                         _errorEvent.call()
                     }
                 } else if (result.isSuccess) {
-                    _loginSuccessEvent.call()
+                    if (verification) {
+                        _verificationSuccessEvent.call()
+                    } else {
+                        _verificationFailureEvent.call()
+                    }
                 }
             }
         }

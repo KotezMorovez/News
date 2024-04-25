@@ -10,6 +10,8 @@
     <string name="sign_up_name_error">"Минимальная длина имени 2 символа"</string>
     <string name="sign_up_email_error">Неправильный адрес почты</string>
     <string name="sign_up_password_error">Неверный формат пароля.\nПароль должен содержать 8\-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&amp;+=!</string>
+    <string name="sign_up_toast_error">Что-то пошло не так</string>
+    <string name="sign_up_verification_toast">На указанную почту выслано письмо</string>
 
     <string name="login_title">Добро пожаловать</string>
     <string name="login_password_field_hint">Пароль</string>
@@ -30,8 +32,13 @@
     <string name="forget_password_server_error">Пользователя с таким адресом электронной почты не существует</string>
     <string name="forget_password_email_error">Неверный формат адреса электронной почты</string>
 
-    <string name="profile_load_toast_error">Ошибка отображения профиля, попробуйте снова</string>
+    <string name="verification_title">Ваш аккаунт не верифицирован, проверьте почту и перейдите по ссылке в письме</string>
+    <string name="verification_login_link">Хотите войти в другой аккаунт? Авторизоваться</string>
+    <string name="verification_send_email">Письмо не пришло? Отправить повторно</string>
+    <string name="verification_send_email_success">Письмо отправлено на вашу электронную почту</string>
+    <string name="verification_send_email_failure">Что-то пошло не так</string>
 
+    <string name="profile_load_toast_error">Ошибка отображения профиля, попробуйте снова</string>
     <string name="profile_exit_toast_error">Не удалось выйти из аккаунта, попробуйте снова</string>
     <string name="profile_title">Мой профиль</string>
     <string name="profile_edit_button">Редактировать профиль</string>
