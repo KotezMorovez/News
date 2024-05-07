@@ -6,12 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.news.common.GlobalConstants
 import com.example.news.data.repository.AuthRepositoryImpl
 import com.example.news.domain.model.auth.SignUpRequest
 import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.common.SingleLiveEvent
 import com.google.common.base.Strings
 import kotlinx.coroutines.launch
+import java.util.Locale
 import java.util.regex.Pattern
 
 class SignUpViewModel : ViewModel() {
@@ -56,7 +58,9 @@ class SignUpViewModel : ViewModel() {
             val user = SignUpRequest(
                 name = name,
                 email = email,
-                password = password
+                password = password,
+                sources = GlobalConstants.DEFAULT_SOURCES,
+                language = Locale.getDefault().language
             )
 
             viewModelScope.launch {

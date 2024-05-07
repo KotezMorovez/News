@@ -1,25 +1,13 @@
 package com.example.news.ui.home.details
 
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.graphics.Paint
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.util.Log
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +15,6 @@ import com.example.news.R
 import com.example.news.databinding.FragmentHomeDetailsBinding
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.parcelable
-import com.example.news.ui.home.HomeActivity
 import com.example.news.ui.home.models.DetailsUi
 
 class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
@@ -122,7 +109,7 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
                     addToFavoritesButton.setImageDrawable(
                         ResourcesCompat.getDrawable(
                             addToFavoritesButton.context.resources,
-                            R.drawable.ic_recycler_favourite_inactive_24,
+                            R.drawable.ic_recycler_favourite_inactive,
                             null
                         )
                     )

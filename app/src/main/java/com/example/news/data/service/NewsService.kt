@@ -3,6 +3,8 @@ package com.example.news.data.service
 import android.util.Log
 import com.example.news.BuildConfig
 import com.example.news.data.model.news_api.NewsEntity
+import com.example.news.data.model.news_api.SourceEntity
+import com.example.news.data.model.news_api.SourcesListEntity
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.request.NewsHeadlineRequest
 import retrofit2.awaitResponse
@@ -18,7 +20,7 @@ class NewsService : NewsServiceInterface {
                 newsApi.getEverything(
                     query = newsEverythingRequest.query,
                     searchIn = newsEverythingRequest.searchIn,
-                    sources = newsEverythingRequest.sources,
+                    sources = newsEverythingRequest.sources?.joinToString(separator = ","),
                     domains = newsEverythingRequest.domains,
                     excludeDomains = newsEverythingRequest.excludeDomains,
                     from = newsEverythingRequest.from,
@@ -53,7 +55,7 @@ class NewsService : NewsServiceInterface {
                 newsApi.getHeadlines(
                     country = newsEverythingRequest.country,
                     category = newsEverythingRequest.category,
-                    sources = newsEverythingRequest.sources,
+                    sources = newsEverythingRequest.sources?.joinToString(separator = ","),
                     query = newsEverythingRequest.query,
                     pageSize = newsEverythingRequest.pageSize,
                     page = newsEverythingRequest.page,
@@ -68,6 +70,28 @@ class NewsService : NewsServiceInterface {
 
             return if (news != null) {
                 Result.success(news)
+            } else {
+                Result.failure(IllegalStateException())
+            }
+        } catch (t: Throwable) {
+            return Result.failure(t)
+        }
+    }
+
+    suspend fun getSources(): Result<SourcesListEntity> {
+        try {
+            val response = newsApi.getSources(
+                apiKey = BuildConfig.apiKey
+            ).awaitResponse()
+
+            if (!response.isSuccessful) {
+                return Result.failure(IllegalStateException())
+            }
+
+            val sources = response.body()
+
+            return if (sources != null) {
+                Result.success(sources)
             } else {
                 Result.failure(IllegalStateException())
             }

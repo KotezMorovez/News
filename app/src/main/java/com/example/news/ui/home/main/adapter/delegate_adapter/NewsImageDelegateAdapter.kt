@@ -58,7 +58,7 @@ class NewsImageDelegateAdapter(
                 addToFavoritesButton.setImageDrawable(
                     ResourcesCompat.getDrawable(
                         addToFavoritesButton.context.resources,
-                        R.drawable.ic_recycler_favourite_inactive_24,
+                        R.drawable.ic_recycler_favourite_inactive,
                         null
                     )
                 )

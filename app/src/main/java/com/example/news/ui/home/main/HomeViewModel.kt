@@ -19,6 +19,7 @@ import com.example.news.ui.home.models.NewsShowImageCarouselItem
 import kotlinx.coroutines.launch
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.response.Article
+import com.example.news.domain.model.profile.Profile
 import com.example.news.ui.common.DateUtils
 import com.example.news.ui.home.main.adapter.item.NewsEndingItem
 import com.example.news.ui.home.main.adapter.item.NewsUi
@@ -28,11 +29,12 @@ import kotlinx.coroutines.Job
 
 class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
     var isFirstLaunch = true
+    var isPaginationEnabled = true
     private val newsRepository: NewsRepository = NewsRepositoryImpl.getInstance()
     private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
     private var page = 1
-    var isPaginationEnabled = true
     private var currentQuery: String? = null
+    private var currentUser: Profile? = null
     private var allArticles: MutableList<Article> = mutableListOf()
     private var loadNewsJob: Job? = null
 
@@ -51,6 +53,10 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
     private val _goToShowImageEvent = SingleLiveEvent<NewsShowImageCarouselItem>()
     val goToShowImageEvent: LiveData<NewsShowImageCarouselItem>
         get() = _goToShowImageEvent
+
+    private val _dataInitEvent = SingleLiveEvent<Unit>()
+    val dataInitEvent: LiveData<Unit>
+        get() = _dataInitEvent
 
     private val _endRefreshingEvent = SingleLiveEvent<Unit>()
     val endRefreshingEvent: LiveData<Unit>
@@ -73,24 +79,10 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
         loadNews()
     }
 
-    fun getProfileAvatar() {
+    fun initialize() {
         viewModelScope.launch {
-            val result = profileRepository.getProfile()
-
-            if (result.isSuccess) {
-                val profile = result.getOrNull()
-                if (profile != null) {
-
-                    _image.value = profile.imageUrl ?: ""
-                }
-
-            } else if (result.isFailure) {
-                val exception = result.exceptionOrNull()
-                if (exception != null) {
-                    Log.e("News", exception.stackTraceToString())
-                    _errorEvent.value = R.string.home_page_show_avatar_toast_error
-                }
-            }
+            getCurrentUser()
+            _dataInitEvent.call()
         }
     }
 
@@ -101,103 +93,64 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
 
             loadNewsJob?.cancel()
             loadNewsJob = viewModelScope.launch {
-                val request = if (queryText == null) {
-                    NewsEverythingRequest(
-                        page = page,
-                        pageSize = PAGE_SIZE,
-                        sources = listOf(
-                            "google-news",
-                            "abc-news",
-                            "ars-technica",
-                            "associated-press",
-                            "bbc-news",
-                            "wired"
-                        ),
-                        language = "en"
-                    )
-                } else {
-                    NewsEverythingRequest(
-                        query = queryText,
-                        page = page,
-                        pageSize = PAGE_SIZE,
-                        language = "en"
-                    )
-                }
+                if (currentUser != null) {
+                    val request = getRequest(queryText, currentUser!!)
+                    val result = newsRepository.getNews(request)
 
-                val result = newsRepository.getNews(request)
-
-                if (result.isFailure) {
-                    val exception = result.exceptionOrNull()
-                    if (exception != null) {
-                        Log.e("News", exception.stackTraceToString())
-                        if (exception !is CancellationException) {
-                            _errorEvent.value = R.string.home_page_search_toast_error
+                    if (result.isFailure) {
+                        val exception = result.exceptionOrNull()
+                        if (exception != null) {
+                            Log.e("News", exception.stackTraceToString())
+                            if (exception !is CancellationException) {
+                                _errorEvent.value = R.string.home_page_search_toast_error
+                            }
                         }
-                    }
-                    isPaginationEnabled = true
-                    return@launch
-                }
-
-                val newsArticles = result.getOrNull()
-                if (newsArticles != null) {
-                    val oldResults = mutableListOf<IDelegateAdapterItem>()
-
-                    if (_news.value != null) {
-                        oldResults.addAll(_news.value!!)
-                    }
-
-                    allArticles.addAll(newsArticles.articles)
-
-                    val newResult = newsArticles.articles.map {
-                        val elapsed = dateUtils.getElapsedTime(it.publishedAt)
-
-                        val imageList = if (it.imageUrl != null) {
-                            listOf(it.imageUrl)
-                        } else {
-                            null
-                        }
-
-                        val newsUi = NewsUi(
-                            id = it.id,
-                            header = it.title,
-                            body = it.description ?: "",
-                            imagesUriList = imageList,
-                            date = elapsed,
-                            isFavorite = false,
-                        )
-
-                        if (it.imageUrl != null) {
-                            NewsImageItem(newsUi)
-                        } else {
-                            NewsTextItem(newsUi)
-                        }
-                    }
-
-                    oldResults.addAll(newResult)
-
-                    val fullPagesCount = newsArticles.totalResults / PAGE_SIZE
-                    val hasRemainder = newsArticles.totalResults % PAGE_SIZE > 0
-                    val allPagesCount = fullPagesCount + (if (hasRemainder) 1 else 0)
-
-                    if (allPagesCount > page) {
                         isPaginationEnabled = true
-                        page++
-                    } else {
-                        isPaginationEnabled = false
-
-                        oldResults.add(
-                            NewsEndingItem(
-                                results = newsArticles.totalResults
-                            )
-                        )
-
-                        _news.value = oldResults
-                        _endRefreshingEvent.call()
                         return@launch
                     }
 
-                    _news.value = oldResults
-                    _endRefreshingEvent.call()
+                    val newsArticles = result.getOrNull()
+                    if (newsArticles != null) {
+                        val oldResults = mutableListOf<IDelegateAdapterItem>()
+
+                        if (_news.value != null) {
+                            oldResults.addAll(_news.value!!)
+                        }
+
+                        if (newsArticles.articles != null) {
+                            allArticles.addAll(newsArticles.articles)
+
+                            val newResult = newsArticles.articles.map {
+                                mapArticleToItem(it)
+                            }
+
+                            oldResults.addAll(newResult)
+                        }
+
+                        val fullPagesCount = newsArticles.totalResults / PAGE_SIZE
+                        val hasRemainder = newsArticles.totalResults % PAGE_SIZE > 0
+                        val allPagesCount = fullPagesCount + (if (hasRemainder) 1 else 0)
+
+                        if (allPagesCount > page) {
+                            isPaginationEnabled = true
+                            page++
+                        } else {
+                            isPaginationEnabled = false
+
+                            oldResults.add(
+                                NewsEndingItem(
+                                    results = newsArticles.totalResults
+                                )
+                            )
+
+                            _news.value = oldResults
+                            _endRefreshingEvent.call()
+                            return@launch
+                        }
+
+                        _news.value = oldResults
+                        _endRefreshingEvent.call()
+                    }
                 }
             }
         }
@@ -229,11 +182,13 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
 
         when (targetItem) {
             is NewsTextItem -> {
-                newItem = NewsTextItem(targetItem.ui.copy(isFavorite = !targetItem.ui.isFavorite))
+                newItem =
+                    NewsTextItem(targetItem.ui.copy(isFavorite = !targetItem.ui.isFavorite))
             }
 
             is NewsImageItem -> {
-                newItem = NewsImageItem(targetItem.ui.copy(isFavorite = !targetItem.ui.isFavorite))
+                newItem =
+                    NewsImageItem(targetItem.ui.copy(isFavorite = !targetItem.ui.isFavorite))
             }
 
             is NewsCarouselItem -> {
@@ -290,7 +245,7 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
 
                 _goToDetailsEvent.value = DetailsUi(
                     id = article.id,
-                    header = article.title,
+                    header = article.title ?: "",
                     body = article.description ?: "",
                     url = article.url,
                     imagesUriList = list,
@@ -300,4 +255,65 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
             }
         }
     }
+
+    private fun getRequest(queryText: String?, user: Profile): NewsEverythingRequest {
+        return if (queryText == null) {
+            NewsEverythingRequest(
+                page = page,
+                pageSize = PAGE_SIZE,
+                sources = user.sources,
+                language = user.language
+            )
+        } else {
+            NewsEverythingRequest(
+                query = queryText,
+                page = page,
+                pageSize = PAGE_SIZE,
+                language = user.language
+            )
+        }
+    }
+
+    private suspend fun getCurrentUser() {
+        val result = profileRepository.getProfile()
+
+        if (result.isSuccess) {
+            currentUser = result.getOrNull()
+            if (currentUser != null) {
+                _image.value = currentUser!!.imageUrl ?: ""
+            }
+
+        } else if (result.isFailure) {
+            val exception = result.exceptionOrNull()
+            if (exception != null) {
+                Log.e("News", exception.stackTraceToString())
+                _errorEvent.value = R.string.home_page_show_avatar_toast_error
+            }
+        }
+    }
+
+    private fun mapArticleToItem(article: Article): IDelegateAdapterItem {
+        val elapsed = dateUtils.getElapsedTime(article.publishedAt)
+        val imageList = if (article.imageUrl != null) {
+            listOf(article.imageUrl)
+        } else {
+            null
+        }
+
+        val newsUi = NewsUi(
+            id = article.id,
+            header = article.title ?: "",
+            body = article.description ?: "",
+            imagesUriList = imageList,
+            date = elapsed,
+            isFavorite = false,
+        )
+
+        return if (article.imageUrl != null) {
+            NewsImageItem(newsUi)
+        } else {
+            NewsTextItem(newsUi)
+        }
+    }
 }
+

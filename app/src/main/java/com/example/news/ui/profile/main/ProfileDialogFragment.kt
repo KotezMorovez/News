@@ -22,6 +22,6 @@ class ProfileDialogFragment(
             .create()
 
     companion object {
-        const val TAG = "ProfileDialogFragment"
+        const val TAG = "com.example.news.ui.profile.main.ProfileDialogFragment"
     }
 }

@@ -60,10 +60,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
         super.onCreate(savedInstanceState)
 
-        viewModel.getProfileAvatar()
-
         if (viewModel.isFirstLaunch) {
-            viewModel.loadNews()
+            viewModel.initialize()
             viewModel.isFirstLaunch = false
         }
     }
@@ -166,6 +164,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             this@HomeFragment.findNavController()
                 .navigate(R.id.action_homeFragment_to_homeDetailsFragment, bundle)
+        }
+
+        viewModel.dataInitEvent.observe(viewLifecycleOwner){
+            viewModel.loadNews()
         }
     }
 }

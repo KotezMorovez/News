@@ -42,6 +42,7 @@
     <string name="profile_exit_toast_error">Не удалось выйти из аккаунта, попробуйте снова</string>
     <string name="profile_title">Мой профиль</string>
     <string name="profile_edit_button">Редактировать профиль</string>
+    <string name="profile_sources_button">Новостные источники</string>
     <string name="profile_delete_button">Удалить аккаунт</string>
     <string name="profile_exit_button">Выйти из аккаунта</string>
 
@@ -58,6 +59,14 @@
     <string name="profile_edit_save_error">Некорректное изображение/имя</string>
     <string name="profile_edit_delete_error">Произошла ошибка при удалении аккаунта</string>
     <string name="profile_edit_upload_error">Ошибка загрузки</string>
+
+    <string name="settings_sources_title">Источники</string>
+    <string name="settings_choose_all_button">Выбрать все</string>
+    <string name="settings_error">Ошибка загрузки списка источнииков</string>
+    <string name="settings_profile_error">Ошибка загрузки профиля</string>
+    <string name="settings_empty_resources_error">Ошибка: список выбранных источников не может быть пуст</string>
+    <string name="settings_save_error">Ошибка сохранения данных, повторите позже</string>
+    <string name="settings_save_success">Список источников успешно изменен</string>
 
     <string name="home_page_title">Главная</string>
     <string name="home_page_show_avatar_toast_error">Ошибка отображения фото профиля</string>
