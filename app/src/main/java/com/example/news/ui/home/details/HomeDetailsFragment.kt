@@ -22,8 +22,6 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
     private lateinit var viewModelFactory: HomeDetailsViewModelFactory
     private lateinit var adapter: HomeDetailsAdapter
 
-//    private val onImageClickListener: (id: String, position: Int) -> Unit
-
     override fun createViewBinding(): FragmentHomeDetailsBinding {
         return FragmentHomeDetailsBinding.inflate(layoutInflater)
     }

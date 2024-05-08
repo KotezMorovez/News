@@ -61,7 +61,7 @@
         <item name="hintTextColor">@color/white</item>
     </style>
 
-    <style name="Theme.News.Profile.Field" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Theme.News.Profile.Field" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout.Profile</item>
         <item name="android:background">@drawable/profile_info_field</item>
         <item name="android:textColor">@color/black_950</item>

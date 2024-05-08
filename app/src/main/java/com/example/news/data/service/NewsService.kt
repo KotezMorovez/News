@@ -78,9 +78,10 @@ class NewsService : NewsServiceInterface {
         }
     }
 
-    suspend fun getSources(): Result<SourcesListEntity> {
+    suspend fun getSources(language: String): Result<SourcesListEntity> {
         try {
             val response = newsApi.getSources(
+                language = language,
                 apiKey = BuildConfig.apiKey
             ).awaitResponse()
 

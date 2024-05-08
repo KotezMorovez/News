@@ -66,6 +66,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    override fun onStart() {
+        viewModel.updateProfile()
+        super.onStart()
+    }
+
     override fun initUi() {
         with(viewBinding) {
             newsSwipeRefresh.setColorSchemeResources(

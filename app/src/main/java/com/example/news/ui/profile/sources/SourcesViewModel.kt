@@ -1,4 +1,4 @@
-package com.example.news.ui.profile.settings
+package com.example.news.ui.profile.sources
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -13,12 +13,10 @@ import com.example.news.domain.model.profile.SourcesList
 import com.example.news.domain.repository.NewsRepository
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
-import com.example.news.ui.profile.settings.adapter.SettingsSourceItem
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
+import com.example.news.ui.profile.sources.adapter.SourcesItem
 import kotlinx.coroutines.launch
 
-class SettingsViewModel : ViewModel() {
+class SourcesViewModel : ViewModel() {
     private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
     private val newsRepository: NewsRepository = NewsRepositoryImpl.getInstance()
     private var currentProfile: Profile? = null
@@ -31,8 +29,8 @@ class SettingsViewModel : ViewModel() {
     val successEvent: LiveData<Unit>
         get() = _successEvent
 
-    private val _sources = MutableLiveData<List<SettingsSourceItem>>(listOf())
-    val sources: LiveData<List<SettingsSourceItem>>
+    private val _sources = MutableLiveData<List<SourcesItem>>(listOf())
+    val sources: LiveData<List<SourcesItem>>
         get() = _sources
 
     private var userSources: MutableList<String> = mutableListOf()
@@ -46,30 +44,41 @@ class SettingsViewModel : ViewModel() {
 
             if (result.isSuccess) {
                 currentProfile = result.getOrNull()
-                val loadAPISourcesJob = getAPISources()
-                val loadUserSourcesJob = getUserSources()
+                val sources = getAPISources()
 
-                val sources = loadAPISourcesJob.await()
-                val profileSources = loadUserSourcesJob.await()
+                if (sources != null) {
+                    userSources = currentProfile?.sources
+                        ?.filter { userSourceId -> sources.sources.firstOrNull { it.id == userSourceId } != null }
+                        ?.toMutableList() ?: mutableListOf()
 
-                if (profileSources != null && sources != null) {
-                    userSources = profileSources.sources.toMutableList()
                     _sources.value = sources.sources
                         .map {
                             if (userSources.contains(it.id)) {
-                                SettingsSourceItem(
+                                SourcesItem(
                                     id = it.id,
                                     text = it.name,
                                     isUse = true
                                 )
                             } else {
-                                SettingsSourceItem(
+                                SourcesItem(
                                     id = it.id,
                                     text = it.name,
                                     isUse = false
                                 )
                             }
                         }
+                } else {
+                    val exception = result.exceptionOrNull()
+                    if (exception != null) {
+                        Log.e("News", exception.stackTraceToString())
+                        _errorEvent.value = R.string.sources_profile_error
+                    }
+                }
+            } else {
+                val exception = result.exceptionOrNull()
+                if (exception != null) {
+                    Log.e("News", exception.stackTraceToString())
+                    _errorEvent.value = R.string.sources_save_error
                 }
             }
         }
@@ -102,13 +111,13 @@ class SettingsViewModel : ViewModel() {
                     val exception = result.exceptionOrNull()
                     if (exception != null) {
                         Log.e("News", exception.stackTraceToString())
-                        _errorEvent.value = R.string.settings_save_error
+                        _errorEvent.value = R.string.sources_save_error
                     }
                 }
             } else if (userSources.isEmpty()) {
-                _errorEvent.value = R.string.settings_empty_resources_error
+                _errorEvent.value = R.string.sources_empty_resources_error
             } else {
-                _errorEvent.value = R.string.settings_profile_error
+                _errorEvent.value = R.string.sources_profile_error
             }
         }
     }
@@ -138,35 +147,18 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    private fun getUserSources(): Deferred<Profile?> {
-        return viewModelScope.async {
-            val result = profileRepository.getProfile()
+    private suspend fun getAPISources(): SourcesList? {
+        val result = newsRepository.getSources(currentProfile!!.language)
 
-            return@async if (result.isSuccess) {
-                result.getOrNull()
-            } else {
-                val exception = result.exceptionOrNull()
-                if (exception != null) {
-                    _errorEvent.value = R.string.settings_error
-                }
-                null
+        return if (result.isSuccess) {
+            result.getOrNull()
+        } else {
+            val exception = result.exceptionOrNull()
+            if (exception != null) {
+                _errorEvent.value = R.string.sources_error
             }
-        }
-    }
+            null
 
-    private fun getAPISources(): Deferred<SourcesList?> {
-        return viewModelScope.async {
-            val result = newsRepository.getSources()
-
-            return@async if (result.isSuccess) {
-                result.getOrNull()
-            } else {
-                val exception = result.exceptionOrNull()
-                if (exception != null) {
-                    _errorEvent.value = R.string.settings_error
-                }
-                null
-            }
         }
     }
 }

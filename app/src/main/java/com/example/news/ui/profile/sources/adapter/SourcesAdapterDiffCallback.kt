@@ -1,20 +1,20 @@
-package com.example.news.ui.profile.settings.adapter
+package com.example.news.ui.profile.sources.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 
-class SettingsAdapterDiffCallback: DiffUtil.ItemCallback<SettingsSourceItem>() {
+class SourcesAdapterDiffCallback : DiffUtil.ItemCallback<SourcesItem>() {
     override fun areItemsTheSame(
-        oldItem: SettingsSourceItem,
-        newItem: SettingsSourceItem
+        oldItem: SourcesItem,
+        newItem: SourcesItem
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     @SuppressLint("DiffUtilEquals")
     override fun areContentsTheSame(
-        oldItem: SettingsSourceItem,
-        newItem: SettingsSourceItem
+        oldItem: SourcesItem,
+        newItem: SourcesItem
     ): Boolean {
         return (oldItem.text == newItem.text && oldItem.isUse == newItem.isUse)
     }

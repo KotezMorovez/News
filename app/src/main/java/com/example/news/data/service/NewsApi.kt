@@ -62,6 +62,8 @@ interface NewsApi {
 
     @GET("v2/top-headlines/sources")
     fun getSources(
-        @Header("X-Api-Key") apiKey: String
+        @Query("language") language: String? = null,
+
+        @Header("X-Api-Key") apiKey: String,
     ): Call<SourcesListEntity>
 }

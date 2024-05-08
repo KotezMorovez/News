@@ -13,20 +13,35 @@
             app:destination="@id/profileEditFragment" />
 
         <action
-            android:id="@+id/action_profileFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            android:id="@+id/action_profileFragment_to_sourcesFragment"
+            app:destination="@id/sourcesFragment" />
 
         <action
             android:id="@+id/action_profileFragment_to_profileShowImageFragment"
             app:destination="@id/profileShowImageFragment"/>
+
+        <action
+            android:id="@+id/action_profileFragment_to_languagesFragment"
+            app:destination="@id/languagesFragment"/>
     </fragment>
 
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.news.ui.profile.settings.SettingsFragment"
-        tools:layout="@layout/fragment_profile_edit">
+        android:id="@+id/languagesFragment"
+        android:name="com.example.news.ui.profile.languages.LanguagesFragment"
+        tools:layout="@layout/fragment_languages">
         <action
-            android:id="@+id/action_settingsFragment_to_profileFragment"
+            android:id="@+id/action_languagesFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sourcesFragment"
+        android:name="com.example.news.ui.profile.sources.SourcesFragment"
+        tools:layout="@layout/fragment_sources">
+        <action
+            android:id="@+id/action_sourcesFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />

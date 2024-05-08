@@ -43,6 +43,7 @@
     <string name="profile_title">Мой профиль</string>
     <string name="profile_edit_button">Редактировать профиль</string>
     <string name="profile_sources_button">Новостные источники</string>
+    <string name="profile_languages_button">Язык новостей</string>
     <string name="profile_delete_button">Удалить аккаунт</string>
     <string name="profile_exit_button">Выйти из аккаунта</string>
 
@@ -60,16 +61,24 @@
     <string name="profile_edit_delete_error">Произошла ошибка при удалении аккаунта</string>
     <string name="profile_edit_upload_error">Ошибка загрузки</string>
 
-    <string name="settings_sources_title">Источники</string>
-    <string name="settings_choose_all_button">Выбрать все</string>
-    <string name="settings_error">Ошибка загрузки списка источнииков</string>
-    <string name="settings_profile_error">Ошибка загрузки профиля</string>
-    <string name="settings_empty_resources_error">Ошибка: список выбранных источников не может быть пуст</string>
-    <string name="settings_save_error">Ошибка сохранения данных, повторите позже</string>
-    <string name="settings_save_success">Список источников успешно изменен</string>
+    <string name="sources_title">Источники</string>
+    <string name="sources_choose_all_button">Выбрать все</string>
+    <string name="sources_error">Ошибка загрузки списка источнииков</string>
+    <string name="sources_profile_error">Ошибка загрузки профиля</string>
+    <string name="sources_empty_resources_error">Ошибка: список выбранных источников не может быть пуст</string>
+    <string name="sources_save_error">Ошибка сохранения данных, повторите позже</string>
+    <string name="sources_save_success">Список источников успешно изменен</string>
+
+    <string name="languages_title">Язык статей</string>
+    <string name="languages_choose_all_button">Выбрать все</string>
+    <string name="languages_error">Ошибка загрузки списка языков</string>
+    <string name="languages_profile_error">Ошибка загрузки списка языков</string>
+    <string name="languages_empty_resources_error">Ошибка: не выбран ни одмн язык из представленных</string>
+    <string name="languages_save_error">Ошибка сохранения данных, повторите позже</string>
+    <string name="languages_save_success">Язык новостных статей успешно изменен</string>
 
     <string name="home_page_title">Главная</string>
-    <string name="home_page_show_avatar_toast_error">Ошибка отображения фото профиля</string>
+    <string name="home_page_error">Ошибка отображения профиля</string>
     <string name="home_page_search_field">︎Поиск</string>
     <string name="home_page_close_search_field">Отмена</string>
     <string name="home_page_description_favourite_button">favouriteButton</string>

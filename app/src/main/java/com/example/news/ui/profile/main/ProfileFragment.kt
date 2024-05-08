@@ -72,9 +72,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     .navigate(R.id.action_profileFragment_to_profileEditFragment)
             }
 
-            filterButton.setOnClickListener {
+            sourcesButton.setOnClickListener {
                 this@ProfileFragment.findNavController()
-                    .navigate(R.id.action_profileFragment_to_settingsFragment)
+                    .navigate(R.id.action_profileFragment_to_sourcesFragment)
+            }
+
+            languagesButton.setOnClickListener {
+                this@ProfileFragment.findNavController()
+                    .navigate(R.id.action_profileFragment_to_languagesFragment)
             }
 
             exitButton.setOnClickListener {

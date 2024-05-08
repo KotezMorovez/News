@@ -1,4 +1,4 @@
-package com.example.news.ui.profile.settings
+package com.example.news.ui.profile.languages
 
 import android.view.Menu
 import android.view.MenuInflater
@@ -9,29 +9,29 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
-import com.example.news.databinding.FragmentSettingsBinding
+import com.example.news.databinding.FragmentLanguagesBinding
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.RecyclerItemDecorator
-import com.example.news.ui.profile.settings.adapter.SettingsSourceAdapter
+import com.example.news.ui.profile.languages.adapter.LanguagesAdapter
 import com.google.android.material.snackbar.Snackbar
 
-class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
-    lateinit var viewModel: SettingsViewModel
-    private val adapter: SettingsSourceAdapter = SettingsSourceAdapter()
+class LanguagesFragment: BaseFragment<FragmentLanguagesBinding>() {
+    private lateinit var viewModel: LanguagesViewModel
+    private val adapter: LanguagesAdapter = LanguagesAdapter()
 
-    override fun createViewBinding(): FragmentSettingsBinding {
-        return FragmentSettingsBinding.inflate(layoutInflater)
+    override fun createViewBinding(): FragmentLanguagesBinding {
+        return FragmentLanguagesBinding.inflate(layoutInflater)
     }
 
     override fun initUi() {
-        viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
+        viewModel = ViewModelProvider(this) [LanguagesViewModel::class.java]
 
         viewModel.loadData()
 
         with(viewBinding) {
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
             (activity as AppCompatActivity).supportActionBar?.title =
-                resources.getText(R.string.settings_sources_title)
+                resources.getText(R.string.languages_title)
             setHasOptionsMenu(true)
             toolbar.setNavigationOnClickListener {
                 (activity as AppCompatActivity).onBackPressedDispatcher.onBackPressed()
@@ -42,26 +42,25 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                     resources, R.drawable.profile_info_divider, null
                 )!!
             )
-            sourcesRecyclerView.addItemDecoration(decoration)
-            sourcesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            sourcesRecyclerView.adapter = adapter
-            adapter.setOnCheckBoxClickListener { id, isUse ->
-                viewModel.setSourceListChanges(id, isUse)
-            }
-
-            chooseAllCheckBox.isChecked = viewModel.isCheckBoxPressed
-            chooseAllCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.onSelectAllStateChanged(isChecked)
+            languagesRecyclerView.addItemDecoration(decoration)
+            languagesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            languagesRecyclerView.adapter = adapter
+            adapter.setOnCheckBoxClickListener { id, isChecked ->
+                viewModel.setLanguagesListChanges(id, isChecked)
             }
         }
     }
 
+    @Deprecated("Deprecated in Java",
+        ReplaceWith("inflater.inflate(R.menu.save_menu, menu)", "com.example.news.R")
+    )
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.save_menu, menu)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        viewModel.saveSourcesList()
+        viewModel.saveLanguage()
         return true
     }
 
@@ -70,13 +69,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             val snackBar = Snackbar.make(
                 requireContext(),
                 viewBinding.root,
-                resources.getText(R.string.settings_save_success),
+                resources.getText(R.string.languages_save_success),
                 Snackbar.LENGTH_SHORT
             )
             snackBar.show()
 
-            this@SettingsFragment.findNavController()
-                .navigate(R.id.action_settingsFragment_to_profileFragment)
+            this@LanguagesFragment.findNavController()
+                .navigate(R.id.action_languagesFragment_to_profileFragment)
         }
 
         viewModel.errorEvent.observe(viewLifecycleOwner) {
@@ -89,7 +88,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             snackBar.show()
         }
 
-        viewModel.sources.observe(viewLifecycleOwner) {
+        viewModel.languages.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }

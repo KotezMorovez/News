@@ -1,18 +1,17 @@
-package com.example.news.ui.profile.settings.adapter
+package com.example.news.ui.profile.sources.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.news.databinding.ItemSettingsBinding
+import com.example.news.databinding.ItemSourcesBinding
 
-class SettingsSourceAdapter :
-    ListAdapter<SettingsSourceItem, SettingsSourceAdapter.ViewHolder>(SettingsAdapterDiffCallback()) {
+class SourcesAdapter :
+    ListAdapter<SourcesItem, SourcesAdapter.ViewHolder>(SourcesAdapterDiffCallback()) {
     private lateinit var onCheckBoxClickListener: (id: String, isUse: Boolean) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = ItemSettingsBinding.inflate(
+        val view = ItemSourcesBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -44,6 +43,6 @@ class SettingsSourceAdapter :
         this.onCheckBoxClickListener = onCheckBoxClickListener
     }
 
-    inner class ViewHolder(val binding: ItemSettingsBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemSourcesBinding) : RecyclerView.ViewHolder(binding.root)
 }
 

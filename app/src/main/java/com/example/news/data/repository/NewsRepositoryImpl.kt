@@ -4,7 +4,6 @@ import com.example.news.data.mapper.toDomain
 import com.example.news.data.service.NewsService
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.response.News
-import com.example.news.domain.model.profile.Source
 import com.example.news.domain.model.profile.SourcesList
 import com.example.news.domain.repository.NewsRepository
 
@@ -27,8 +26,8 @@ class NewsRepositoryImpl : NewsRepository {
         }
     }
 
-    override suspend fun getSources(): Result<SourcesList> {
-        return newsService.getSources().map {
+    override suspend fun getSources(language: String): Result<SourcesList> {
+        return newsService.getSources(language).map {
             it.toDomain()
         }
     }

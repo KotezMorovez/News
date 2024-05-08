@@ -86,6 +86,12 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
         }
     }
 
+    fun updateProfile() {
+        viewModelScope.launch {
+            getCurrentUser()
+        }
+    }
+
     fun loadNews() {
         if (isPaginationEnabled) {
             val queryText = if (currentQuery.isNullOrBlank()) null else currentQuery
@@ -287,7 +293,7 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
             val exception = result.exceptionOrNull()
             if (exception != null) {
                 Log.e("News", exception.stackTraceToString())
-                _errorEvent.value = R.string.home_page_show_avatar_toast_error
+                _errorEvent.value = R.string.home_page_error
             }
         }
     }
