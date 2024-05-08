@@ -1,8 +1,8 @@
 package com.example.news.data.service
 
 import com.example.news.data.model.news_api.NewsEntity
+import com.example.news.data.model.news_api.SourcesListEntity
 import okhttp3.OkHttpClient
-import okhttp3.internal.notify
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -35,7 +35,7 @@ interface NewsApi {
     fun getEverything(
         @Query("q") query: String? = null,
         @Query("searchIn") searchIn: String? = null,
-        @Query("sources") sources: List<String>? = null,
+        @Query("sources") sources: String? = null,
         @Query("domains") domains: String? = null,
         @Query("excludeDomains") excludeDomains: String? = null,
         @Query("from") from: String? = null,
@@ -52,11 +52,18 @@ interface NewsApi {
     fun getHeadlines(
         @Query("country") country: String? = null,
         @Query("category") category: String? = null,
-        @Query("sources") sources: List<String>? = null,
+        @Query("sources") sources: String? = null,
         @Query("q") query: String? = null,
         @Query("pageSize") pageSize:Int? = null,
         @Query("page") page:Int? = null,
 
         @Header("X-Api-Key") apiKey: String,
     ): Call<NewsEntity>
+
+    @GET("v2/top-headlines/sources")
+    fun getSources(
+        @Query("language") language: String? = null,
+
+        @Header("X-Api-Key") apiKey: String,
+    ): Call<SourcesListEntity>
 }

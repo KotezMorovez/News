@@ -2,14 +2,11 @@ package com.example.news.ui.profile.main
 
 import android.content.Intent
 import android.graphics.Outline
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -20,6 +17,7 @@ import com.example.news.databinding.FragmentProfileBinding
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.common.AppBarStateChangeListener
 import com.example.news.ui.common.BaseFragment
+import com.example.news.ui.common.RecyclerItemDecorator
 import com.example.news.ui.profile.main.adapter.ProfileAdapter
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
@@ -39,8 +37,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
         with(viewBinding) {
+            val decoration = RecyclerItemDecorator(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    R.drawable.profile_info_divider,
+                    null
+                )!!
+            )
+            infoRecyclerView.addItemDecoration(decoration)
             infoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             infoRecyclerView.adapter = adapter
+
             viewModel.loadProfile()
 
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
@@ -63,6 +70,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             editButton.setOnClickListener {
                 this@ProfileFragment.findNavController()
                     .navigate(R.id.action_profileFragment_to_profileEditFragment)
+            }
+
+            sourcesButton.setOnClickListener {
+                this@ProfileFragment.findNavController()
+                    .navigate(R.id.action_profileFragment_to_sourcesFragment)
+            }
+
+            languagesButton.setOnClickListener {
+                this@ProfileFragment.findNavController()
+                    .navigate(R.id.action_profileFragment_to_languagesFragment)
             }
 
             exitButton.setOnClickListener {
@@ -101,6 +118,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.onDestroyView()
     }
 
+    private fun setTranslucentStatusBar(isTranslucent: Boolean) {
+        val window = requireActivity().window
+        if (isTranslucent) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            window.statusBarColor = resources.getColor(R.color.blue_700_08, null)
+        } else {
+            window.statusBarColor = resources.getColor(R.color.blue_700, null)
+            WindowCompat.setDecorFitsSystemWindows(window, true)
+        }
+    }
+
     override fun observeData() {
         viewModel.errorEvent.observe(viewLifecycleOwner) {
             val snackBar = Snackbar.make(
@@ -130,17 +158,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     .placeholder(R.drawable.avatar_placeholder)
                     .into(profileImage)
             }
-        }
-    }
-
-    private fun setTranslucentStatusBar(isTranslucent: Boolean) {
-        val window = requireActivity().window
-        if (isTranslucent) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            window.statusBarColor = resources.getColor(R.color.blue_700_08, null)
-        } else {
-            window.statusBarColor = resources.getColor(R.color.blue_700, null)
-            WindowCompat.setDecorFitsSystemWindows(window, true)
         }
     }
 }

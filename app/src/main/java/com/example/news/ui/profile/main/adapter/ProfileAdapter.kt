@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.databinding.ItemProfileInfoBinding
 
-class ProfileAdapter : RecyclerView.Adapter<ViewHolder>() {
+class ProfileAdapter : RecyclerView.Adapter<ProfileAdapter.ViewHolder>() {
 
-    private lateinit var items: List<ProfileInfoItem>
+    private var items: List<ProfileInfoItem> = listOf()
 
     @SuppressLint("NotifyDataSetChanged")
     fun setItems(list: List<ProfileInfoItem>) {
@@ -40,6 +40,7 @@ class ProfileAdapter : RecyclerView.Adapter<ViewHolder>() {
             }
         }
     }
+
+    inner class ViewHolder(val binding: ItemProfileInfoBinding) : RecyclerView.ViewHolder(binding.root)
 }
 
-class ViewHolder(val binding: ItemProfileInfoBinding) : RecyclerView.ViewHolder(binding.root)

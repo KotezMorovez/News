@@ -39,7 +39,7 @@ class NewsTextDelegateAdapter(
             addToFavoritesButton.setImageDrawable(
                 ResourcesCompat.getDrawable(
                     this.root.context.resources,
-                    if (model.ui.isFavorite) R.drawable.ic_favourite_active_ripple else R.drawable.ic_recycler_favourite_inactive_24,
+                    if (model.ui.isFavorite) R.drawable.ic_favourite_active_ripple else R.drawable.ic_recycler_favourite_inactive,
                     null
                 )
             )

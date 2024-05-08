@@ -62,7 +62,9 @@ class ProfileEditViewModel : ViewModel() {
                     _profileEditLiveData.value = ProfileEditItem(
                         name = profile.name,
                         imageURL = profile.imageUrl ?: "",
-                        email = profile.email
+                        email = profile.email,
+                        language = profile.language,
+                        sources = profile.sources
                     )
                 }
             }
@@ -93,10 +95,12 @@ class ProfileEditViewModel : ViewModel() {
                 profileEditLiveData.value!!.name != currentUserName
             ) {
                 val profile = Profile(
-                    name = profileEditLiveData.value!!.name,
+                    name = _profileEditLiveData.value!!.name,
                     email = currentUserEmail,
                     imageUrl = image,
-                    id = currentUserId
+                    id = currentUserId,
+                    language = _profileEditLiveData.value!!.language,
+                    sources = _profileEditLiveData.value!!.sources
                 )
 
                 val result = userRepository.updateProfileData(profile)

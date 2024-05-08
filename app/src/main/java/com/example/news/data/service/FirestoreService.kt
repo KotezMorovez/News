@@ -81,7 +81,9 @@ class FirestoreService : FirebaseService {
                 id = id,
                 email = user.email,
                 name = user.name,
-                imageUrl = ""
+                imageUrl = "",
+                language = user.language,
+                sources = user.sources
             )
 
             collection
