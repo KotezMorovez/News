@@ -85,6 +85,8 @@
     <string name="home_page_search_toast_error">Ошибка загрузки ленты новостей, попробуйте снова</string>
     <string name="home_page_ending_item_text">Загружено новостей: %1$d</string>
 
+    <string name="favourites_toolbar">Избранное</string>
+
     <string name="date_less_minute_ago">менее минуты назад</string>
     <string name="date_minutes_ago">%1$d мин. назад</string>
     <string name="date_hours_ago">%1$d час. назад</string>

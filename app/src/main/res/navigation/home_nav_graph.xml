@@ -17,6 +17,10 @@
         <action
             android:id="@+id/action_homeFragment_to_homeDetailsFragment"
             app:destination="@id/homeDetailsFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_favoriteFragment"
+            app:destination="@id/favouriteFragment" />
     </fragment>
 
     <fragment
@@ -40,6 +44,17 @@
 
         <action
             android:id="@+id/action_homeDetailsFragment_to_homeShowImageFragment"
+            app:destination="@id/homeShowImageFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.news.ui.home.favourite.FavouriteFragment"
+        tools:layout="@layout/fragment_favourite">
+
+        <action
+            android:id="@+id/action_favouriteFragment_to_homeShowImageFragment"
             app:destination="@id/homeShowImageFragment" />
 
     </fragment>

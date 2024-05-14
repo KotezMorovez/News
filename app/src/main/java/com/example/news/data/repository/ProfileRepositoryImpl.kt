@@ -12,7 +12,6 @@ import com.example.news.data.service.StorageService
 import com.example.news.domain.model.profile.Profile
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.common.BitmapUtils
-import com.example.news.domain.model.home.FavouriteItem
 import com.example.news.domain.model.home.response.Favourite
 
 class ProfileRepositoryImpl : ProfileRepository {

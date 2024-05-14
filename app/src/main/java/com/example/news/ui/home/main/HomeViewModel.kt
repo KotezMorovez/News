@@ -1,16 +1,13 @@
 package com.example.news.ui.home.main
 
 import android.util.Log
-import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news.R
-import com.example.news.common.StringUtils
 import com.example.news.data.repository.NewsRepositoryImpl
 import com.example.news.data.repository.ProfileRepositoryImpl
-import com.example.news.domain.model.home.FavouriteItem
 import com.example.news.domain.repository.NewsRepository
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
@@ -31,9 +28,6 @@ import com.example.news.ui.home.models.DetailsUi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.suspendCoroutine
 
 class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
     var isFirstLaunch = true

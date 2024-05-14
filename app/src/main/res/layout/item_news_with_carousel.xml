@@ -36,9 +36,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/imageCarousel"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:nestedScrollingEnabled="false"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal"
+        android:scaleType="center" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/dotsCarousel"
