@@ -1,13 +1,16 @@
 package com.example.news.ui.home.main
 
 import android.util.Log
+import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news.R
+import com.example.news.common.StringUtils
 import com.example.news.data.repository.NewsRepositoryImpl
 import com.example.news.data.repository.ProfileRepositoryImpl
+import com.example.news.domain.model.home.FavouriteItem
 import com.example.news.domain.repository.NewsRepository
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
@@ -19,6 +22,7 @@ import com.example.news.ui.home.models.NewsShowImageCarouselItem
 import kotlinx.coroutines.launch
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.response.Article
+import com.example.news.domain.model.home.response.Favourite
 import com.example.news.domain.model.profile.Profile
 import com.example.news.ui.common.DateUtils
 import com.example.news.ui.home.main.adapter.item.NewsEndingItem
@@ -26,12 +30,17 @@ import com.example.news.ui.home.main.adapter.item.NewsUi
 import com.example.news.ui.home.models.DetailsUi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.suspendCoroutine
 
 class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
     var isFirstLaunch = true
     var isPaginationEnabled = true
     private val newsRepository: NewsRepository = NewsRepositoryImpl.getInstance()
     private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
+    private val favouriteSet: MutableSet<String> = mutableSetOf()
     private var page = 1
     private var currentQuery: String? = null
     private var currentUser: Profile? = null
@@ -123,15 +132,12 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
                             oldResults.addAll(_news.value!!)
                         }
 
-                        if (newsArticles.articles != null) {
-                            allArticles.addAll(newsArticles.articles)
+                        allArticles.addAll(newsArticles.articles)
 
-                            val newResult = newsArticles.articles.map {
-                                mapArticleToItem(it)
-                            }
-
-                            oldResults.addAll(newResult)
+                        val newResult = newsArticles.articles.map {
+                            mapArticleToItem(it)
                         }
+                        oldResults.addAll(newResult)
 
                         val fullPagesCount = newsArticles.totalResults / PAGE_SIZE
                         val hasRemainder = newsArticles.totalResults % PAGE_SIZE > 0
@@ -176,7 +182,6 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
 
     fun handleFavouriteItemClick(id: String) {
         val items = _news.value!!.toMutableList()
-
         val targetItemIndex = items.indexOfFirst { it.id() == id }
 
         if (targetItemIndex == -1) {
@@ -185,24 +190,50 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
 
         val targetItem = items[targetItemIndex]
         val newItem: IDelegateAdapterItem
+        var isFavouriteFlag = false
 
         when (targetItem) {
             is NewsTextItem -> {
                 newItem =
                     NewsTextItem(targetItem.ui.copy(isFavorite = !targetItem.ui.isFavorite))
+                isFavouriteFlag = !targetItem.ui.isFavorite
             }
 
             is NewsImageItem -> {
                 newItem =
                     NewsImageItem(targetItem.ui.copy(isFavorite = !targetItem.ui.isFavorite))
+                isFavouriteFlag = !targetItem.ui.isFavorite
             }
 
             is NewsCarouselItem -> {
                 newItem =
                     NewsCarouselItem(targetItem.ui.copy(isFavorite = !targetItem.ui.isFavorite))
+                isFavouriteFlag = !targetItem.ui.isFavorite
             }
 
             else -> return
+        }
+
+        val targetArticle = allArticles.firstOrNull { it.id == targetItem.id() }
+
+        if (targetArticle != null) {
+            val favouriteItem = Favourite(
+                id = targetItem.id(),
+                title = targetArticle.title ?: "",
+                url = targetArticle.url,
+                image = targetArticle.imageUrl ?: "",
+            )
+
+            if (isFavouriteFlag) {
+                isFavouriteFlag = false
+                viewModelScope.launch {
+                    profileRepository.addFavourite(favouriteItem, currentUser!!.id)
+                }
+            } else {
+                viewModelScope.launch {
+                    profileRepository.removeFavourite(favouriteItem, currentUser!!.id)
+                }
+            }
         }
 
         items.removeAt(targetItemIndex)
@@ -281,14 +312,27 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
     }
 
     private suspend fun getCurrentUser() {
-        val result = profileRepository.getProfile()
+        val profileJob = viewModelScope.async { profileRepository.getProfile() }
+        val favouriteResultJob = viewModelScope.async { profileRepository.getFavourites() }
+
+        val result = profileJob.await()
+        val favouriteResult = favouriteResultJob.await()
+
+        if (favouriteResult.isSuccess) {
+            favouriteSet.addAll(favouriteResult.getOrNull()?.map { it.id } ?: setOf())
+        } else if (result.isFailure) {
+            val exception = result.exceptionOrNull()
+            if (exception != null) {
+                Log.e("News", exception.stackTraceToString())
+                _errorEvent.value = R.string.home_page_error
+            }
+        }
 
         if (result.isSuccess) {
             currentUser = result.getOrNull()
             if (currentUser != null) {
                 _image.value = currentUser!!.imageUrl ?: ""
             }
-
         } else if (result.isFailure) {
             val exception = result.exceptionOrNull()
             if (exception != null) {
@@ -312,7 +356,7 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
             body = article.description ?: "",
             imagesUriList = imageList,
             date = elapsed,
-            isFavorite = false,
+            isFavorite = favouriteSet.contains(article.id)
         )
 
         return if (article.imageUrl != null) {
