@@ -86,7 +86,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             newsRecyclerView.adapter = compositeDelegateAdapter
             newsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
             newsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -102,20 +101,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 val intent = Intent(requireContext(), ProfileActivity::class.java)
                 startActivity(intent)
             }
-
             customToolbar.setOnFavouriteIconClickedListener {
                 this@HomeFragment.findNavController()
 //                    .navigate(R.id.action_homePageFragment_to_favoriteFragment)
             }
-
             customToolbar.setOnSearchTextChangeListener {
                 viewModel.applySearchText(it)
             }
             customToolbar.setOnSearchCanceledListener {
-                val v = requireActivity().currentFocus
-                val imm =
+                val view = requireActivity().currentFocus
+                val inputMethodManager =
                     requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v?.windowToken, 0)
+                inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
 
                 viewModel.resetSearchField()
             }

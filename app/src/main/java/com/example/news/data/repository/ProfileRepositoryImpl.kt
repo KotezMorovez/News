@@ -12,16 +12,18 @@ import com.example.news.data.service.StorageService
 import com.example.news.domain.model.profile.Profile
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.common.BitmapUtils
+import com.example.news.domain.model.home.FavouriteItem
+import com.example.news.domain.model.home.response.Favourite
 
 class ProfileRepositoryImpl : ProfileRepository {
     private val userService: FirebaseService = FirestoreService.getInstance()
     private val authService: AuthService = FirebaseAuthService.getInstance()
     private val storageService: CloudStorageService = StorageService.getInstance()
 
-    companion object{
+    companion object {
         private var instance: ProfileRepositoryImpl? = null
-        fun getInstance() : ProfileRepositoryImpl {
-            if (instance == null){
+        fun getInstance(): ProfileRepositoryImpl {
+            if (instance == null) {
                 instance = ProfileRepositoryImpl()
             }
             return instance!!
@@ -39,11 +41,26 @@ class ProfileRepositoryImpl : ProfileRepository {
         return result.map { it?.toDomain() }
     }
 
+    override suspend fun getFavourites(): Result<List<Favourite>> {
+        val userId = authService.getCurrentUserId() ?: return Result.success(listOf())
+        return userService.getCurrentUserFavourites(userId).map { list ->
+            list.map { it.toDomain() }
+        }
+    }
+
     override suspend fun getProfileById(userId: String): Result<Profile> {
         return userService.getProfileById(userId).map { it.toDomain() }
     }
 
     override suspend fun updateProfileData(profile: Profile): Result<Unit> {
         return userService.updateUserData(profile.toEntity())
+    }
+
+    override suspend fun addFavourite(item: Favourite, userId: String): Result<Unit> {
+        return userService.addUserFavourite(item.toEntity(), userId)
+    }
+
+    override suspend fun removeFavourite(item: Favourite, userId: String): Result<Unit> {
+        return userService.removeUserFavourite(item.toEntity(), userId)
     }
 }

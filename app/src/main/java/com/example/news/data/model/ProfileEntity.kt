@@ -6,5 +6,5 @@ class ProfileEntity(
    val email: String,
    val imageUrl: String?,
    val language: String,
-   val sources: List<String>
+   val sources: List<String>,
 )

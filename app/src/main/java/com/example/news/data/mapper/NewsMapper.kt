@@ -5,7 +5,6 @@ import com.example.news.data.model.news_api.NewsEntity
 import com.example.news.domain.model.home.response.Article
 import com.example.news.domain.model.home.response.News
 import org.joda.time.DateTime
-import java.util.UUID
 
 fun NewsEntity.toDomain(): News {
     return News(
@@ -21,7 +20,7 @@ fun ArticleEntity.toDomain(): Article {
     val dateTime = DateTime.parse(this.publishedAt)
 
     return Article(
-        id = UUID.randomUUID().toString(),
+        id = this.url,
         author = this.author,
         title = this.title,
         description = this.description,

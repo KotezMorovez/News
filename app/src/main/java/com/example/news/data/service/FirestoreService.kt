@@ -1,7 +1,10 @@
 package com.example.news.data.service
 
+import com.example.news.common.GlobalConstants
 import com.example.news.data.mapper.toDocument
+import com.example.news.data.mapper.toFavouriteEntityList
 import com.example.news.data.mapper.toProfileEntity
+import com.example.news.data.model.FavouriteEntity
 import com.example.news.data.model.ProfileEntity
 import com.example.news.data.model.UserRegisterEntity
 import com.google.firebase.firestore.ktx.firestore
@@ -14,11 +17,14 @@ interface FirebaseService {
     suspend fun getProfileById(userId: String): Result<ProfileEntity>
     suspend fun registerUser(user: UserRegisterEntity, id: String): Result<Unit>
     suspend fun getCurrentUser(id: String?): Result<ProfileEntity?>
+    suspend fun getCurrentUserFavourites(id: String?): Result<List<FavouriteEntity>>
+    suspend fun addUserFavourite(item: FavouriteEntity, id: String): Result<Unit>
+    suspend fun removeUserFavourite(item: FavouriteEntity, id: String): Result<Unit>
 }
 
 class FirestoreService : FirebaseService {
     private val database = Firebase.firestore
-    private val collection = database.collection("profiles")
+    private val collection = database.collection(GlobalConstants.USERS_COLLECTION)
 
     companion object {
         private var instance: FirestoreService? = null
@@ -35,6 +41,38 @@ class FirestoreService : FirebaseService {
             collection
                 .document(personalInfo.id)
                 .set(personalInfo.toDocument())
+                .addOnSuccessListener {
+                    continuation.resumeWith(Result.success(Result.success(Unit)))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWith(Result.success(Result.failure(it)))
+                }
+        }
+    }
+
+    override suspend fun addUserFavourite(item: FavouriteEntity, id: String): Result<Unit> {
+        return suspendCoroutine { continuation ->
+            collection
+                .document(id)
+                .collection(GlobalConstants.FAVOURITES_COLLECTION)
+                .document(item.id)
+                .set(item.toDocument())
+                .addOnSuccessListener {
+                    continuation.resumeWith(Result.success(Result.success(Unit)))
+                }
+                .addOnFailureListener {
+                    continuation.resumeWith(Result.success(Result.failure(it)))
+                }
+        }
+    }
+
+    override suspend fun removeUserFavourite(item: FavouriteEntity, id: String): Result<Unit> {
+        return suspendCoroutine { continuation ->
+            collection
+                .document(id)
+                .collection(GlobalConstants.FAVOURITES_COLLECTION)
+                .document(item.id)
+                .delete()
                 .addOnSuccessListener {
                     continuation.resumeWith(Result.success(Result.success(Unit)))
                 }
@@ -83,11 +121,11 @@ class FirestoreService : FirebaseService {
                 name = user.name,
                 imageUrl = "",
                 language = user.language,
-                sources = user.sources
+                sources = user.sources,
             )
 
             collection
-                .document(userEntity.id)
+                .document(id)
                 .set(userEntity.toDocument())
                 .addOnSuccessListener {
                     continuation.resumeWith(Result.success(Result.success(Unit)))
@@ -103,8 +141,9 @@ class FirestoreService : FirebaseService {
     override suspend fun getCurrentUser(id: String?): Result<ProfileEntity?> {
         return if (id != null) {
             suspendCoroutine { continuation ->
-                val user = collection.document(id).get()
-                user
+                collection
+                    .document(id)
+                    .get()
                     .addOnSuccessListener {
                         continuation.resumeWith(
                             Result.success(
@@ -120,4 +159,61 @@ class FirestoreService : FirebaseService {
             Result.success(null)
         }
     }
+
+    override suspend fun getCurrentUserFavourites(id: String?): Result<List<FavouriteEntity>> {
+        return suspendCoroutine { continuation ->
+            if (id != null) {
+                collection
+                    .document(id)
+                    .collection(GlobalConstants.FAVOURITES_COLLECTION)
+                    .get()
+                    .addOnSuccessListener {
+                        continuation.resumeWith(Result.success(Result.success(it.toFavouriteEntityList())))
+                    }
+                    .addOnFailureListener {
+                        continuation.resumeWith(Result.success(Result.failure(it)))
+                    }
+            }
+        }
+    }
 }
+
+/**
+ * Как вложить два запроса в один результат
+ *
+ * override suspend fun getCurrentUser(id: String?): Result<ProfileEntity?> {
+ *    return if (id != null) {
+ *        suspendCoroutine { continuation ->
+ *            val userReference = collection.document(id)
+ *            val favouritesListReference = collection
+ *                .document(id)
+ *                .collection(GlobalConstants.FAVOURITES_COLLECTION)
+ *
+ *            userReference
+ *                .get()
+ *                .addOnSuccessListener { user ->
+ *                    favouritesListReference
+ *                        .get()
+ *                        .addOnSuccessListener {
+ *                            val profile = user.toProfileEntity(it.documents)
+ *                            continuation.resumeWith(
+ *                                Result.success(
+ *                                    Result.success(profile)
+ *                                )
+ *                            )
+ *                        }
+ *                        .addOnFailureListener {
+ *
+ *                        }
+ *
+ *
+ *                }
+ *                .addOnFailureListener {
+ *                    continuation.resumeWith(Result.success(Result.failure(it)))
+ *                }
+ *        }
+ *    } else {
+ *        Result.success(null)
+ *    }
+ * }
+ */

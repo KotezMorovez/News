@@ -6,7 +6,9 @@ object GlobalConstants {
         "abc-news",
         "ars-technica",
         "associated-press",
-        "bbc-news",
-        "wired"
+        "bbc-news"
     )
+
+    const val FAVOURITES_COLLECTION = "favourites_list"
+    const val USERS_COLLECTION = "profiles"
 }
