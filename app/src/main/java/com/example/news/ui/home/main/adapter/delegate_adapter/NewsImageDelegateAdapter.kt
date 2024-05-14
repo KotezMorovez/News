@@ -1,6 +1,7 @@
 package com.example.news.ui.home.main.adapter.delegate_adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +33,12 @@ class NewsImageDelegateAdapter(
         with(viewHolder.binding) {
             newsHeaderTextView.text = model.ui.header
             dataTextView.text = model.ui.date
-            newsBodyTextView.text = model.ui.body
+
+            if (model.ui.body.isBlank()) {
+                newsBodyTextView.visibility = View.GONE
+            } else {
+                newsBodyTextView.text = model.ui.body
+            }
 
             root.setOnClickListener {
                 onClickListener?.invoke(model.id())

@@ -45,6 +45,10 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
                 (activity as AppCompatActivity).onBackPressedDispatcher.onBackPressed()
             }
 
+            if (body.text.isEmpty()) {
+                body.visibility = GONE
+            }
+
             adapter = HomeDetailsAdapter { position ->
                 viewModel.handleShowImageClick(position)
             }

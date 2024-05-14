@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,41 +19,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
+            android:text="@string/details_toolbar"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/details_toolbar" />
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
+
         <TextView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             tools:text="Header" />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black_800"
             android:layout_marginBottom="8dp"
+            android:textColor="@color/black_800"
             tools:text="today" />
 
         <TextView
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
             android:layout_marginBottom="8dp"
+            android:textSize="16sp"
             tools:text="Body" />
 
         <TextView
@@ -61,16 +60,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textStyle=""
             android:textColor="@color/blue_500"
-            tools:text="link"/>
+            android:textStyle=""
+            tools:text="link" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imageCarousel"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_marginTop="16dp"
             android:nestedScrollingEnabled="false"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:scaleType="center" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/dotsCarousel"
@@ -78,10 +79,10 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/transparent"
             android:elevation="0dp"
+            android:visibility="gone"
             app:tabBackground="@drawable/tab_dot_selector"
             app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"
-            android:visibility="gone"/>
+            app:tabIndicatorHeight="0dp" />
 
         <ImageView
             android:id="@+id/addToFavoritesButton"

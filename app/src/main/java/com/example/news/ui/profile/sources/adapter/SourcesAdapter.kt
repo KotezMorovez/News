@@ -31,9 +31,9 @@ class SourcesAdapter :
         }
     }
 
-/**
- * При переиспользовании ViewHolder, во время установки актуального состояния checkBox срабатывает setOnCheckedChangeListener из-за чего данные в RecyclerView отображаются некорректно. Решение: в методе onViewRecycled, который вызывается при переиспользовании ViewHolder, onCheckedChangeListener присваиваем null.
- */
+    /**
+     * При переиспользовании ViewHolder, во время установки актуального состояния checkBox срабатывает setOnCheckedChangeListener из-за чего данные в RecyclerView отображаются некорректно. Решение: в методе onViewRecycled, который вызывается при переиспользовании ViewHolder, onCheckedChangeListener присваиваем null.
+     */
     override fun onViewRecycled(holder: ViewHolder) {
         holder.binding.sourceCheckBox.setOnCheckedChangeListener(null)
         super.onViewRecycled(holder)

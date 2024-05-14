@@ -103,7 +103,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
             customToolbar.setOnFavouriteIconClickedListener {
                 this@HomeFragment.findNavController()
-//                    .navigate(R.id.action_homePageFragment_to_favoriteFragment)
+                    .navigate(R.id.action_homeFragment_to_favoriteFragment)
             }
             customToolbar.setOnSearchTextChangeListener {
                 viewModel.applySearchText(it)

@@ -1,7 +1,6 @@
 package com.example.news.domain.repository
 
 import android.graphics.Bitmap
-import com.example.news.domain.model.home.FavouriteItem
 import com.example.news.domain.model.home.response.Favourite
 import com.example.news.domain.model.profile.Profile
 

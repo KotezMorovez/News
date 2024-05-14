@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,33 +18,22 @@
         tools:text="News Header" />
 
     <TextView
-        android:id="@+id/dataTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start|center_vertical"
-        android:textColor="@color/black_800"
-        tools:text="5 minutes ago" />
-
-    <TextView
-        android:id="@+id/newsBodyTextView"
+        android:id="@+id/link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        tools:text="News Body Text" />
+        android:layout_marginBottom="8dp"
+        android:textStyle=""
+        android:textColor="@color/blue_500"
+        tools:text="link"/>
 
     <ImageView
         android:id="@+id/newsImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:nestedScrollingEnabled="false"
+        android:orientation="horizontal"
         android:scaleType="center"
-        tools:src="@drawable/ic_android" />
-
-    <ImageView
-        android:id="@+id/addToFavoritesButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="bottom|end"
-        tools:src="@drawable/ic_favourite_active_ripple" />
+        tools:src="@drawable/ic_main_round" />
 
 </LinearLayout>
