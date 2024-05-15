@@ -5,22 +5,21 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.databinding.FragmentHomeDetailsBinding
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.parcelable
+import com.example.news.ui.common.setImageWithProgressbar
 import com.example.news.ui.home.models.DetailsUi
 
 class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
     private lateinit var viewModel: HomeDetailsViewModel
     private lateinit var viewModelFactory: HomeDetailsViewModelFactory
-    private lateinit var adapter: HomeDetailsAdapter
+    private var news: DetailsUi? = null
 
     override fun createViewBinding(): FragmentHomeDetailsBinding {
         return FragmentHomeDetailsBinding.inflate(layoutInflater)
@@ -28,12 +27,12 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val news: DetailsUi? = arguments?.parcelable("item")
+        news = arguments?.parcelable("item")
 
         if (news != null) {
-            viewModelFactory = HomeDetailsViewModelFactory(news)
-            viewModel = ViewModelProvider(this, viewModelFactory)[HomeDetailsViewModel::class.java]
+            viewModelFactory = HomeDetailsViewModelFactory(news!!)
+            viewModel =
+                ViewModelProvider(this, viewModelFactory)[HomeDetailsViewModel::class.java]
         }
     }
 
@@ -45,16 +44,13 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
                 (activity as AppCompatActivity).onBackPressedDispatcher.onBackPressed()
             }
 
-            if (body.text.isEmpty()) {
+            if (news?.header?.isEmpty() == true) {
+                header.visibility = GONE
+            }
+
+            if (news?.body?.isEmpty() == true) {
                 body.visibility = GONE
             }
-
-            adapter = HomeDetailsAdapter { position ->
-                viewModel.handleShowImageClick(position)
-            }
-
-            imageCarousel.layoutManager = LinearLayoutManager(requireContext())
-            imageCarousel.adapter = adapter
 
             link.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             link.setOnClickListener {
@@ -77,26 +73,18 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
                 date.text = news.date
 
                 if (news.imagesUriList != null) {
-                    when (news.imagesUriList.size) {
-                        0 -> {
-                            imageCarousel.visibility = GONE
-                            dotsCarousel.visibility = GONE
-                        }
-
-                        1 -> {
-                            imageCarousel.visibility = VISIBLE
-                            dotsCarousel.visibility = GONE
-                        }
-
-                        else -> {
-                            imageCarousel.visibility = VISIBLE
-                            dotsCarousel.visibility = VISIBLE
-                        }
+                    newsImage.setImageWithProgressbar(
+                        root.context,
+                        newsImage,
+                        news.imagesUriList[0],
+                        60f,
+                        10f
+                    )
+                    newsImage.setOnClickListener {
+                        viewModel.handleShowImageClick(0)
                     }
-                    adapter.setItems(news.imagesUriList)
                 } else {
-                    imageCarousel.visibility = GONE
-                    dotsCarousel.visibility = GONE
+                    newsImage.visibility = GONE
                 }
 
                 if (news.isFavorite) {

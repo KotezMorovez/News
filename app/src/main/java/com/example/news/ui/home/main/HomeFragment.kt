@@ -16,6 +16,7 @@ import com.example.news.ui.home.main.adapter.delegate_adapter.NewsCarouselDelega
 import com.example.news.ui.home.main.adapter.delegate_adapter.NewsEndingDelegateAdapter
 import com.example.news.ui.home.main.adapter.delegate_adapter.NewsImageDelegateAdapter
 import com.example.news.ui.home.main.adapter.delegate_adapter.NewsTextDelegateAdapter
+import com.example.news.ui.home.models.DetailsUi
 import com.example.news.ui.profile.ProfileActivity
 import com.google.android.material.snackbar.Snackbar
 
@@ -162,7 +163,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         viewModel.goToDetailsEvent.observe(viewLifecycleOwner){
             val bundle = Bundle()
-            bundle.putParcelable("item", it)
+            bundle.putParcelable("item", DetailsUi(
+                id = it.id,
+                header = it.header,
+                body = it.body,
+                url = it.url,
+                imagesUriList = it.imagesUriList,
+                date = it.date,
+                userId = it.userId,
+                isFavorite = it.isFavorite
+            ))
 
             this@HomeFragment.findNavController()
                 .navigate(R.id.action_homeFragment_to_homeDetailsFragment, bundle)

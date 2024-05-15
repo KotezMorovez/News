@@ -6,7 +6,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.news.ui.home.models.DetailsUi
 
 class HomeDetailsViewModelFactory(
-    private val news: DetailsUi,
+    private val news: DetailsUi
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {

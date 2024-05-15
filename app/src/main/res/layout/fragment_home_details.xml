@@ -64,30 +64,19 @@
             android:textStyle=""
             tools:text="link" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imageCarousel"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="16dp"
-            android:nestedScrollingEnabled="false"
-            android:orientation="horizontal"
-            android:scaleType="center" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/dotsCarousel"
+        <ImageView
+            android:id="@+id/newsImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/transparent"
-            android:elevation="0dp"
-            android:visibility="gone"
-            app:tabBackground="@drawable/tab_dot_selector"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp" />
+            android:layout_marginTop="8dp"
+            android:scaleType="center"
+            tools:src="@drawable/ic_android" />
 
         <ImageView
             android:id="@+id/addToFavoritesButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginTop="8dp"
             android:layout_gravity="bottom|end"
             tools:src="@drawable/ic_favourite_active_ripple" />
     </LinearLayout>

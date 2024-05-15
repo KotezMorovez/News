@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/grey_300"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -26,84 +26,95 @@
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/profileImage"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="348dp"
-            android:background="@drawable/profile_avatar_border"
-            android:fitsSystemWindows="false"
-            android:scaleType="centerCrop"
-            android:src="@drawable/avatar_placeholder"
-            tools:src="@color/blue_500" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/editImageButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
-            android:src="@drawable/ic_edit_profile_image" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </FrameLayout>
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="348dp"
+                    android:background="@drawable/profile_avatar_border"
+                    android:fitsSystemWindows="false"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avatar_placeholder"
+                    tools:src="@color/blue_500" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameProfileContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Theme.News.Profile.Field"
-        android:background="@drawable/profile_edit_field_border"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp">
+                <ImageView
+                    android:id="@+id/editImageButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:src="@drawable/ic_edit_profile_image" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameProfileEditText"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:hint="@string/profile_edit_hint_name_field"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLines="1"
-            android:background="@color/transparent"
-            android:paddingHorizontal="12dp"
-            android:textColor="@color/black_950"
-            android:textColorHint="@color/black_800"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            </FrameLayout>
 
-    <TextView
-        android:id="@+id/emailProfileEditText"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/profile_field_border"
-        android:gravity="center|start"
-        android:hint="@string/profile_edit_hint_email_field"
-        android:paddingHorizontal="16dp"
-        android:textColor="@color/black_950"
-        android:textColorHint="@color/black_800" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameProfileContainer"
+                style="@style/Theme.News.Profile.Field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/profile_edit_field_border">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveButton"
-        style="@style/Theme.News.Button.Profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/profile_edit_save_button" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameProfileEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/profile_edit_hint_name_field"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/black_950"
+                    android:textColorHint="@color/black_800" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/deleteButton"
-        style="@style/Theme.News.Button.Profile.Exit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/profile_delete_button" />
+            <TextView
+                android:id="@+id/emailProfileEditText"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/profile_field_border"
+                android:gravity="center|start"
+                android:hint="@string/profile_edit_hint_email_field"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/black_950"
+                android:textColorHint="@color/black_800" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveButton"
+                style="@style/Theme.News.Button.Profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/profile_edit_save_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteButton"
+                style="@style/Theme.News.Button.Profile.Exit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="16dp"
+                android:text="@string/profile_delete_button" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

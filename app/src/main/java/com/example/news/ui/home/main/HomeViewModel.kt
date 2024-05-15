@@ -15,7 +15,7 @@ import com.example.news.ui.common.delegate_adapter.IDelegateAdapterItem
 import com.example.news.ui.home.main.adapter.item.NewsImageItem
 import com.example.news.ui.home.main.adapter.item.NewsTextItem
 import com.example.news.ui.home.main.adapter.item.NewsCarouselItem
-import com.example.news.ui.home.models.NewsShowImageCarouselItem
+import com.example.news.ui.home.models.NewsShowImageCarouselUi
 import kotlinx.coroutines.launch
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.response.Article
@@ -34,7 +34,7 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
     var isPaginationEnabled = true
     private val newsRepository: NewsRepository = NewsRepositoryImpl.getInstance()
     private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
-    private val favouriteSet: MutableSet<String> = mutableSetOf()
+    private var favouriteSet: MutableSet<String> = mutableSetOf()
     private var page = 1
     private var currentQuery: String? = null
     private var currentUser: Profile? = null
@@ -53,8 +53,8 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
     val errorEvent: LiveData<Int>
         get() = _errorEvent
 
-    private val _goToShowImageEvent = SingleLiveEvent<NewsShowImageCarouselItem>()
-    val goToShowImageEvent: LiveData<NewsShowImageCarouselItem>
+    private val _goToShowImageEvent = SingleLiveEvent<NewsShowImageCarouselUi>()
+    val goToShowImageEvent: LiveData<NewsShowImageCarouselUi>
         get() = _goToShowImageEvent
 
     private val _dataInitEvent = SingleLiveEvent<Unit>()
@@ -184,7 +184,7 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
 
         val targetItem = items[targetItemIndex]
         val newItem: IDelegateAdapterItem
-        var isFavouriteFlag = false
+        val isFavouriteFlag: Boolean
 
         when (targetItem) {
             is NewsTextItem -> {
@@ -219,20 +219,19 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
             )
 
             if (isFavouriteFlag) {
-                isFavouriteFlag = false
                 viewModelScope.launch {
+                    favouriteSet.add(favouriteItem.id)
                     profileRepository.addFavourite(favouriteItem, currentUser!!.id)
                 }
             } else {
                 viewModelScope.launch {
+                    favouriteSet.remove(favouriteItem.id)
                     profileRepository.removeFavourite(favouriteItem, currentUser!!.id)
                 }
             }
         }
 
-        items.removeAt(targetItemIndex)
-        items.add(targetItemIndex, newItem)
-
+        items[targetItemIndex] = newItem
         _news.value = items
     }
 
@@ -247,12 +246,12 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
         when (val targetItem = items[targetItemIndex]) {
             is NewsImageItem -> {
                 _goToShowImageEvent.value =
-                    NewsShowImageCarouselItem(targetItem.ui.imagesUriList!!, position)
+                    NewsShowImageCarouselUi(targetItem.ui.imagesUriList!!, position)
             }
 
             is NewsCarouselItem -> {
                 _goToShowImageEvent.value =
-                    NewsShowImageCarouselItem(targetItem.ui.imagesUriList!!, position)
+                    NewsShowImageCarouselUi(targetItem.ui.imagesUriList!!, position)
             }
 
             else -> return
@@ -281,7 +280,8 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
                     url = article.url,
                     imagesUriList = list,
                     date = dateUtils.getElapsedTime(article.publishedAt),
-                    isFavorite = false
+                    isFavorite = favouriteSet.contains(id),
+                    userId = currentUser!!.id
                 )
             }
         }
@@ -313,7 +313,7 @@ class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
         val favouriteResult = favouriteResultJob.await()
 
         if (favouriteResult.isSuccess) {
-            favouriteSet.addAll(favouriteResult.getOrNull()?.map { it.id } ?: setOf())
+            favouriteSet = favouriteResult.getOrNull()?.map { it.id }?.toMutableSet() ?: mutableSetOf()
         } else if (result.isFailure) {
             val exception = result.exceptionOrNull()
             if (exception != null) {

@@ -9,16 +9,15 @@ import com.example.news.R
 import com.example.news.data.repository.ProfileRepositoryImpl
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
-import com.example.news.ui.common.delegate_adapter.IDelegateAdapterItem
 import com.example.news.ui.home.favourite.adapter.FavouriteItem
-import com.example.news.ui.home.models.NewsShowImageCarouselItem
+import com.example.news.ui.home.models.NewsShowImageCarouselUi
 import kotlinx.coroutines.launch
 
 class FavouriteViewModel : ViewModel() {
     private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
-    private val _goToShowImageEvent = SingleLiveEvent<NewsShowImageCarouselItem>()
+    private val _goToShowImageEvent = SingleLiveEvent<NewsShowImageCarouselUi>()
 
-    val goToShowImageEvent: LiveData<NewsShowImageCarouselItem>
+    val goToShowImageEvent: LiveData<NewsShowImageCarouselUi>
         get() = _goToShowImageEvent
 
     private val _favourites = MutableLiveData<List<FavouriteItem>>(listOf())
@@ -30,7 +29,7 @@ class FavouriteViewModel : ViewModel() {
         get() = _errorEvent
 
     fun handleShowImageClick(imageUrl: String) {
-        _goToShowImageEvent.value = NewsShowImageCarouselItem(listOf(imageUrl), 0)
+        _goToShowImageEvent.value = NewsShowImageCarouselUi(listOf(imageUrl), 0)
     }
 
     fun loadData() {

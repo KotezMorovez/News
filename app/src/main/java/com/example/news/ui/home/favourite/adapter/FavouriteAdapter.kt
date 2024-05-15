@@ -27,12 +27,16 @@ class FavouriteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.binding) {
             val item = getItem(position)
-            newsHeaderTextView.text = item.title
+            if (item.title.isNullOrEmpty()) {
+                newsHeaderTextView.visibility = GONE
+            } else {
+                newsHeaderTextView.text = item.title
+            }
 
             link.text = item.url
             link.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             link.setOnClickListener {
-                onLinkClickListener.invoke(link.text.toString())
+                onLinkClickListener.invoke(item.url)
             }
 
             if (item.image != null) {

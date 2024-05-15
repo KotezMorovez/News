@@ -10,7 +10,8 @@ data class DetailsUi(
     val url: String,
     val imagesUriList: List<String>?,
     val date: String,
-    var isFavorite: Boolean
+    val userId: String,
+    var isFavorite: Boolean,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -18,6 +19,7 @@ data class DetailsUi(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.createStringArrayList(),
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readByte() != 0.toByte()
     ) {
@@ -30,6 +32,7 @@ data class DetailsUi(
         parcel.writeString(url)
         parcel.writeStringList(imagesUriList)
         parcel.writeString(date)
+        parcel.writeString(userId)
         parcel.writeByte(if (isFavorite) 1 else 0)
     }
 
