@@ -1,31 +1,40 @@
 package com.example.news.ui.profile.sources
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.databinding.FragmentSourcesBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.RecyclerItemDecorator
 import com.example.news.ui.profile.sources.adapter.SourcesAdapter
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class SourcesFragment : BaseFragment<FragmentSourcesBinding>() {
-    lateinit var viewModel: SourcesViewModel
+    @Inject
+    lateinit var viewModelFactory: SourcesViewModelFactory
+    private val viewModel: SourcesViewModel by viewModels { viewModelFactory }
     private val adapter: SourcesAdapter = SourcesAdapter()
 
     override fun createViewBinding(): FragmentSourcesBinding {
         return FragmentSourcesBinding.inflate(layoutInflater)
     }
 
-    override fun initUi() {
-        viewModel = ViewModelProvider(this)[SourcesViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
+    override fun initUi() {
         viewModel.loadData()
 
         with(viewBinding) {
@@ -56,7 +65,8 @@ class SourcesFragment : BaseFragment<FragmentSourcesBinding>() {
         }
     }
 
-    @Deprecated("Deprecated in Java",
+    @Deprecated(
+        "Deprecated in Java",
         ReplaceWith("inflater.inflate(R.menu.save_menu, menu)", "com.example.news.R")
     )
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

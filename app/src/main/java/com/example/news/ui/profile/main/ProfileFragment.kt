@@ -8,12 +8,14 @@ import android.view.ViewOutlineProvider
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.common.AppBarStateChangeListener
 import com.example.news.ui.common.BaseFragment
@@ -21,21 +23,26 @@ import com.example.news.ui.common.RecyclerItemDecorator
 import com.example.news.ui.profile.main.adapter.ProfileAdapter
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
-    private lateinit var viewModel: ProfileViewModel
+    @Inject
+    lateinit var viewModelFactory: ProfileViewModelFactory
+    private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
     private val adapter: ProfileAdapter = ProfileAdapter()
 
     override fun createViewBinding(): FragmentProfileBinding {
         return FragmentProfileBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun initUi() {
         setTranslucentStatusBar(true)
-
-        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
-
         with(viewBinding) {
             val decoration = RecyclerItemDecorator(
                 ResourcesCompat.getDrawable(

@@ -1,6 +1,6 @@
 package com.example.news.data.service
 
-import com.example.news.common.GlobalConstants
+import com.example.news.common.ui.GlobalConstants
 import com.example.news.data.mapper.toDocument
 import com.example.news.data.mapper.toFavouriteEntityList
 import com.example.news.data.mapper.toProfileEntity
@@ -9,6 +9,7 @@ import com.example.news.data.model.ProfileEntity
 import com.example.news.data.model.UserRegisterEntity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
 interface FirebaseService {
@@ -22,7 +23,7 @@ interface FirebaseService {
     suspend fun removeUserFavourite(item: FavouriteEntity, id: String): Result<Unit>
 }
 
-class FirestoreService : FirebaseService {
+class FirestoreService @Inject constructor() : FirebaseService {
     private val database = Firebase.firestore
     private val collection = database.collection(GlobalConstants.USERS_COLLECTION)
 

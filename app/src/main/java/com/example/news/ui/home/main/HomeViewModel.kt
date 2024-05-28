@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news.R
-import com.example.news.data.repository.NewsRepositoryImpl
-import com.example.news.data.repository.ProfileRepositoryImpl
 import com.example.news.domain.repository.NewsRepository
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
@@ -28,12 +26,15 @@ import com.example.news.ui.home.models.DetailsUi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import javax.inject.Inject
 
-class HomeViewModel(private val dateUtils: DateUtils) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val dateUtils: DateUtils,
+    private val newsRepository: NewsRepository,
+    private val profileRepository: ProfileRepository
+) : ViewModel() {
     var isFirstLaunch = true
     var isPaginationEnabled = true
-    private val newsRepository: NewsRepository = NewsRepositoryImpl.getInstance()
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
     private var favouriteSet: MutableSet<String> = mutableSetOf()
     private var page = 1
     private var currentQuery: String? = null

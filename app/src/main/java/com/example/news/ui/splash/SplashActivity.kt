@@ -3,22 +3,28 @@ package com.example.news.ui.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.R
+import com.example.news.di.AppComponent
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.home.HomeActivity
 import com.example.news.ui.verification.VerificationActivity
+import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
-    private lateinit var viewModel: SplashViewModel
+    @Inject
+    lateinit var viewModelFactory: SplashViewModelFactory
+    private val viewModel: SplashViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+
         setTheme(R.style.Theme_News)
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[SplashViewModel::class.java]
         setContentView(R.layout.activity_splash)
         observeData()
 

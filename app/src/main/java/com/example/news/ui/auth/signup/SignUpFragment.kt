@@ -1,5 +1,6 @@
 package com.example.news.ui.auth.signup
 
+import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -7,21 +8,30 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentSignupBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.common.BaseFragment
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
-    private lateinit var viewModel: SignUpViewModel
+    @Inject
+    lateinit var viewModelFactory: SignUpViewModelFactory
+    private val viewModel: SignUpViewModel by viewModels { viewModelFactory }
+
     override fun createViewBinding(): FragmentSignupBinding {
         return FragmentSignupBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun initUi() {
-        viewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
         with(viewBinding) {
             nameEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {

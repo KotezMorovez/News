@@ -7,10 +7,11 @@ import com.example.news.data.repository.AuthRepositoryImpl
 import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.common.SingleLiveEvent
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SplashViewModel : ViewModel() {
-    private val repository: AuthRepository = AuthRepositoryImpl.getInstance()
-
+class SplashViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
     private val _checkSuccessEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
     val checkSuccessEvent: LiveData<Unit>
         get() = _checkSuccessEvent

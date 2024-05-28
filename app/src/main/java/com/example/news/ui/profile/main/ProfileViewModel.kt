@@ -13,12 +13,13 @@ import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
 import com.example.news.ui.profile.main.adapter.ProfileInfoItem
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class ProfileViewModel : ViewModel() {
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
-    private val authRepository: AuthRepository = AuthRepositoryImpl.getInstance()
-
+class ProfileViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository,
+    private val authRepository: AuthRepository
+) : ViewModel() {
     private val _image = MutableLiveData<String>()
     val image: LiveData<String>
         get() = _image

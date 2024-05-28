@@ -2,6 +2,7 @@ package com.example.news.ui.home.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import javax.inject.Inject
 
 data class DetailsUi(
     val id: String,

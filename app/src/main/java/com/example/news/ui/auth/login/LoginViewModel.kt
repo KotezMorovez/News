@@ -13,10 +13,11 @@ import com.example.news.ui.common.SingleLiveEvent
 import com.google.common.base.Strings.isNullOrEmpty
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
-    private val repository: AuthRepository = AuthRepositoryImpl.getInstance()
-
+class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     private var _loginUser = MutableLiveData(LoginUserItem.default())
     val loginUser: LiveData<LoginUserItem>
         get() = _loginUser
@@ -55,8 +56,8 @@ class LoginViewModel : ViewModel() {
             )
 
             viewModelScope.launch {
-                val result = repository.loginUser(user)
-                val verification = repository.isUserVerified()
+                val result = authRepository.loginUser(user)
+                val verification = authRepository.isUserVerified()
 
                 if (result.isFailure) {
                     val exception = result.exceptionOrNull()

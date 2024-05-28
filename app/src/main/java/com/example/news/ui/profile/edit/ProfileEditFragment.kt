@@ -13,19 +13,24 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileEditBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.profile.main.ProfileDialogFragment
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 
 class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
-    private lateinit var viewModel: ProfileEditViewModel
+    @Inject
+    lateinit var viewModelFactory: ProfileEditViewModelFactory
+    private val viewModel: ProfileEditViewModel by viewModels { viewModelFactory }
     private lateinit var selectedImageUri: Uri
 
     companion object {
@@ -36,9 +41,12 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
         return FragmentProfileEditBinding.inflate(layoutInflater)
     }
 
-    override fun initUi() {
-        viewModel = ViewModelProvider(this)[ProfileEditViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
+    override fun initUi() {
         with(viewBinding) {
             profileImage.outlineProvider = object : ViewOutlineProvider() {
                 override fun getOutline(view: View?, outline: Outline?) {

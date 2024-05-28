@@ -1,4 +1,4 @@
-package com.example.news.common
+package com.example.news.common.ui
 
 object GlobalConstants {
     val DEFAULT_SOURCES = listOf(

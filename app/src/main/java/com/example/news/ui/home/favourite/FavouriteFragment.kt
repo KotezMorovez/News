@@ -4,17 +4,24 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.databinding.FragmentFavouriteBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.home.favourite.adapter.FavouriteAdapter
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
-    private lateinit var viewModel: FavouriteViewModel
+    @Inject
+    lateinit var viewModelFactory: FavouriteViewModelFactory
+
+    private val viewModel: FavouriteViewModel by viewModels { viewModelFactory }
+
     private val adapter: FavouriteAdapter = FavouriteAdapter(
         onImageClickListener = { id ->
             viewModel.handleShowImageClick(id)
@@ -29,8 +36,12 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
         return FragmentFavouriteBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun initUi() {
-        viewModel = ViewModelProvider(this)[FavouriteViewModel::class.java]
         viewModel.loadData()
 
         with(viewBinding) {

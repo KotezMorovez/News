@@ -11,23 +11,15 @@ import com.example.news.data.service.FirestoreService
 import com.example.news.data.service.StorageService
 import com.example.news.domain.model.profile.Profile
 import com.example.news.domain.repository.ProfileRepository
-import com.example.news.common.BitmapUtils
+import com.example.news.common.ui.BitmapUtils
 import com.example.news.domain.model.home.response.Favourite
+import javax.inject.Inject
 
-class ProfileRepositoryImpl : ProfileRepository {
-    private val userService: FirebaseService = FirestoreService.getInstance()
-    private val authService: AuthService = FirebaseAuthService.getInstance()
-    private val storageService: CloudStorageService = StorageService.getInstance()
-
-    companion object {
-        private var instance: ProfileRepositoryImpl? = null
-        fun getInstance(): ProfileRepositoryImpl {
-            if (instance == null) {
-                instance = ProfileRepositoryImpl()
-            }
-            return instance!!
-        }
-    }
+class ProfileRepositoryImpl @Inject constructor(
+    private val userService: FirebaseService,
+    private val authService: AuthService,
+    private val storageService: CloudStorageService
+) : ProfileRepository {
 
     override suspend fun saveImage(image: Bitmap, id: String): Result<String> {
         val byteArray = BitmapUtils.convertBitmapToByteArray(image)

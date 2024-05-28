@@ -12,17 +12,18 @@ import androidx.lifecycle.viewModelScope
 import com.example.news.R
 import com.example.news.data.repository.ProfileRepositoryImpl
 import com.example.news.domain.repository.ProfileRepository
-import com.example.news.common.BitmapUtils
+import com.example.news.common.ui.BitmapUtils
 import com.example.news.data.repository.AuthRepositoryImpl
 import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.common.SingleLiveEvent
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class ProfileEditViewModel : ViewModel() {
-    private val userRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
-    private val authRepository: AuthRepository = AuthRepositoryImpl.getInstance()
-
+class ProfileEditViewModel @Inject constructor(
+    private val userRepository: ProfileRepository,
+    private val authRepository: AuthRepository
+) : ViewModel() {
     private val _profileEditLiveData: MutableLiveData<ProfileEditItem> = MutableLiveData()
 
     val profileEditLiveData: LiveData<ProfileEditItem>

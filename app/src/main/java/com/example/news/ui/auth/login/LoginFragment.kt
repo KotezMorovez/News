@@ -1,28 +1,39 @@
 package com.example.news.ui.auth.login
 
 import android.content.Intent
+import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentLoginBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.makeLinks
 import com.example.news.ui.home.HomeActivity
 import com.example.news.ui.verification.VerificationActivity
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    private lateinit var viewModel: LoginViewModel
+    @Inject
+    lateinit var viewModelFactory: LoginViewModelFactory
+    private val viewModel: LoginViewModel by viewModels { viewModelFactory }
 
     override fun createViewBinding(): FragmentLoginBinding {
         return FragmentLoginBinding.inflate(layoutInflater)
     }
 
-    override fun initUi() {
-        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
 
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun initUi() {
         with(viewBinding) {
             emailEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {

@@ -7,9 +7,10 @@ import org.joda.time.DateTime
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
 @SuppressLint("SimpleDateFormat")
-class DateUtils(private val context: Context) {
+class DateUtils @Inject constructor(private val context: Context) {
     companion object {
         private const val MILLIS_IN_MINUTE = 60 * 1000L
         private const val MILLIS_IN_HOUR = 60 * 60 * 1000L

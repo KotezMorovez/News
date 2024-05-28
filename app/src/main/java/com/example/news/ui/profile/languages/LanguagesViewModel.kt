@@ -6,16 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news.R
-import com.example.news.common.Languages
+import com.example.news.common.ui.Languages
 import com.example.news.data.repository.ProfileRepositoryImpl
 import com.example.news.domain.model.profile.Profile
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
 import com.example.news.ui.profile.languages.adapter.LanguagesItem
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LanguagesViewModel : ViewModel() {
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
+class LanguagesViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository
+): ViewModel() {
     private var currentProfile: Profile? = null
     private var userLanguage: String = ""
     private var oldId: String = ""

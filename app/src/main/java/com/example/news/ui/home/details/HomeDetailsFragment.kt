@@ -7,18 +7,26 @@ import android.os.Bundle
 import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentHomeDetailsBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.parcelable
 import com.example.news.ui.common.setImageWithProgressbar
 import com.example.news.ui.home.models.DetailsUi
+import javax.inject.Inject
 
 class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
-    private lateinit var viewModel: HomeDetailsViewModel
-    private lateinit var viewModelFactory: HomeDetailsViewModelFactory
+
+    @Inject
+    lateinit var viewModelFactory: HomeDetailsViewModelFactory
+
+    private val viewModel: HomeDetailsViewModel by viewModels { viewModelFactory }
+
     private var news: DetailsUi? = null
 
     override fun createViewBinding(): FragmentHomeDetailsBinding {
@@ -26,14 +34,10 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        AppComponentHolder.get().inject(this)
         news = arguments?.parcelable("item")
-
-        if (news != null) {
-            viewModelFactory = HomeDetailsViewModelFactory(news!!)
-            viewModel =
-                ViewModelProvider(this, viewModelFactory)[HomeDetailsViewModel::class.java]
-        }
+        viewModel.setDetails(news)
+        super.onCreate(savedInstanceState)
     }
 
     override fun initUi() {
@@ -45,11 +49,11 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
             }
 
             if (news?.header?.isEmpty() == true) {
-                header.visibility = GONE
+                header.isVisible = false
             }
 
             if (news?.body?.isEmpty() == true) {
-                body.visibility = GONE
+                body.isVisible = false
             }
 
             link.paintFlags = Paint.UNDERLINE_TEXT_FLAG

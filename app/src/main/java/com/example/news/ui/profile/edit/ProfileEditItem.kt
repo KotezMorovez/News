@@ -1,6 +1,6 @@
 package com.example.news.ui.profile.edit
 
-import com.example.news.common.GlobalConstants
+import com.example.news.common.ui.GlobalConstants
 import java.util.Locale
 
 data class ProfileEditItem(

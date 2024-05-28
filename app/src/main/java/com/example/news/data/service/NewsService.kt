@@ -8,10 +8,11 @@ import com.example.news.data.model.news_api.SourcesListEntity
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.request.NewsHeadlineRequest
 import retrofit2.awaitResponse
+import javax.inject.Inject
 
 interface NewsServiceInterface {}
 
-class NewsService : NewsServiceInterface {
+class NewsService @Inject constructor() : NewsServiceInterface {
     private val newsApi: NewsApi = NewsApi.getInstance()
 
     suspend fun getEverything(newsEverythingRequest: NewsEverythingRequest): Result<NewsEntity> {

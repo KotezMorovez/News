@@ -11,20 +11,12 @@ import com.example.news.domain.model.auth.LoginRequest
 import com.example.news.domain.model.auth.SignUpRequest
 import com.example.news.domain.repository.AuthRepository
 import java.lang.NullPointerException
+import javax.inject.Inject
 
-class AuthRepositoryImpl : AuthRepository {
-    companion object {
-        private var instance: AuthRepositoryImpl? = null
-        fun getInstance(): AuthRepositoryImpl {
-            if (instance == null) {
-                instance = AuthRepositoryImpl()
-            }
-            return instance!!
-        }
-    }
-
-    private val authService: AuthService = FirebaseAuthService.getInstance()
-    private val userService: FirebaseService = FirestoreService.getInstance()
+class AuthRepositoryImpl @Inject constructor(
+    private val authService: AuthService,
+    private val userService: FirebaseService
+) : AuthRepository {
 
     override suspend fun isUserAuthorized(): Boolean {
         return !authService.getCurrentUserId().isNullOrEmpty()

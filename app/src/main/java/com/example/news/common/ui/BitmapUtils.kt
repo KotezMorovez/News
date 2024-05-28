@@ -1,4 +1,4 @@
-package com.example.news.common
+package com.example.news.common.ui
 
 import android.content.ContentResolver
 import android.graphics.Bitmap

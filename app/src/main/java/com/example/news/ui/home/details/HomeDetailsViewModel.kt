@@ -1,27 +1,22 @@
 package com.example.news.ui.home.details
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news.R
-import com.example.news.data.repository.ProfileRepositoryImpl
 import com.example.news.domain.model.home.response.Favourite
-import com.example.news.domain.model.profile.Profile
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
 import com.example.news.ui.home.models.NewsShowImageCarouselUi
 import com.example.news.ui.home.models.DetailsUi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeDetailsViewModel(
-    private var news: DetailsUi
+class HomeDetailsViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository
 ) : ViewModel() {
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
-
-    private val _newsDetails = MutableLiveData(news)
+    private lateinit var details: DetailsUi
+    private val _newsDetails = MutableLiveData<DetailsUi>(null)
     val newsDetails: LiveData<DetailsUi>
         get() = _newsDetails
 
@@ -33,6 +28,14 @@ class HomeDetailsViewModel(
     val errorEvent: LiveData<Int>
         get() = _errorEvent
 
+
+    fun setDetails(details: DetailsUi?) {
+        if (details != null) {
+            this.details = details
+            _newsDetails.value = details!!
+        }
+    }
+
     fun handleShowImageClick(position: Int) {
         val list = _newsDetails.value?.imagesUriList
         if (list != null) {
@@ -42,20 +45,20 @@ class HomeDetailsViewModel(
 
     fun handleFavouriteClick() {
         val favouriteItem = Favourite(
-            id = news.id,
-            title = news.header,
-            url = news.url,
-            image = news.imagesUriList?.get(0) ?: "",
+            id = details.id,
+            title = details.header,
+            url = details.url,
+            image = details.imagesUriList?.get(0) ?: "",
         )
 
         viewModelScope.launch {
-            news = news.copy(isFavorite = !news.isFavorite)
-            _newsDetails.value = news
+            details = details.copy(isFavorite = !details.isFavorite)
+            _newsDetails.value = details
 
-            if (news.isFavorite) {
-                profileRepository.addFavourite(favouriteItem, news.userId)
+            if (details.isFavorite) {
+                profileRepository.addFavourite(favouriteItem, details.userId)
             } else {
-                profileRepository.removeFavourite(favouriteItem, news.userId)
+                profileRepository.removeFavourite(favouriteItem, details.userId)
             }
         }
     }

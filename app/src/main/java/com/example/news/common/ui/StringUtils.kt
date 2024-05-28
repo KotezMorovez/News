@@ -1,4 +1,4 @@
-package com.example.news.common
+package com.example.news.common.ui
 
 object StringUtils {
     private val CHARS = mapOf(
@@ -50,7 +50,7 @@ object StringUtils {
     )
 
     fun urlEncoding(url: String): String {
-        var newUrl: StringBuilder = StringBuilder()
+        val newUrl: StringBuilder = StringBuilder()
 
         for (char in url) {
             if (CHARS.contains(char)) {

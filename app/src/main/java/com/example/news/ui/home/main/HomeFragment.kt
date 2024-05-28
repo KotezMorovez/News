@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
 import com.example.news.databinding.FragmentHomeBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.delegate_adapter.CompositeDelegateAdapter
 import com.example.news.ui.home.main.adapter.delegate_adapter.NewsCarouselDelegateAdapter
@@ -19,11 +21,14 @@ import com.example.news.ui.home.main.adapter.delegate_adapter.NewsTextDelegateAd
 import com.example.news.ui.home.models.DetailsUi
 import com.example.news.ui.profile.ProfileActivity
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private lateinit var viewModel: HomeViewModel
-    private lateinit var viewModelFactory: HomeViewModelFactory
+    @Inject
+    lateinit var viewModelFactory: HomeViewModelFactory
+
+    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
 
     private val compositeDelegateAdapter by lazy {
         CompositeDelegateAdapter.Builder()
@@ -57,8 +62,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModelFactory = HomeViewModelFactory(requireContext())
-        viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+        AppComponentHolder.get().inject(this)
         super.onCreate(savedInstanceState)
 
         if (viewModel.isFirstLaunch) {
@@ -97,6 +101,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
             })
+            newsRecyclerView.itemAnimator = null
 
             customToolbar.onProfileIconClickedListener {
                 val intent = Intent(requireContext(), ProfileActivity::class.java)

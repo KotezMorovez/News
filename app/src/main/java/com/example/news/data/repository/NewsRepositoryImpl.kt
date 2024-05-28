@@ -6,19 +6,11 @@ import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.response.News
 import com.example.news.domain.model.profile.SourcesList
 import com.example.news.domain.repository.NewsRepository
+import javax.inject.Inject
 
-class NewsRepositoryImpl : NewsRepository {
-    private val newsService: NewsService = NewsService()
-
-    companion object {
-        private var instance: NewsRepositoryImpl? = null
-        fun getInstance(): NewsRepositoryImpl {
-            if (instance == null) {
-                instance = NewsRepositoryImpl()
-            }
-            return instance!!
-        }
-    }
+class NewsRepositoryImpl @Inject constructor(
+    private val newsService: NewsService
+) : NewsRepository {
 
     override suspend fun getNews(newsEverythingRequest: NewsEverythingRequest): Result<News> {
         return newsService.getEverything(newsEverythingRequest).map {

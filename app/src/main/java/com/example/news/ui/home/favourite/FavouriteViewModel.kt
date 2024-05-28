@@ -6,15 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news.R
-import com.example.news.data.repository.ProfileRepositoryImpl
 import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
 import com.example.news.ui.home.favourite.adapter.FavouriteItem
 import com.example.news.ui.home.models.NewsShowImageCarouselUi
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FavouriteViewModel : ViewModel() {
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
+class FavouriteViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository
+) : ViewModel() {
     private val _goToShowImageEvent = SingleLiveEvent<NewsShowImageCarouselUi>()
 
     val goToShowImageEvent: LiveData<NewsShowImageCarouselUi>

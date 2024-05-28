@@ -1,18 +1,19 @@
 package com.example.news.ui.auth.reset_password
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news.data.repository.AuthRepositoryImpl
 import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.common.SingleLiveEvent
 import com.google.common.base.Strings
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ForgetPasswordViewModel : ViewModel() {
-    private val repository: AuthRepository = AuthRepositoryImpl.getInstance()
+class ForgetPasswordViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
+
     private val _checkSuccessEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     val successEvent: LiveData<Unit>
@@ -30,7 +31,7 @@ class ForgetPasswordViewModel : ViewModel() {
             if (!validation) {
                 _checkFailureEvent.value = ForgetPasswordError.VALIDATION_ERROR
             } else {
-                val result = repository.resetPassword(email)
+                val result = authRepository.resetPassword(email)
 
                 if (result.isSuccess) {
                     _checkSuccessEvent.call()

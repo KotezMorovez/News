@@ -1,6 +1,6 @@
 package com.example.news.data.mapper
 
-import com.example.news.common.StringUtils
+import com.example.news.common.ui.StringUtils
 import com.example.news.data.model.FavouriteEntity
 import com.example.news.data.model.ProfileEntity
 import com.example.news.domain.model.home.response.Favourite

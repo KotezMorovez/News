@@ -1,31 +1,41 @@
 package com.example.news.ui.profile.languages
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.databinding.FragmentLanguagesBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.RecyclerItemDecorator
 import com.example.news.ui.profile.languages.adapter.LanguagesAdapter
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class LanguagesFragment: BaseFragment<FragmentLanguagesBinding>() {
-    private lateinit var viewModel: LanguagesViewModel
+    @Inject
+    lateinit var viewModelFactory: LanguagesViewModelFactory
+    private val viewModel: LanguagesViewModel by viewModels { viewModelFactory }
     private val adapter: LanguagesAdapter = LanguagesAdapter()
 
     override fun createViewBinding(): FragmentLanguagesBinding {
         return FragmentLanguagesBinding.inflate(layoutInflater)
     }
 
-    override fun initUi() {
-        viewModel = ViewModelProvider(this) [LanguagesViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
+    override fun initUi() {
         viewModel.loadData()
 
         with(viewBinding) {

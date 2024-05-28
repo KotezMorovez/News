@@ -2,13 +2,14 @@ package com.example.news.data.service
 
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
 interface CloudStorageService {
     suspend fun uploadImage(image: ByteArray, id: String): Result<String>
 }
 
-class StorageService : CloudStorageService {
+class StorageService @Inject constructor() : CloudStorageService {
     private val storage = Firebase.storage
     private val rootReference = storage.reference
 

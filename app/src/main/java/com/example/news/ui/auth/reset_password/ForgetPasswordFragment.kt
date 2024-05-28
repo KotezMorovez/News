@@ -1,23 +1,36 @@
 package com.example.news.ui.auth.reset_password
 
+import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.news.R
 import com.example.news.databinding.FragmentForgetPasswordBinding
+import com.example.news.di.AppComponentHolder
+import com.example.news.ui.auth.login.LoginViewModelFactory
 import com.example.news.ui.common.BaseFragment
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class ForgetPasswordFragment : BaseFragment<FragmentForgetPasswordBinding>() {
-    private lateinit var viewModel: ForgetPasswordViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ForgetPasswordViewModelFactory
+
+    private val viewModel: ForgetPasswordViewModel by viewModels { viewModelFactory }
 
     override fun createViewBinding(): FragmentForgetPasswordBinding {
         return FragmentForgetPasswordBinding.inflate(layoutInflater)
     }
 
-    override fun initUi() {
-        viewModel = ViewModelProvider(this)[ForgetPasswordViewModel::class.java]
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
+    override fun initUi() {
         with(viewBinding) {
             forgetPasswordButton.setOnClickListener {
                 viewModel.sendEmail(forgetPasswordEmailEditText.text.toString())

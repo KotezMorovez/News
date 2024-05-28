@@ -15,10 +15,12 @@ import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.SingleLiveEvent
 import com.example.news.ui.profile.sources.adapter.SourcesItem
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SourcesViewModel : ViewModel() {
-    private val profileRepository: ProfileRepository = ProfileRepositoryImpl.getInstance()
-    private val newsRepository: NewsRepository = NewsRepositoryImpl.getInstance()
+class SourcesViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository,
+    private val newsRepository: NewsRepository
+) : ViewModel() {
     private var currentProfile: Profile? = null
 
     private val _errorEvent = SingleLiveEvent<Int>()

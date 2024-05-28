@@ -6,8 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news.common.GlobalConstants
-import com.example.news.data.repository.AuthRepositoryImpl
+import com.example.news.common.ui.GlobalConstants
 import com.example.news.domain.model.auth.SignUpRequest
 import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.common.SingleLiveEvent
@@ -15,10 +14,11 @@ import com.google.common.base.Strings
 import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
-    private val repository: AuthRepository = AuthRepositoryImpl.getInstance()
-
+class SignUpViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
     private var _signUpUser = MutableLiveData(SignUpUserItem.default())
     val signUpUser: LiveData<SignUpUserItem>
         get() = _signUpUser
@@ -31,7 +31,6 @@ class SignUpViewModel : ViewModel() {
 
     val signUpSuccessEvent: LiveData<Unit>
         get() = _signUpSuccessEvent
-
 
     fun setName(name: String) {
         val oldUser = _signUpUser.value ?: SignUpUserItem.default()

@@ -4,6 +4,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 val projectProperties = Properties().apply {
@@ -65,16 +68,24 @@ android {
 }
 
 dependencies {
+//    Main
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.databinding:viewbinding:8.4.1")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.21")
+
+//    UI Tools
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("io.github.ahmad-hamwi:tabsync:1.0.1")
     implementation("com.alexvasilkov:gesture-views:2.8.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.activity:activity-compose:1.9.0")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.databinding:viewbinding:8.4.0")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20")
+
+//    Dagger
+    implementation("com.google.dagger:dagger:2.46.1")
+    kapt("com.google.dagger:dagger-compiler:2.46.1")
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.6.2")
 
 //    Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

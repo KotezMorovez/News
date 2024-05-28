@@ -4,23 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.R
 import com.example.news.databinding.ActivityVerificationBinding
+import com.example.news.di.AppComponentHolder
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.common.makeLinks
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class VerificationActivity : AppCompatActivity() {
-    private lateinit var viewModel: VerificationViewModel
+    @Inject
+    lateinit var viewModelFactory: VerificationViewModelFactory
+    private val viewModel: VerificationViewModel by viewModels {viewModelFactory}
     private lateinit var viewBinding: ActivityVerificationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        
         setTheme(R.style.Theme_News)
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[VerificationViewModel::class.java]
 
         viewBinding = ActivityVerificationBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)

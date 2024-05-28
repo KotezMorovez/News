@@ -9,7 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.news.R
-import com.example.news.common.Debouncer
+import com.example.news.common.ui.Debouncer
 import com.example.news.databinding.CustomToolbarViewBinding
 
 class CustomToolbarView @JvmOverloads constructor(

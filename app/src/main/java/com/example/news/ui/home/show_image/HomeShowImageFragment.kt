@@ -1,23 +1,34 @@
 package com.example.news.ui.home.show_image
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.databinding.FragmentHomeShowImageBinding
+import com.example.news.di.AppComponentHolder
+import com.example.news.ui.auth.signup.SignUpViewModelFactory
 import com.example.news.ui.common.BaseFragment
+import javax.inject.Inject
 
 class HomeShowImageFragment : BaseFragment<FragmentHomeShowImageBinding>() {
-    private lateinit var viewModel: HomeShowImageViewModel
+    @Inject
+    lateinit var viewModelFactory: HomeShowImageViewModelFactory
+
+    private val viewModel: HomeShowImageViewModel by viewModels { viewModelFactory }
 
     override fun createViewBinding(): FragmentHomeShowImageBinding {
         return FragmentHomeShowImageBinding.inflate(layoutInflater)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppComponentHolder.get().inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     @SuppressLint("SetTextI18n")
     override fun initUi() {
-        viewModel = ViewModelProvider(this)[HomeShowImageViewModel::class.java]
-
         val bundleImageUrlList = arguments?.getStringArray("imageUrlList")
         val bundlePosition = arguments?.getInt("position")
 

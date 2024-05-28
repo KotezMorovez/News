@@ -3,14 +3,14 @@ package com.example.news.ui.verification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.news.data.repository.AuthRepositoryImpl
 import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.common.SingleLiveEvent
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class VerificationViewModel : ViewModel() {
-    private val repository: AuthRepository = AuthRepositoryImpl.getInstance()
-
+class VerificationViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
     private val _errorEvent: SingleLiveEvent<Unit> = SingleLiveEvent()
     val errorEvent: LiveData<Unit>
         get() = _errorEvent
