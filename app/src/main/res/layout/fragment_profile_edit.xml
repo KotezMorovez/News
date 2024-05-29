@@ -10,6 +10,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        android:theme="@style/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/blue_700"
@@ -20,10 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="@string/profile_edit_title"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="@string/profile_edit_title"/>
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
@@ -98,7 +96,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/saveButton"
-                style="@style/Theme.News.Button.Profile"
+                style="@style/button_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -108,7 +106,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/deleteButton"
-                style="@style/Theme.News.Button.Profile.Exit"
+                style="@style/button_profile_exit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

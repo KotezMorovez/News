@@ -11,22 +11,22 @@
 
     <TextView
         android:id="@+id/newsHeaderTextView"
+        style="@style/news_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
         tools:text="News Header" />
 
     <TextView
         android:id="@+id/dataTextView"
+        style="@style/news_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
-        android:textColor="@color/black_800"
         tools:text="5 minutes ago" />
 
     <TextView
         android:id="@+id/newsBodyTextView"
+        style="@style/news_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -37,6 +37,6 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="bottom|end"
-        tools:src="@drawable/ic_recycler_favourite_inactive"
-        android:contentDescription="@string/home_page_description_favourite_button" />
+        android:contentDescription="@string/home_page_description_favourite_button"
+        tools:src="@drawable/ic_recycler_favourite_inactive" />
 </LinearLayout>

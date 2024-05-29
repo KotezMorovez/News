@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/black_950"
         tools:text="News Header" />
 
     <TextView
@@ -30,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColor="@color/black_950"
         tools:text="News Body Text" />
 
     <ImageView

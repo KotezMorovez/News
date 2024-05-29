@@ -8,6 +8,7 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/profileImageToolbar"
+        android:theme="@style/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/blue_700"
@@ -15,7 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
 
     <com.alexvasilkov.gestures.views.GestureImageView
         android:id="@+id/profileImageView"

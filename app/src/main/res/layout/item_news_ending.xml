@@ -6,10 +6,10 @@
 
     <TextView
         android:id="@+id/newsEndingTextView"
+        style="@style/news_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="8dp"
-        android:textColor="@color/black_500"
         android:textSize="16sp" />
 </LinearLayout>
