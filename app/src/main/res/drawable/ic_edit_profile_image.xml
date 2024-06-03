@@ -5,7 +5,7 @@
         <shape
             android:shape="oval">
             <solid
-                android:color="@color/black_500"/>
+                android:color="@color/black_translucent"/>
             <padding android:left="6dp" android:top="6dp" android:right="6dp"
                 android:bottom="6dp" />
             <size
@@ -18,7 +18,7 @@
         <vector
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:height="24dp"
-            android:tint="@color/black_800"
+            android:tint="@color/ic_text_profile"
             android:viewportHeight="24"
             android:viewportWidth="24"
             android:width="24dp">

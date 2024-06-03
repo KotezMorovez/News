@@ -54,7 +54,7 @@ class NewsTextDelegateAdapter(
                 onFavouriteClickListener.invoke(model.ui.id)
             }
 
-            dataTextView.text = model.ui.date
+            dateTextView.text = model.ui.date
         }
     }
 

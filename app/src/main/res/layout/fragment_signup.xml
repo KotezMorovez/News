@@ -18,12 +18,11 @@
 
         <TextView
             android:id="@+id/signUpTextView"
+            style="@style/auth_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/sign_up_title"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:text="@string/sign_up_title" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameContainer"
@@ -37,11 +36,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:hint="@string/sign_up_name_field_hint"
-                android:textColor="@color/white"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:maxLines="1"
-                android:paddingHorizontal="12dp" />
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -60,7 +59,7 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingHorizontal="12dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -81,13 +80,12 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:paddingHorizontal="12dp"
-
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signUpButton"
-            style="@style/Theme.News.Button"
+            style="@style/button_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -99,9 +97,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/sign_up_login_link"
+            android:clickable="true"
             android:gravity="center"
-            android:textColor="@color/grey"
-            android:clickable="true"/>
+            android:text="@string/sign_up_login_link"
+            android:textColor="@color/light_gray" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

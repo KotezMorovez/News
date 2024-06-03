@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_500">#FF7751B5</color>
+    <color name="default_background">@color/light_gray_500</color>
+    <color name="card_color">@color/white</color>
+    <color name="inactive_fav">#474747</color>
+    <color name="text_color">@color/black_500</color>
+    <color name="text_exit">@color/red_500</color>
+    <color name="black_translucent">#501B1B1B</color>
+    <color name="ic_text_profile">@color/black_800</color>
+
     <color name="blue_300">#809FFF</color>
     <color name="blue_700_08">#CC5567A5</color>
     <color name="blue_500">#FF6180E5</color>
     <color name="blue_600">#5671CA</color>
     <color name="blue_700">#FF5567A5</color>
     <color name="blue_800">#414F80</color>
-    <color name="black">#FF000000</color>
-    <color name="black_950">#95000000</color>
-    <color name="black_800">#80000000</color>
-    <color name="black_500">#50000000</color>
-    <color name="black_300">#30000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="transparent">#00FFFFFF</color>
-    <color name="pink_500">#FDB2B2</color>
     <color name="red_500">#E62F2F</color>
-    <color name="grey">#B5B1CB</color>
-    <color name="grey_300">#E9E6F6</color>
+    <color name="red_300">#E65757</color>
+    <color name="pink_500">#FDB2B2</color>
+    <color name="black_800">#FF1B1B1B</color>
+    <color name="black_500">#FF3A3A3A</color>
+    <color name="light_gray">#FFB9C0D5</color>
+    <color name="light_gray_500">#FFE4E8F5</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
 </resources>

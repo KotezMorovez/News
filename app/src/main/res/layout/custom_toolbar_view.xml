@@ -26,11 +26,11 @@
 
         <TextView
             android:id="@+id/homePageToolbarTitle"
+            style="@style/toolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/home_page_title"
-            android:textAppearance="@style/Theme.News.Toolbar.Title"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/homePageToolbarProfile"
@@ -101,12 +101,12 @@
                 android:maxLines="1"
                 android:paddingHorizontal="12dp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/grey" />
+                android:textColorHint="@color/light_gray" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/homePageToolbarSearchClose"
-            style="@style/Theme.News.Toolbar.Search"
+            style="@style/toolbar_search"
             android:layout_width="64dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
