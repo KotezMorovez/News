@@ -22,9 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/login_title"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            style="@style/auth_header" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailContainer"
@@ -38,11 +36,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:hint="@string/login_email_field_hint"
-                android:textColor="@color/white"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:maxLines="1"
-                android:paddingHorizontal="12dp" />
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -71,9 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/login_forget_password_link"
             android:gravity="end"
-            android:textColor="@color/white"/>
+            android:text="@string/login_forget_password_link"
+            android:textColor="@color/white" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
@@ -89,9 +87,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/login_sign_up_link"
+            android:clickable="true"
             android:gravity="center"
-            android:textColor="@color/grey"
-            android:clickable="true"/>
+            android:text="@string/login_sign_up_link"
+            android:textColor="@color/light_gray" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

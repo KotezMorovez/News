@@ -69,7 +69,7 @@
     <string name="sources_save_error">Ошибка сохранения данных, повторите позже</string>
     <string name="sources_save_success">Список источников успешно изменен</string>
 
-    <string name="languages_title">c</string>
+    <string name="languages_title">Язык статей</string>
     <string name="languages_choose_all_button">Выбрать все</string>
     <string name="languages_error">Ошибка загрузки списка языков</string>
     <string name="languages_profile_error">Ошибка загрузки списка языков</string>

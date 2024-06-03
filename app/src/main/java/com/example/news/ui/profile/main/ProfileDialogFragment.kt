@@ -1,8 +1,8 @@
 package com.example.news.ui.profile.main
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.news.R
 
@@ -11,7 +11,7 @@ class ProfileDialogFragment(
     private val okAction: () -> Unit
 ) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext(), R.style.Dialog)
             .setMessage(message)
             .setPositiveButton(getString(R.string.profile_dialog_positive)) { _, _ ->
                 okAction.invoke()

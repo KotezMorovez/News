@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/sourceTextView"
-        style="@style/news_body"
+        style="@style/settings_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

@@ -32,7 +32,7 @@ class NewsImageDelegateAdapter(
     ) {
         with(viewHolder.binding) {
             newsHeaderTextView.text = model.ui.header
-            dataTextView.text = model.ui.date
+            dateTextView.text = model.ui.date
 
             if (model.ui.body.isBlank()) {
                 newsBodyTextView.visibility = View.GONE

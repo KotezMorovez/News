@@ -4,15 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.news.domain.repository.AuthRepository
+import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.auth.signup.SignUpViewModel
 import javax.inject.Inject
 
 class LanguagesViewModelFactory @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: ProfileRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        if (modelClass == SignUpViewModel::class.java) {
-            return SignUpViewModel(repository) as T
+        if (modelClass == LanguagesViewModel::class.java) {
+            return LanguagesViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel")
     }

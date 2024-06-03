@@ -18,12 +18,11 @@
 
         <TextView
             android:id="@+id/signUpTextView"
+            style="@style/auth_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@string/sign_up_title"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:text="@string/sign_up_title" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nameContainer"
@@ -101,6 +100,6 @@
             android:clickable="true"
             android:gravity="center"
             android:text="@string/sign_up_login_link"
-            android:textColor="@color/grey" />
+            android:textColor="@color/light_gray" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

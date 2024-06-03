@@ -17,7 +17,7 @@
         tools:text="News Header" />
 
     <TextView
-        android:id="@+id/dataTextView"
+        android:id="@+id/dateTextView"
         style="@style/news_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

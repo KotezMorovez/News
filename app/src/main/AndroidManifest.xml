@@ -30,7 +30,8 @@
 
         <activity
             android:name=".ui.auth.AuthActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.News.Auth"/>
 
         <activity
             android:name=".ui.home.HomeActivity"
@@ -43,7 +44,7 @@
 
         <activity android:name=".ui.verification.VerificationActivity"
             android:exported="false"
-            android:theme="@style/Theme.News.Launcher"/>
+            android:theme="@style/Theme.News.Auth"/>
     </application>
 
 </manifest>
