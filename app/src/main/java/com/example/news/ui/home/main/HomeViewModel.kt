@@ -6,26 +6,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news.R
-import com.example.news.domain.repository.NewsRepository
-import com.example.news.domain.repository.ProfileRepository
-import com.example.news.ui.common.SingleLiveEvent
-import com.example.news.ui.common.delegate_adapter.IDelegateAdapterItem
-import com.example.news.ui.home.main.adapter.item.NewsImageItem
-import com.example.news.ui.home.main.adapter.item.NewsTextItem
-import com.example.news.ui.home.main.adapter.item.NewsCarouselItem
-import com.example.news.ui.home.models.NewsShowImageCarouselUi
-import kotlinx.coroutines.launch
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.response.Article
 import com.example.news.domain.model.home.response.Favourite
 import com.example.news.domain.model.profile.Profile
+import com.example.news.domain.repository.NewsRepository
+import com.example.news.domain.repository.ProfileRepository
 import com.example.news.ui.common.DateUtils
+import com.example.news.ui.common.SingleLiveEvent
+import com.example.news.ui.common.delegate_adapter.IDelegateAdapterItem
+import com.example.news.ui.home.main.adapter.item.NewsCarouselItem
 import com.example.news.ui.home.main.adapter.item.NewsEndingItem
+import com.example.news.ui.home.main.adapter.item.NewsImageItem
+import com.example.news.ui.home.main.adapter.item.NewsTextItem
 import com.example.news.ui.home.main.adapter.item.NewsUi
 import com.example.news.ui.home.models.DetailsUi
+import com.example.news.ui.home.models.NewsShowImageCarouselUi
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -69,10 +69,6 @@ class HomeViewModel @Inject constructor(
     private val _goToDetailsEvent = SingleLiveEvent<DetailsUi>()
     val goToDetailsEvent: LiveData<DetailsUi>
         get() = _goToDetailsEvent
-
-    companion object {
-        private const val PAGE_SIZE = 10
-    }
 
     fun applySearchText(text: String) {
         if (text == currentQuery) {
@@ -359,6 +355,10 @@ class HomeViewModel @Inject constructor(
         } else {
             NewsTextItem(newsUi)
         }
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 10
     }
 }
 

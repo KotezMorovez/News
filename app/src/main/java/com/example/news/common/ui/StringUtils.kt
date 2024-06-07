@@ -69,7 +69,7 @@ object StringUtils {
 
         var i = 0
         while (i < url.length) {
-            if (url[i] == '%') {
+            if (url[i] == '%' && i < url.length - 2) {
                 toDecode = "${url[i]}${url[i + 1]}${url[i + 2]}"
             }
 

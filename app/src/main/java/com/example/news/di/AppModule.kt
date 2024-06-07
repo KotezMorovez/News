@@ -8,7 +8,6 @@ import com.example.news.data.service.CloudStorageService
 import com.example.news.data.service.FirebaseAuthService
 import com.example.news.data.service.FirebaseService
 import com.example.news.data.service.FirestoreService
-import com.example.news.data.service.NewsApi
 import com.example.news.data.service.NewsService
 import com.example.news.data.service.NewsServiceInterface
 import com.example.news.data.service.StorageService
@@ -20,10 +19,7 @@ import dagger.Module
 import dagger.Reusable
 
 @Module
-interface AppModule {
-    @Binds
-    @Reusable
-    fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
+interface SharedModule {
 
     @Binds
     @Reusable
@@ -48,4 +44,11 @@ interface AppModule {
     @Binds
     @Reusable
     fun bindFirestoreService(impl: FirestoreService): FirebaseService
+}
+
+@Module
+interface OriginalModule {
+    @Binds
+    @Reusable
+    fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
 }

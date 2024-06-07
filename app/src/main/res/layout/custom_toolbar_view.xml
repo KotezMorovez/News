@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/homePageToolbarProfile"
@@ -64,7 +64,7 @@
         android:alpha="0"
         android:visibility="gone"
         tools:alpha="1"
-        tools:visibility="visible">
+        tools:visibility="invisible">
 
         <LinearLayout
             android:id="@+id/homePageSearchContainer"

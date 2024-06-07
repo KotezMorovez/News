@@ -12,25 +12,6 @@ import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface NewsApi {
-    companion object {
-        private var instance: NewsApi? = null
-        private val interceptor = HttpLoggingInterceptor()
-
-        fun getInstance(): NewsApi {
-            if (instance == null) {
-                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-
-                instance = Retrofit.Builder()
-                    .baseUrl("https://newsapi.org/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(OkHttpClient.Builder().addInterceptor(interceptor).build())
-                    .build()
-                    .create(NewsApi::class.java)
-            }
-            return instance!!
-        }
-    }
-
     @GET("v2/everything")
     fun getEverything(
         @Query("q") query: String? = null,
@@ -66,4 +47,23 @@ interface NewsApi {
 
         @Header("X-Api-Key") apiKey: String,
     ): Call<SourcesListEntity>
+
+    companion object {
+        private var instance: NewsApi? = null
+        private val interceptor = HttpLoggingInterceptor()
+
+        fun getInstance(): NewsApi {
+            if (instance == null) {
+                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+
+                instance = Retrofit.Builder()
+                    .baseUrl("https://newsapi.org/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(OkHttpClient.Builder().addInterceptor(interceptor).build())
+                    .build()
+                    .create(NewsApi::class.java)
+            }
+            return instance!!
+        }
+    }
 }

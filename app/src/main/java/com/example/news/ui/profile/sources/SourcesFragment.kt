@@ -6,13 +6,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.databinding.FragmentSourcesBinding
 import com.example.news.di.AppComponentHolder
+import com.example.news.di.ViewModelFactory
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.RecyclerItemDecorator
 import com.example.news.ui.profile.sources.adapter.SourcesAdapter
@@ -21,8 +21,10 @@ import javax.inject.Inject
 
 class SourcesFragment : BaseFragment<FragmentSourcesBinding>() {
     @Inject
-    lateinit var viewModelFactory: SourcesViewModelFactory
-    private val viewModel: SourcesViewModel by viewModels { viewModelFactory }
+    lateinit var viewModelFactory: ViewModelFactory<SourcesViewModel>
+    private val viewModel: SourcesViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[SourcesViewModel::class.java]
+    }
     private val adapter: SourcesAdapter = SourcesAdapter()
 
     override fun createViewBinding(): FragmentSourcesBinding {

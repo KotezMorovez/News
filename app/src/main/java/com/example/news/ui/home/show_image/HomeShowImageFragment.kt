@@ -4,19 +4,20 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.databinding.FragmentHomeShowImageBinding
 import com.example.news.di.AppComponentHolder
-import com.example.news.ui.auth.signup.SignUpViewModelFactory
+import com.example.news.di.ViewModelFactory
 import com.example.news.ui.common.BaseFragment
 import javax.inject.Inject
 
 class HomeShowImageFragment : BaseFragment<FragmentHomeShowImageBinding>() {
     @Inject
-    lateinit var viewModelFactory: HomeShowImageViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory<HomeShowImageViewModel>
 
-    private val viewModel: HomeShowImageViewModel by viewModels { viewModelFactory }
+    private val viewModel: HomeShowImageViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[HomeShowImageViewModel::class.java]
+    }
 
     override fun createViewBinding(): FragmentHomeShowImageBinding {
         return FragmentHomeShowImageBinding.inflate(layoutInflater)

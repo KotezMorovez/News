@@ -8,7 +8,6 @@ import android.view.ViewOutlineProvider
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileBinding
 import com.example.news.di.AppComponentHolder
+import com.example.news.di.ViewModelFactory
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.common.AppBarStateChangeListener
 import com.example.news.ui.common.BaseFragment
@@ -28,8 +28,10 @@ import javax.inject.Inject
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     @Inject
-    lateinit var viewModelFactory: ProfileViewModelFactory
-    private val viewModel: ProfileViewModel by viewModels { viewModelFactory }
+    lateinit var viewModelFactory: ViewModelFactory<ProfileViewModel>
+    private val viewModel: ProfileViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
+    }
     private val adapter: ProfileAdapter = ProfileAdapter()
 
     override fun createViewBinding(): FragmentProfileBinding {

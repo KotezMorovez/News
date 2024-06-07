@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
 import com.example.news.databinding.FragmentHomeBinding
 import com.example.news.di.AppComponentHolder
+import com.example.news.di.ViewModelFactory
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.delegate_adapter.CompositeDelegateAdapter
 import com.example.news.ui.home.main.adapter.delegate_adapter.NewsCarouselDelegateAdapter
@@ -26,9 +26,11 @@ import javax.inject.Inject
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     @Inject
-    lateinit var viewModelFactory: HomeViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory<HomeViewModel>
 
-    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
+    private val viewModel: HomeViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+    }
 
     private val compositeDelegateAdapter by lazy {
         CompositeDelegateAdapter.Builder()
