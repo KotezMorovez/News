@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/news_recycler_card"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/newsHeaderTextView"
+        style="@style/news_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="News Header" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        style="@style/news_date"
+        tools:text="5 minutes ago" />
+
+    <TextView
+        android:id="@+id/newsBodyTextView"
+        style="@style/news_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="News Body Text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imageCarousel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:nestedScrollingEnabled="false"
+        android:orientation="horizontal" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/dotsCarousel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/transparent"
+        android:elevation="0dp"
+        app:tabBackground="@drawable/tab_dot_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/addToFavoritesButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="bottom|end"
+        tools:src="@drawable/ic_favourite_active_ripple" />
+</LinearLayout>

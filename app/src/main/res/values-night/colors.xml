@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="default_background">@color/black_800</color>
+    <color name="card_color">@color/black_500</color>
+    <color name="inactive_fav">@color/light_gray</color>
+    <color name="text_color">@color/white</color>
+    <color name="text_exit">@color/red_300</color>
+    <color name="ic_text_profile">@color/white</color>
+</resources>

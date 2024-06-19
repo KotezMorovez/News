@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.news.ui.home.main.HomeFragment"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_homeShowImageFragment"
+            app:destination="@id/homeShowImageFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_homeDetailsFragment"
+            app:destination="@id/homeDetailsFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_favoriteFragment"
+            app:destination="@id/favouriteFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeShowImageFragment"
+        android:name="com.example.news.ui.home.show_image.HomeShowImageFragment"
+        tools:layout="@layout/fragment_home_show_image">
+
+        <argument
+            android:name="imageUrlList"
+            app:argType="string[]" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeDetailsFragment"
+        android:name="com.example.news.ui.home.details.HomeDetailsFragment"
+        tools:layout="@layout/fragment_home_details">
+
+        <action
+            android:id="@+id/action_homeDetailsFragment_to_homeShowImageFragment"
+            app:destination="@id/homeShowImageFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.news.ui.home.favourite.FavouriteFragment"
+        tools:layout="@layout/fragment_favourite">
+
+        <action
+            android:id="@+id/action_favouriteFragment_to_homeShowImageFragment"
+            app:destination="@id/homeShowImageFragment" />
+
+    </fragment>
+</navigation>

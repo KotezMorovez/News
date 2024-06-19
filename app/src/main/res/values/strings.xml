@@ -1,17 +1,101 @@
 <resources>
     <string name="app_name">News</string>
+
     <string name="sign_up_title">Добро пожаловать</string>
     <string name="sign_up_email_field_hint">Email</string>
     <string name="sign_up_password_field_hint">Пароль</string>
     <string name="sign_up_name_field_hint">Имя</string>
     <string name="sign_up_button">ЗАРЕГИСТРИРОВАТЬСЯ</string>
     <string name="sign_up_login_link">Уже есть аккаунт? Войти</string>
+    <string name="sign_up_name_error">"Минимальная длина имени 2 символа"</string>
+    <string name="sign_up_email_error">Неправильный адрес почты</string>
+    <string name="sign_up_password_error">Неверный формат пароля.\nПароль должен содержать 8\-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&amp;+=!</string>
+    <string name="sign_up_toast_error">Что-то пошло не так</string>
+    <string name="sign_up_verification_toast">На указанную почту выслано письмо</string>
 
-    <string name="auth_title">Добро пожаловать</string>
-    <string name="auth_password_field_hint">Пароль</string>
-    <string name="sign_up_forget_password_link">Забыли пароль?</string>
-    <string name="auth_name_field_hint">Имя</string>
-    <string name="auth_button">ВОЙТИ</string>
-    <string name="auth_sign_up_link">Нет аккаунта? Зарегистрироваться</string>
+    <string name="login_title">Добро пожаловать</string>
+    <string name="login_password_field_hint">Пароль</string>
+    <string name="login_email_field_hint">Email</string>
+    <string name="login_forget_password_link">Забыли пароль?</string>
+    <string name="login_name_field_hint">Имя</string>
+    <string name="login_button">ВОЙТИ</string>
+    <string name="login_sign_up_link">Нет аккаунта? Зарегистрироваться</string>
+    <string name="login_email_error">Неправильный адрес почты</string>
+    <string name="login_password_error">Неверный формат пароля.\nПароль должен содержать 8\-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&amp;+=!</string>
+    <string name="login_toast_error">Что-то пошло не так</string>
+
+    <string name="forget_password_title">Восстановление пароля</string>
+    <string name="forget_password_body">Забыли пароль?\nВведите свой адрес электронной почты ниже, и мы вышлем вам электронное письмо, позволяющее сбросить его. </string>
+    <string name="forget_password_email_field_hint">Email</string>
+    <string name="forget_password_button">Сбросить пароль</string>
+    <string name="forget_password_success_message">Мы отправили вам электронное письмо.\nПожалуйста, свяжитесь с нами, если вы не получили его в течение нескольких минут.</string>
+    <string name="forget_password_server_error">Пользователя с таким адресом электронной почты не существует</string>
+    <string name="forget_password_email_error">Неверный формат адреса электронной почты</string>
+
+    <string name="verification_title">Ваш аккаунт не верифицирован, проверьте почту и перейдите по ссылке в письме</string>
+    <string name="verification_login_link">Хотите войти в другой аккаунт? Авторизоваться</string>
+    <string name="verification_send_email">Письмо не пришло? Отправить повторно</string>
+    <string name="verification_send_email_success">Письмо отправлено на вашу электронную почту</string>
+    <string name="verification_send_email_failure">Что-то пошло не так</string>
+
+    <string name="profile_load_toast_error">Ошибка отображения профиля, попробуйте снова</string>
+    <string name="profile_exit_toast_error">Не удалось выйти из аккаунта, попробуйте снова</string>
+    <string name="profile_title">Мой профиль</string>
+    <string name="profile_edit_button">Редактировать профиль</string>
+    <string name="profile_sources_button">Новостные источники</string>
+    <string name="profile_languages_button">Язык статей</string>
+    <string name="profile_delete_button">Удалить аккаунт</string>
+    <string name="profile_exit_button">Выйти из аккаунта</string>
+
+    <string name="profile_dialog_positive">Да</string>
+    <string name="profile_dialog_negative">Нет</string>
+    <string name="profile_dialog_delete">Вы действительно хотите удалить аккаунт?\nВнимание, восстановление аккаунта невозможно</string>
+    <string name="profile_dialog_exit">Вы действительно хотите выйти из аккаунта?</string>
+
+    <string name="profile_edit_hint_name_field">Имя</string>
+    <string name="profile_edit_hint_email_field">Email</string>
+    <string name="profile_edit_title">Редактировать профиль</string>
+    <string name="profile_edit_save_button">Сохранить</string>
+    <string name="profile_edit_name_error">Имя слишком короткое</string>
+    <string name="profile_edit_save_error">Некорректное изображение/имя</string>
+    <string name="profile_edit_delete_error">Произошла ошибка при удалении аккаунта</string>
+    <string name="profile_edit_upload_error">Ошибка загрузки</string>
+
+    <string name="sources_title">Источники</string>
+    <string name="sources_choose_all_button">Выбрать все</string>
+    <string name="sources_error">Ошибка загрузки списка источнииков</string>
+    <string name="sources_profile_error">Ошибка загрузки профиля</string>
+    <string name="sources_empty_resources_error">Ошибка: список выбранных источников не может быть пуст</string>
+    <string name="sources_save_error">Ошибка сохранения данных, повторите позже</string>
+    <string name="sources_save_success">Список источников успешно изменен</string>
+
+    <string name="languages_title">Язык статей</string>
+    <string name="languages_choose_all_button">Выбрать все</string>
+    <string name="languages_error">Ошибка загрузки списка языков</string>
+    <string name="languages_profile_error">Ошибка загрузки списка языков</string>
+    <string name="languages_empty_resources_error">Ошибка: не выбран ни одмн язык из представленных</string>
+    <string name="languages_save_error">Ошибка сохранения данных, повторите позже</string>
+    <string name="languages_save_success">Язык новостных статей успешно изменен</string>
+
+    <string name="home_page_title">Главная</string>
+    <string name="home_page_error">Ошибка отображения профиля</string>
+    <string name="home_page_search_field">︎Поиск</string>
+    <string name="home_page_close_search_field">Отмена</string>
+    <string name="home_page_description_favourite_button">favouriteButton</string>
+    <string name="home_page_search_toast_error">Ошибка загрузки ленты новостей, попробуйте снова</string>
+    <string name="home_page_ending_item_text">Загружено новостей: %1$d</string>
+
+    <string name="favourites_toolbar">Избранное</string>
+
+    <string name="date_less_minute_ago">менее минуты назад</string>
+    <string name="date_minutes_ago">%1$d мин. назад</string>
+    <string name="date_hours_ago">%1$d час. назад</string>
+    <string name="date_today_at">сегодня в %1$s</string>
+    <string name="date_yesterday_at">вчера в %1$s</string>
+    <string name="date_less_year_ago">%1$s в %2$s</string>
+    <string name="date_years_ago">%1$sг.</string>
+
+    <string name="details_toolbar">Запись</string>
+
 
 </resources>

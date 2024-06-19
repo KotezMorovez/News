@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/news_recycler_card"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/newsHeaderTextView"
+        style="@style/news_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="News Header" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        style="@style/news_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        tools:text="5 minutes ago" />
+
+    <TextView
+        android:id="@+id/newsBodyTextView"
+        style="@style/news_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="News Body Text" />
+
+    <ImageView
+        android:id="@+id/newsImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:scaleType="center"
+        tools:src="@drawable/ic_android" />
+
+    <ImageView
+        android:id="@+id/addToFavoritesButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="bottom|end"
+        tools:src="@drawable/ic_favourite_active_ripple" />
+
+</LinearLayout>
