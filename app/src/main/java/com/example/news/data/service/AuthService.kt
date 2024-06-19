@@ -1,16 +1,10 @@
 package com.example.news.data.service
 
-import android.util.Log
-import com.example.news.data.model.ProfileEntity
 import com.example.news.data.model.UserRegisterEntity
-import com.example.news.data.mapper.toDocument
-import com.example.news.data.mapper.toProfileEntity
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
@@ -21,7 +15,7 @@ interface AuthService {
     suspend fun loginUser(login: String, password: String): Result<FirebaseUser>
     suspend fun logoutUser(): Result<Unit>
     suspend fun sendVerificationEmail(): Result<Unit>
-    suspend fun deleteAccount()
+    suspend fun deleteAccount(): Result<Unit>
     suspend fun registerUser(user: UserRegisterEntity): Result<String>
     suspend fun resetPassword(email: String): Result<Unit>
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
@@ -75,8 +69,26 @@ class FirebaseAuthService @Inject constructor() : AuthService {
         return Result.success(Unit)
     }
 
-    override suspend fun deleteAccount() {
-        auth.currentUser!!.delete()
+    override suspend fun deleteAccount(): Result<Unit> {
+        return suspendCoroutine {continuation ->
+            auth.currentUser!!.delete()
+                .addOnSuccessListener {
+                    continuation.resumeWith(
+                        Result.success(
+                            Result.success(Unit)
+                        )
+                    )
+                }
+                .addOnFailureListener {
+                    continuation.resumeWith(
+                        Result.success(
+                            Result.failure(
+                                IllegalStateException("Can't delete this account")
+                            )
+                        )
+                    )
+                }
+        }
     }
 
     override suspend fun registerUser(user: UserRegisterEntity): Result<String> {

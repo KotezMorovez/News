@@ -13,13 +13,13 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.FragmentProfileEditBinding
 import com.example.news.di.AppComponentHolder
+import com.example.news.di.ViewModelFactory
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.profile.main.ProfileDialogFragment
@@ -29,13 +29,11 @@ import javax.inject.Inject
 
 class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
     @Inject
-    lateinit var viewModelFactory: ProfileEditViewModelFactory
-    private val viewModel: ProfileEditViewModel by viewModels { viewModelFactory }
-    private lateinit var selectedImageUri: Uri
-
-    companion object {
-        const val READ_GALLERY_REQUEST_CODE = 111
+    lateinit var viewModelFactory: ViewModelFactory<ProfileEditViewModel>
+    private val viewModel: ProfileEditViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[ProfileEditViewModel::class.java]
     }
+    private lateinit var selectedImageUri: Uri
 
     override fun createViewBinding(): FragmentProfileEditBinding {
         return FragmentProfileEditBinding.inflate(layoutInflater)
@@ -191,5 +189,9 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
                 viewModel.saveImage(selectedImageUri.toString())
             }
         }
+    }
+
+    companion object {
+        const val READ_GALLERY_REQUEST_CODE = 111
     }
 }

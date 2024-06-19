@@ -1,26 +1,25 @@
 package com.example.news.ui.auth.signup
 
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.TextPaint
 import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.view.View
 import android.widget.TextView
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentSignupBinding
 import com.example.news.di.AppComponentHolder
+import com.example.news.di.ViewModelFactory
 import com.example.news.ui.common.BaseFragment
+import com.example.news.ui.common.makeLinks
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
     @Inject
-    lateinit var viewModelFactory: SignUpViewModelFactory
-    private val viewModel: SignUpViewModel by viewModels { viewModelFactory }
+    lateinit var viewModelFactory: ViewModelFactory<SignUpViewModel>
+    private val viewModel: SignUpViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[SignUpViewModel::class.java]
+    }
 
     override fun createViewBinding(): FragmentSignupBinding {
         return FragmentSignupBinding.inflate(layoutInflater)
@@ -63,7 +62,8 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
             val spanTextList = signUpLinkTextView.text.toString().split("?")
             val spannableString = makeLinks(
                 signUpLinkTextView.text.toString(),
-                spanTextList[1].trim()
+                spanTextList[1].trim(),
+                requireContext()
             ) {
                 this@SignUpFragment.findNavController()
                     .navigate(R.id.action_signUpFragment_to_loginFragment)
@@ -71,32 +71,6 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
             signUpLinkTextView.movementMethod = LinkMovementMethod.getInstance()
             signUpLinkTextView.setText(spannableString, TextView.BufferType.SPANNABLE)
         }
-    }
-
-    private fun makeLinks(
-        text: String,
-        phrase: String,
-        listener: View.OnClickListener
-    ): SpannableString {
-        val spannableString = SpannableString(text)
-        val start = text.indexOf(phrase)
-        val end = start + phrase.length
-
-        val clickableSpan = object : ClickableSpan() {
-
-            override fun updateDrawState(ds: TextPaint) {
-                ds.color = resources.getColor(R.color.white, null)
-                ds.isUnderlineText = false
-            }
-
-            override fun onClick(v: View) {
-                listener.onClick(v)
-            }
-        }
-
-        spannableString.setSpan(clickableSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        return spannableString
     }
 
     private fun clearAllFocus() {

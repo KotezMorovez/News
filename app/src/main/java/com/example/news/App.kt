@@ -7,7 +7,6 @@ import com.example.news.di.AppComponentHolder
  * Custom app class. Contains basic components initialization.
  */
 class App : Application() {
-
     override fun onCreate() {
         initAppComponent()
         super.onCreate()

@@ -2,18 +2,10 @@ package com.example.news.di
 
 import android.content.Context
 import com.example.news.common.di.DIComponent
-import com.example.news.data.service.AuthService
-import com.example.news.data.service.CloudStorageService
-import com.example.news.data.service.FirebaseService
-import com.example.news.data.service.FirestoreService
-import com.example.news.data.service.NewsService
-import com.example.news.domain.repository.AuthRepository
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.auth.login.LoginFragment
-import com.example.news.ui.auth.reset_password.ForgetPasswordError
 import com.example.news.ui.auth.reset_password.ForgetPasswordFragment
 import com.example.news.ui.auth.signup.SignUpFragment
-import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.home.HomeActivity
 import com.example.news.ui.home.details.HomeDetailsFragment
 import com.example.news.ui.home.favourite.FavouriteFragment
@@ -28,12 +20,12 @@ import com.example.news.ui.splash.SplashActivity
 import com.example.news.ui.verification.VerificationActivity
 import dagger.BindsInstance
 import dagger.Component
-import java.time.format.SignStyle
 import javax.inject.Singleton
 
 @Component(
     modules = [
-        AppModule::class
+        SharedModule::class,
+        OriginalModule::class
     ]
 )
 
@@ -71,14 +63,6 @@ interface AppComponent : DIComponent {
     fun inject(fragment: ProfileFragment)
 
     fun inject(fragment: SourcesFragment)
-
-    fun authService(): AuthService
-
-    fun storageService() : CloudStorageService
-
-    fun firestoreService() : FirebaseService
-
-    fun newsService() : NewsService
 
     @Component.Factory
     interface Factory {

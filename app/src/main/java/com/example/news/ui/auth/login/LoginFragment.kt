@@ -4,13 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentLoginBinding
 import com.example.news.di.AppComponentHolder
+import com.example.news.di.ViewModelFactory
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.makeLinks
 import com.example.news.ui.home.HomeActivity
@@ -20,8 +19,10 @@ import javax.inject.Inject
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     @Inject
-    lateinit var viewModelFactory: LoginViewModelFactory
-    private val viewModel: LoginViewModel by viewModels { viewModelFactory }
+    lateinit var viewModelFactory: ViewModelFactory<LoginViewModel>
+    private val viewModel: LoginViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
+    }
 
     override fun createViewBinding(): FragmentLoginBinding {
         return FragmentLoginBinding.inflate(layoutInflater)

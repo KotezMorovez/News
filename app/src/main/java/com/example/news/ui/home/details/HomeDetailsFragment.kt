@@ -8,12 +8,12 @@ import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentHomeDetailsBinding
 import com.example.news.di.AppComponentHolder
+import com.example.news.di.ViewModelFactory
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.parcelable
 import com.example.news.ui.common.setImageWithProgressbar
@@ -23,9 +23,11 @@ import javax.inject.Inject
 class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
 
     @Inject
-    lateinit var viewModelFactory: HomeDetailsViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory<HomeDetailsViewModel>
 
-    private val viewModel: HomeDetailsViewModel by viewModels { viewModelFactory }
+    private val viewModel: HomeDetailsViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[HomeDetailsViewModel::class.java]
+    }
 
     private var news: DetailsUi? = null
 
