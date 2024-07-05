@@ -3,19 +3,22 @@ package com.example.news.data.service
 import android.util.Log
 import com.example.news.BuildConfig
 import com.example.news.data.model.news_api.NewsEntity
-import com.example.news.data.model.news_api.SourceEntity
 import com.example.news.data.model.news_api.SourcesListEntity
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.request.NewsHeadlineRequest
 import retrofit2.awaitResponse
 import javax.inject.Inject
 
-interface NewsServiceInterface {}
+interface NewsServiceInterface {
+    suspend fun getEverything(newsEverythingRequest: NewsEverythingRequest): Result<NewsEntity>
+    suspend fun getHeadlines(newsEverythingRequest: NewsHeadlineRequest): Result<NewsEntity>
+    suspend fun getSources(language: String): Result<SourcesListEntity>
+}
 
 class NewsService @Inject constructor() : NewsServiceInterface {
     private val newsApi: NewsApi = NewsApi.getInstance()
 
-    suspend fun getEverything(newsEverythingRequest: NewsEverythingRequest): Result<NewsEntity> {
+    override suspend fun getEverything(newsEverythingRequest: NewsEverythingRequest): Result<NewsEntity> {
         try {
             val response =
                 newsApi.getEverything(
@@ -50,7 +53,7 @@ class NewsService @Inject constructor() : NewsServiceInterface {
         }
     }
 
-    suspend fun getHeadlines(newsEverythingRequest: NewsHeadlineRequest): Result<NewsEntity> {
+    override suspend fun getHeadlines(newsEverythingRequest: NewsHeadlineRequest): Result<NewsEntity> {
         try {
             val response =
                 newsApi.getHeadlines(
@@ -79,7 +82,7 @@ class NewsService @Inject constructor() : NewsServiceInterface {
         }
     }
 
-    suspend fun getSources(language: String): Result<SourcesListEntity> {
+    override suspend fun getSources(language: String): Result<SourcesListEntity> {
         try {
             val response = newsApi.getSources(
                 language = language,

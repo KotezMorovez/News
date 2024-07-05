@@ -13,7 +13,6 @@ import com.example.news.di.ViewModelFactory
 import com.example.news.ui.common.BaseFragment
 import com.example.news.ui.common.makeLinks
 import com.example.news.ui.home.HomeActivity
-import com.example.news.ui.verification.VerificationActivity
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -30,7 +29,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppComponentHolder.get().inject(this)
-
         super.onCreate(savedInstanceState)
     }
 
@@ -118,9 +116,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
 
         viewModel.verificationFailureEvent.observe(viewLifecycleOwner) {
-            val intent = Intent(requireContext(), VerificationActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
+            this@LoginFragment.findNavController()
+                .navigate(R.id.action_loginFragment_to_verificationFragment)
         }
     }
 

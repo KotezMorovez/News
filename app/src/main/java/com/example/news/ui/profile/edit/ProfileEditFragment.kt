@@ -1,18 +1,11 @@
 package com.example.news.ui.profile.edit
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Outline
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewOutlineProvider
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -33,7 +26,6 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
     private val viewModel: ProfileEditViewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[ProfileEditViewModel::class.java]
     }
-    private lateinit var selectedImageUri: Uri
 
     override fun createViewBinding(): FragmentProfileEditBinding {
         return FragmentProfileEditBinding.inflate(layoutInflater)
@@ -53,11 +45,6 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
                 }
             }
             profileImage.clipToOutline = true
-
-            editImageButton.setOnClickListener {
-                clearAllFocus()
-                selectImage()
-            }
 
             nameProfileEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
@@ -139,59 +126,5 @@ class ProfileEditFragment : BaseFragment<FragmentProfileEditBinding>() {
         with(viewBinding) {
             nameProfileEditText.clearFocus()
         }
-    }
-
-    private fun isStoragePermissionGranted(): Boolean {
-        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-        val isPermissionGranted = ContextCompat.checkSelfPermission(
-            requireContext(),
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (!isPermissionGranted) {
-            requestPermissions(arrayOf(permission), READ_GALLERY_REQUEST_CODE)
-        }
-
-        return isPermissionGranted
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == READ_GALLERY_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            selectImage()
-        }
-    }
-
-    private fun selectImage() {
-        if (isStoragePermissionGranted()) {
-            val intent = Intent().apply {
-                type = "image/*"
-                action = Intent.ACTION_GET_CONTENT
-            }
-            galleryResultLauncher.launch(intent)
-        }
-    }
-
-    private var galleryResultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-
-            val data = result.data
-            if (data != null && data.data != null) {
-                selectedImageUri = data.data!!
-                viewModel.saveImage(selectedImageUri.toString())
-            }
-        }
-    }
-
-    companion object {
-        const val READ_GALLERY_REQUEST_CODE = 111
     }
 }

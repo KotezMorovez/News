@@ -1,11 +1,18 @@
 package com.example.news.ui.profile.main
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Outline
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewOutlineProvider
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
@@ -33,6 +40,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
     }
     private val adapter: ProfileAdapter = ProfileAdapter()
+    private lateinit var selectedImageUri: Uri
 
     override fun createViewBinding(): FragmentProfileBinding {
         return FragmentProfileBinding.inflate(layoutInflater)
@@ -44,7 +52,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     override fun initUi() {
-        setTranslucentStatusBar(true)
+        viewModel.loadProfile()
+//        setTranslucentStatusBar(true)
         with(viewBinding) {
             val decoration = RecyclerItemDecorator(
                 ResourcesCompat.getDrawable(
@@ -57,7 +66,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             infoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             infoRecyclerView.adapter = adapter
 
-            viewModel.loadProfile()
+            editImageButton.setOnClickListener {
+                selectImage()
+            }
 
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
             (activity as AppCompatActivity).supportActionBar?.title = ""
@@ -122,9 +133,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
-    override fun onDestroyView() {
+    override fun onStart() {
+        setTranslucentStatusBar(true)
+        super.onStart()
+    }
+    override fun onStop() {
         setTranslucentStatusBar(false)
-        super.onDestroyView()
+        super.onStop()
     }
 
     private fun setTranslucentStatusBar(isTranslucent: Boolean) {
@@ -136,6 +151,60 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             window.statusBarColor = resources.getColor(R.color.blue_700, null)
             WindowCompat.setDecorFitsSystemWindows(window, true)
         }
+    }
+
+    private fun isStoragePermissionGranted(): Boolean {
+        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
+        val isPermissionGranted = ContextCompat.checkSelfPermission(
+            requireContext(),
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (!isPermissionGranted) {
+            requestPermissions(arrayOf(permission), READ_GALLERY_REQUEST_CODE)
+        }
+
+        return isPermissionGranted
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == READ_GALLERY_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            selectImage()
+        }
+    }
+
+    private fun selectImage() {
+        if (isStoragePermissionGranted()) {
+            val intent = Intent().apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+            }
+            galleryResultLauncher.launch(intent)
+        }
+    }
+
+    private var galleryResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            val data = result.data
+            if (data != null && data.data != null) {
+                selectedImageUri = data.data!!
+                viewModel.uploadImage(selectedImageUri, requireContext().contentResolver)
+            }
+        }
+    }
+
+    companion object {
+        const val READ_GALLERY_REQUEST_CODE = 111
     }
 
     override fun observeData() {
@@ -156,7 +225,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             requireActivity().finish()
         }
 
-        viewModel.profileLiveData.observe(viewLifecycleOwner) {
+        viewModel.profileInfoLiveData.observe(viewLifecycleOwner) {
             adapter.setItems(it)
         }
 

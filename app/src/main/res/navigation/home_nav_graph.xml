@@ -12,15 +12,27 @@
 
         <action
             android:id="@+id/action_homeFragment_to_homeShowImageFragment"
-            app:destination="@id/homeShowImageFragment" />
+            app:destination="@id/homeShowImageFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popExitAnim="@anim/activity_close_exit"/>
 
         <action
             android:id="@+id/action_homeFragment_to_homeDetailsFragment"
-            app:destination="@id/homeDetailsFragment" />
+            app:destination="@id/homeDetailsFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popExitAnim="@anim/activity_close_exit" />
 
         <action
             android:id="@+id/action_homeFragment_to_favoriteFragment"
-            app:destination="@id/favouriteFragment" />
+            app:destination="@id/favouriteFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popExitAnim="@anim/activity_close_exit"/>
     </fragment>
 
     <fragment
@@ -44,7 +56,11 @@
 
         <action
             android:id="@+id/action_homeDetailsFragment_to_homeShowImageFragment"
-            app:destination="@id/homeShowImageFragment" />
+            app:destination="@id/homeShowImageFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popExitAnim="@anim/activity_close_exit"/>
 
     </fragment>
 
@@ -55,7 +71,11 @@
 
         <action
             android:id="@+id/action_favouriteFragment_to_homeShowImageFragment"
-            app:destination="@id/homeShowImageFragment" />
+            app:destination="@id/homeShowImageFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popExitAnim="@anim/activity_close_exit"/>
 
     </fragment>
 </navigation>

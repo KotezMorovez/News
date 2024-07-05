@@ -2,11 +2,10 @@ package com.example.news.common.ui
 
 object GlobalConstants {
     val DEFAULT_SOURCES = listOf(
-        "google-news",
-        "abc-news",
-        "ars-technica",
-        "associated-press",
-        "bbc-news"
+        "lenta",
+        "rbc",
+        "rt",
+        "ars-technica"
     )
 
     const val FAVOURITES_COLLECTION = "favourites_list"

@@ -1,4 +1,4 @@
-package com.example.news.ui.pages
+package com.example.news.pages
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions

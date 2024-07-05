@@ -34,28 +34,28 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
         with(viewBinding) {
             nameEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
-                    viewModel.setName(nameEditText.text.toString())
+                    viewModel.setName(nameEditText.text.toString().trim())
                 }
             }
 
             emailEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
-                    viewModel.setEmail(emailEditText.text.toString())
+                    viewModel.setEmail(emailEditText.text.toString().trim())
                 }
             }
 
             passwordEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
-                    viewModel.setPassword(passwordEditText.text.toString())
+                    viewModel.setPassword(passwordEditText.text.toString().trim())
                 }
             }
 
             signUpButton.setOnClickListener {
                 clearAllFocus()
                 viewModel.signUp(
-                    nameEditText.text.toString(),
-                    emailEditText.text.toString(),
-                    passwordEditText.text.toString()
+                    nameEditText.text.toString().trim(),
+                    emailEditText.text.toString().trim(),
+                    passwordEditText.text.toString().trim()
                 )
             }
 
@@ -118,16 +118,8 @@ class SignUpFragment : BaseFragment<FragmentSignupBinding>() {
         }
 
         viewModel.signUpSuccessEvent.observe(viewLifecycleOwner) {
-            val snackBar = Snackbar.make(
-                requireContext(),
-                viewBinding.signUpButton,
-                resources.getText(R.string.sign_up_verification_toast),
-                Snackbar.LENGTH_SHORT
-            )
-            snackBar.show()
-
             this@SignUpFragment.findNavController()
-                .navigate(R.id.action_signUpFragment_to_loginFragment)
+                .navigate(R.id.action_signUpFragment_to_verificationFragment)
         }
     }
 
