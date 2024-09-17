@@ -1,4 +1,4 @@
-package com.example.news.ui.verification
+package com.example.news.ui.auth.verification
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

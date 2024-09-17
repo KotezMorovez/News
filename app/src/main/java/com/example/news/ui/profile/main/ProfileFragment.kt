@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.news.R
+import com.example.news.common.ui.GalleryHandler
 import com.example.news.databinding.FragmentProfileBinding
 import com.example.news.di.AppComponentHolder
 import com.example.news.di.ViewModelFactory
@@ -25,10 +26,10 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<ProfileViewModel>
+    private lateinit var galleryHandler: GalleryHandler
     private val viewModel: ProfileViewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
     }
@@ -41,10 +42,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AppComponentHolder.get().inject(this)
         super.onCreate(savedInstanceState)
+        galleryHandler = GalleryHandler(this) {
+            viewModel.uploadImage(it, requireContext().contentResolver)
+        }
     }
 
     override fun initUi() {
-        setTranslucentStatusBar(true)
+        viewModel.loadProfile()
         with(viewBinding) {
             val decoration = RecyclerItemDecorator(
                 ResourcesCompat.getDrawable(
@@ -57,7 +61,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             infoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             infoRecyclerView.adapter = adapter
 
-            viewModel.loadProfile()
+            editImageButton.setOnClickListener {
+                galleryHandler.selectImage()
+            }
 
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
             (activity as AppCompatActivity).supportActionBar?.title = ""
@@ -122,9 +128,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
-    override fun onDestroyView() {
+    override fun onStart() {
+        setTranslucentStatusBar(true)
+        super.onStart()
+    }
+    override fun onStop() {
         setTranslucentStatusBar(false)
-        super.onDestroyView()
+        super.onStop()
     }
 
     private fun setTranslucentStatusBar(isTranslucent: Boolean) {
@@ -156,7 +166,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             requireActivity().finish()
         }
 
-        viewModel.profileLiveData.observe(viewLifecycleOwner) {
+        viewModel.profileInfoLiveData.observe(viewLifecycleOwner) {
             adapter.setItems(it)
         }
 

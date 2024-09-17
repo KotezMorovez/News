@@ -32,15 +32,16 @@
     <string name="forget_password_server_error">Пользователя с таким адресом электронной почты не существует</string>
     <string name="forget_password_email_error">Неверный формат адреса электронной почты</string>
 
-    <string name="verification_title">Ваш аккаунт не верифицирован, проверьте почту и перейдите по ссылке в письме</string>
+    <string name="verification_title">Мы отправили вам электронное письмо, проверьте почту и перейдите по ссылке в письме</string>
+    <string name="verification_login_verified">Уже подтвердили почту? Войти</string>
     <string name="verification_login_link">Хотите войти в другой аккаунт? Авторизоваться</string>
     <string name="verification_send_email">Письмо не пришло? Отправить повторно</string>
-    <string name="verification_send_email_success">Письмо отправлено на вашу электронную почту</string>
     <string name="verification_send_email_failure">Что-то пошло не так</string>
 
     <string name="profile_load_toast_error">Ошибка отображения профиля, попробуйте снова</string>
     <string name="profile_exit_toast_error">Не удалось выйти из аккаунта, попробуйте снова</string>
     <string name="profile_title">Мой профиль</string>
+    <string name="profile_change_image_error">Не удалось сохранить изображение</string>
     <string name="profile_edit_button">Редактировать профиль</string>
     <string name="profile_sources_button">Новостные источники</string>
     <string name="profile_languages_button">Язык статей</string>
@@ -57,7 +58,7 @@
     <string name="profile_edit_title">Редактировать профиль</string>
     <string name="profile_edit_save_button">Сохранить</string>
     <string name="profile_edit_name_error">Имя слишком короткое</string>
-    <string name="profile_edit_save_error">Некорректное изображение/имя</string>
+    <string name="profile_edit_save_error">Некорректное имя или имя не было изменено</string>
     <string name="profile_edit_delete_error">Произошла ошибка при удалении аккаунта</string>
     <string name="profile_edit_upload_error">Ошибка загрузки</string>
 

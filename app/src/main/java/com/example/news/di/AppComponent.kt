@@ -6,6 +6,7 @@ import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.auth.login.LoginFragment
 import com.example.news.ui.auth.reset_password.ForgetPasswordFragment
 import com.example.news.ui.auth.signup.SignUpFragment
+import com.example.news.ui.auth.verification.VerificationFragment
 import com.example.news.ui.home.HomeActivity
 import com.example.news.ui.home.details.HomeDetailsFragment
 import com.example.news.ui.home.favourite.FavouriteFragment
@@ -17,7 +18,6 @@ import com.example.news.ui.profile.languages.LanguagesFragment
 import com.example.news.ui.profile.main.ProfileFragment
 import com.example.news.ui.profile.sources.SourcesFragment
 import com.example.news.ui.splash.SplashActivity
-import com.example.news.ui.verification.VerificationActivity
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -40,7 +40,7 @@ interface AppComponent : DIComponent {
 
     fun inject(activity: SplashActivity)
 
-    fun inject(activity: VerificationActivity)
+    fun inject(activity: VerificationFragment)
 
     fun inject(fragment: LoginFragment)
 

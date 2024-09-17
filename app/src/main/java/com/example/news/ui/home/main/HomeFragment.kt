@@ -50,7 +50,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     viewModel.handleShowImageClick(itemId, position)
                 }
             ))
-            .add(NewsTextDelegateAdapter(onFavouriteClickListener = { itemId ->
+            .add(NewsTextDelegateAdapter(
+                onFavouriteClickListener = { itemId ->
                 viewModel.handleFavouriteItemClick(itemId)
             }))
             .add(NewsEndingDelegateAdapter())

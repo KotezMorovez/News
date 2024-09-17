@@ -1,7 +1,7 @@
 package com.example.news.data.repository
 
 import com.example.news.data.mapper.toDomain
-import com.example.news.data.service.NewsService
+import com.example.news.data.service.NewsServiceInterface
 import com.example.news.domain.model.home.request.NewsEverythingRequest
 import com.example.news.domain.model.home.response.News
 import com.example.news.domain.model.profile.SourcesList
@@ -9,7 +9,7 @@ import com.example.news.domain.repository.NewsRepository
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
-    private val newsService: NewsService
+    private val newsService: NewsServiceInterface
 ) : NewsRepository {
 
     override suspend fun getNews(newsEverythingRequest: NewsEverythingRequest): Result<News> {

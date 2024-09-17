@@ -1,10 +1,10 @@
-package com.example.news.ui.pages
+package com.example.news.pages
 
 import androidx.annotation.IdRes
 import androidx.test.espresso.ViewInteraction
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.example.news.ui.utils.waitUntilElementVisible
+import com.example.news.utils.waitUntilElementVisible
 
 
 open class BasePage {

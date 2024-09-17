@@ -24,7 +24,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "com.example.news.ui.utils.TestRunner"
         vectorDrawables {
@@ -89,8 +89,7 @@ dependencies {
 
 //    Dagger
     implementation("com.google.dagger:dagger:2.46.1")
-    implementation("androidx.test:runner:1.5.2")
-    implementation("androidx.test.uiautomator:uiautomator:2.3.0")
+    implementation("androidx.test:runner:1.6.0")
     implementation("com.android.identity:identity-credential-android:20231002")
     kapt("com.google.dagger:dagger-compiler:2.46.1")
     kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.6.2")
@@ -101,7 +100,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
 //    Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore-ktx")
@@ -116,7 +115,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0-RC.2")
 
 //    Test
-    testImplementation("androidx.test:core:1.5.0")
+    testImplementation("androidx.test:core:1.6.0")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     debugImplementation("androidx.fragment:fragment-testing:1.8.0")
     kaptTest("com.google.dagger:dagger-compiler:2.46.1")
@@ -126,8 +125,8 @@ dependencies {
 
 //      JUnit4
     testImplementation("junit:junit:4.13.2")
-    testImplementation("androidx.test.ext:junit:1.2.0-rc01")
-    androidTestImplementation("androidx.test.ext:junit:1.2.0-rc01")
+    testImplementation("androidx.test.ext:junit:1.2.0")
+    androidTestImplementation("androidx.test.ext:junit:1.2.0")
     androidTestImplementation("junit:junit:4.13.2")
 
 //      Mockito
@@ -141,6 +140,8 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.12.2")
 
 //      Espresso
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.0")
     debugImplementation("androidx.fragment:fragment-testing:1.8.0")
+    implementation("androidx.test.uiautomator:uiautomator:2.3.0")
+    androidTestImplementation("com.android.support.test.uiautomator:uiautomator-v18:2.1.3")
 }
