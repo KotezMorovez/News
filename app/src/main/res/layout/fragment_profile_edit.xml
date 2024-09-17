@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -30,12 +30,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/profileImage"
@@ -46,17 +42,6 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/avatar_placeholder"
                     tools:src="@color/blue_500" />
-
-                <ImageView
-                    android:id="@+id/editImageButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="end|bottom"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:src="@drawable/ic_edit_profile_image" />
-
-            </FrameLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nameProfileContainer"

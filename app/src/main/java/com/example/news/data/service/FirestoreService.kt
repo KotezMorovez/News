@@ -27,16 +27,6 @@ class FirestoreService @Inject constructor() : FirebaseService {
     private val database = Firebase.firestore
     private val collection = database.collection(GlobalConstants.USERS_COLLECTION)
 
-    companion object {
-        private var instance: FirestoreService? = null
-        fun getInstance(): FirestoreService {
-            if (instance == null) {
-                instance = FirestoreService()
-            }
-            return instance!!
-        }
-    }
-
     override suspend fun updateUserData(personalInfo: ProfileEntity): Result<Unit> {
         return suspendCoroutine { continuation ->
             collection

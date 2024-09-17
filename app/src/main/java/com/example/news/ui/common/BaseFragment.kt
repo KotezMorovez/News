@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
-
     lateinit var viewBinding: T
 
     protected abstract fun createViewBinding(): T

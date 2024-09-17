@@ -10,19 +10,35 @@
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_profileEditFragment"
-            app:destination="@id/profileEditFragment" />
+            app:destination="@id/profileEditFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:popExitAnim="@anim/activity_close_exit" />
 
         <action
             android:id="@+id/action_profileFragment_to_sourcesFragment"
-            app:destination="@id/sourcesFragment" />
+            app:destination="@id/sourcesFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:popExitAnim="@anim/activity_close_exit" />
 
         <action
             android:id="@+id/action_profileFragment_to_profileShowImageFragment"
-            app:destination="@id/profileShowImageFragment"/>
+            app:destination="@id/profileShowImageFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:popExitAnim="@anim/activity_close_exit" />
 
         <action
             android:id="@+id/action_profileFragment_to_languagesFragment"
-            app:destination="@id/languagesFragment"/>
+            app:destination="@id/languagesFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:popExitAnim="@anim/activity_close_exit" />
     </fragment>
 
     <fragment
@@ -32,6 +48,10 @@
         <action
             android:id="@+id/action_languagesFragment_to_profileFragment"
             app:destination="@id/profileFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:popExitAnim="@anim/activity_close_exit"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -43,6 +63,10 @@
         <action
             android:id="@+id/action_sourcesFragment_to_profileFragment"
             app:destination="@id/profileFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:popExitAnim="@anim/activity_close_exit"
             app:popUpTo="@id/profileFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -53,7 +77,13 @@
         tools:layout="@layout/fragment_profile_edit">
         <action
             android:id="@+id/action_profileEditFragment_to_profileFragment"
-            app:destination="@id/profileFragment"/>
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/activity_open_enter"
+            app:exitAnim="@anim/activity_close_exit"
+            app:popEnterAnim="@anim/activity_open_enter"
+            app:popExitAnim="@anim/activity_close_exit"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -62,6 +92,7 @@
         tools:layout="@layout/fragment_profile_show_image">
         <argument
             android:name="imageUrl"
-            app:argType="string"
-            android:defaultValue='' />
-    </fragment></navigation>
+            android:defaultValue=''
+            app:argType="string" />
+    </fragment>
+</navigation>

@@ -5,7 +5,6 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
-import java.lang.Exception
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
@@ -23,16 +22,6 @@ interface AuthService {
 
 class FirebaseAuthService @Inject constructor() : AuthService {
     private val auth = FirebaseAuth.getInstance()
-
-    companion object {
-        private var instance: FirebaseAuthService? = null
-        fun getInstance(): FirebaseAuthService {
-            if (instance == null) {
-                instance = FirebaseAuthService()
-            }
-            return instance!!
-        }
-    }
 
     override suspend fun getUserVerificationStatus(): Boolean {
         return auth.currentUser?.isEmailVerified ?: false

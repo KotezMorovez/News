@@ -1,5 +1,4 @@
-package com.example.news.ui.pages
-
+package com.example.news.pages
 
 import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
@@ -9,7 +8,10 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.uiautomator.UiDevice
 import com.example.news.R
+
 
 class LoginPage : BasePage() {
     fun waitForPageLoading() {
@@ -26,7 +28,9 @@ class LoginPage : BasePage() {
     }
 
     fun typeText(@IdRes id: Int, text: String) {
+        Espresso.onView(withId(id)).perform(click())
         Espresso.onView(withId(id)).perform(replaceText(text))
+        Espresso.closeSoftKeyboard()
     }
 
     fun checkEmailHintVisibility() {
@@ -36,12 +40,15 @@ class LoginPage : BasePage() {
     }
 
     fun checkPasswordHintVisibility() {
+        val text = "Неверный формат пароля.\nПароль должен содержать 8-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&+=!"
+
         Espresso
-            .onView(
-                withText(
-                    "Неверный формат пароля.\nПароль должен содержать 8-16 символов, минимум одну заглавную букву и минимум один из символов @#$%^&+=!"
-                )
-            )
+            .onView(withText(text))
             .check(matches(ViewMatchers.isDisplayed()))
+    }
+
+    fun tapRandomPlace() {
+        val device = UiDevice.getInstance(getInstrumentation())
+        device.click(-20, -50)
     }
 }

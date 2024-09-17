@@ -12,7 +12,6 @@ import com.example.news.di.AppComponentHolder
 import com.example.news.di.ViewModelFactory
 import com.example.news.ui.auth.AuthActivity
 import com.example.news.ui.home.HomeActivity
-import com.example.news.ui.verification.VerificationActivity
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
@@ -50,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
         viewModel.checkVerificationEvent.observe(this) {
-            val intent = Intent(this, VerificationActivity::class.java)
+            val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             this.finish()
         }

@@ -57,7 +57,7 @@ class SignUpFragmentTest {
 
             fragment.viewBinding.signUpButton.performClick()
         }
-        verify(mockNavController).navigate(R.id.action_signUpFragment_to_loginFragment)
+        verify(mockNavController).navigate(R.id.action_signUpFragment_to_verificationFragment)
     }
 
     @Test

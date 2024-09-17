@@ -9,4 +9,5 @@
     android:name="androidx.navigation.fragment.NavHostFragment"
     app:navGraph="@navigation/auth_nav_graph"
     app:defaultNavHost="true"
+    android:background="@drawable/auth_background"
     tools:context="com.example.news.ui.auth.AuthActivity"/>
