@@ -54,7 +54,6 @@ class ProfileViewModel @Inject constructor(
 
                     _profileInfoLiveData.value = list
                     _image.value = currentProfile!!.imageUrl ?: ""
-                    Log.e("NewsDebug", currentProfile!!.imageUrl.toString())
                 }
 
             } else if (result.isFailure) {

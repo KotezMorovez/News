@@ -1,18 +1,11 @@
 package com.example.news.ui.profile.main
 
-import android.Manifest
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Outline
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewOutlineProvider
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.news.R
+import com.example.news.common.ui.GalleryHandler
 import com.example.news.databinding.FragmentProfileBinding
 import com.example.news.di.AppComponentHolder
 import com.example.news.di.ViewModelFactory
@@ -32,15 +26,14 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<ProfileViewModel>
+    private lateinit var galleryHandler: GalleryHandler
     private val viewModel: ProfileViewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
     }
     private val adapter: ProfileAdapter = ProfileAdapter()
-    private lateinit var selectedImageUri: Uri
 
     override fun createViewBinding(): FragmentProfileBinding {
         return FragmentProfileBinding.inflate(layoutInflater)
@@ -49,11 +42,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AppComponentHolder.get().inject(this)
         super.onCreate(savedInstanceState)
+        galleryHandler = GalleryHandler(this) {
+            viewModel.uploadImage(it, requireContext().contentResolver)
+        }
     }
 
     override fun initUi() {
         viewModel.loadProfile()
-//        setTranslucentStatusBar(true)
         with(viewBinding) {
             val decoration = RecyclerItemDecorator(
                 ResourcesCompat.getDrawable(
@@ -67,7 +62,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             infoRecyclerView.adapter = adapter
 
             editImageButton.setOnClickListener {
-                selectImage()
+                galleryHandler.selectImage()
             }
 
             (activity as AppCompatActivity).setSupportActionBar(toolbar)
@@ -151,60 +146,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             window.statusBarColor = resources.getColor(R.color.blue_700, null)
             WindowCompat.setDecorFitsSystemWindows(window, true)
         }
-    }
-
-    private fun isStoragePermissionGranted(): Boolean {
-        val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-        val isPermissionGranted = ContextCompat.checkSelfPermission(
-            requireContext(),
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (!isPermissionGranted) {
-            requestPermissions(arrayOf(permission), READ_GALLERY_REQUEST_CODE)
-        }
-
-        return isPermissionGranted
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == READ_GALLERY_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            selectImage()
-        }
-    }
-
-    private fun selectImage() {
-        if (isStoragePermissionGranted()) {
-            val intent = Intent().apply {
-                type = "image/*"
-                action = Intent.ACTION_GET_CONTENT
-            }
-            galleryResultLauncher.launch(intent)
-        }
-    }
-
-    private var galleryResultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-
-            val data = result.data
-            if (data != null && data.data != null) {
-                selectedImageUri = data.data!!
-                viewModel.uploadImage(selectedImageUri, requireContext().contentResolver)
-            }
-        }
-    }
-
-    companion object {
-        const val READ_GALLERY_REQUEST_CODE = 111
     }
 
     override fun observeData() {

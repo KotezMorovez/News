@@ -53,7 +53,8 @@ class DateUtils @Inject constructor(private val context: Context) {
             return context.resources.getString(R.string.date_less_year_ago, date, time)
         }
 
-        return context.resources.getString(R.string.date_years_ago, time)
+        val year = fromDate.year().asText
+        return context.resources.getString(R.string.date_years_ago, year)
     }
 
     companion object {
