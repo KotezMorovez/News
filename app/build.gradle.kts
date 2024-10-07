@@ -34,10 +34,38 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "apiKey", projectProperties["API_KEY"] as String)
+            buildConfigField(
+                "String",
+                "apiKey",
+                projectProperties["API_KEY"] as String
+            )
+            buildConfigField(
+                "String",
+                "apiKey2",
+                projectProperties["API_KEY2"] as String
+            )
+            buildConfigField(
+                "String",
+                "apiKey3",
+                projectProperties["API_KEY3"] as String
+            )
         }
         release {
-            buildConfigField("String", "apiKey", projectProperties["API_KEY"] as String)
+            buildConfigField(
+                "String",
+                "apiKey",
+                projectProperties["API_KEY"] as String
+            )
+            buildConfigField(
+                "String",
+                "apiKey2",
+                projectProperties["API_KEY2"] as String
+            )
+            buildConfigField(
+                "String",
+                "apiKey3",
+                projectProperties["API_KEY3"] as String
+            )
 
             isMinifyEnabled = false
             proguardFiles(

@@ -12,7 +12,8 @@ import com.example.news.ui.common.delegate_adapter.IDelegateAdapterItem
 import com.example.news.ui.home.main.adapter.item.NewsTextItem
 
 class NewsTextDelegateAdapter(
-    private val onFavouriteClickListener: (id: String) -> Unit
+    private val onFavouriteClickListener: (id: String) -> Unit,
+    private val onShareClickListener: (id: String) -> Unit
 ) : BaseDelegateAdapter<NewsTextItem, NewsTextDelegateAdapter.ViewHolder>(NewsTextItem::class.java) {
 
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
@@ -49,6 +50,10 @@ class NewsTextDelegateAdapter(
                     null
                 )
             )
+
+            shareButton.setOnClickListener {
+                onShareClickListener.invoke(model.ui.id)
+            }
 
             addToFavoritesButton.setOnClickListener {
                 onFavouriteClickListener.invoke(model.ui.id)

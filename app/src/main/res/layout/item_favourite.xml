@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -34,5 +35,19 @@
         android:orientation="horizontal"
         android:scaleType="center"
         tools:src="@drawable/ic_main_round" />
+
+    <ImageView
+        android:id="@+id/shareButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="bottom|end"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bg_with_tint"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/ic_share"
+        android:tintMode="src_in"
+        app:tint="@android:color/transparent" />
 
 </LinearLayout>

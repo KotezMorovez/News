@@ -2,13 +2,8 @@ package com.example.news.data.service
 
 import com.example.news.data.model.news_api.NewsEntity
 import com.example.news.data.model.news_api.SourcesListEntity
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface NewsApi {
@@ -24,9 +19,7 @@ interface NewsApi {
         @Query("language") language: String? = null,
         @Query("sortBy") sortBy:String? = null,
         @Query("pageSize") pageSize:Int? = null,
-        @Query("page") page:Int? = null,
-
-        @Header("X-Api-Key") apiKey: String,
+        @Query("page") page:Int? = null
     ): Call<NewsEntity>
 
     @GET("v2/top-headlines")
@@ -36,34 +29,11 @@ interface NewsApi {
         @Query("sources") sources: String? = null,
         @Query("q") query: String? = null,
         @Query("pageSize") pageSize:Int? = null,
-        @Query("page") page:Int? = null,
-
-        @Header("X-Api-Key") apiKey: String,
+        @Query("page") page:Int? = null
     ): Call<NewsEntity>
 
     @GET("v2/top-headlines/sources")
     fun getSources(
-        @Query("language") language: String? = null,
-
-        @Header("X-Api-Key") apiKey: String,
+        @Query("language") language: String? = null
     ): Call<SourcesListEntity>
-
-    companion object {
-        private var instance: NewsApi? = null
-        private val interceptor = HttpLoggingInterceptor()
-
-        fun getInstance(): NewsApi {
-            if (instance == null) {
-                interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-
-                instance = Retrofit.Builder()
-                    .baseUrl("https://newsapi.org/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(OkHttpClient.Builder().addInterceptor(interceptor).build())
-                    .build()
-                    .create(NewsApi::class.java)
-            }
-            return instance!!
-        }
-    }
 }

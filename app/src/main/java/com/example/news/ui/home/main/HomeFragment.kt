@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
+import com.example.news.common.ui.GlobalConstants.SEND_INTENT_TYPE
 import com.example.news.databinding.FragmentHomeBinding
 import com.example.news.di.AppComponentHolder
 import com.example.news.di.ViewModelFactory
@@ -22,7 +24,6 @@ import com.example.news.ui.home.models.DetailsUi
 import com.example.news.ui.profile.ProfileActivity
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
-
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     @Inject
@@ -40,6 +41,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 },
                 onImageClickListener = { itemId, position ->
                     viewModel.handleShowImageClick(itemId, position)
+                },
+                onShareClickListener = { itemId ->
+                    viewModel.shareNews(itemId)
                 }
             ))
             .add(NewsImageDelegateAdapter(
@@ -48,12 +52,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 },
                 onImageClickListener = { itemId, position ->
                     viewModel.handleShowImageClick(itemId, position)
+                },
+                onShareClickListener = { itemId ->
+                    viewModel.shareNews(itemId)
                 }
             ))
             .add(NewsTextDelegateAdapter(
                 onFavouriteClickListener = { itemId ->
-                viewModel.handleFavouriteItemClick(itemId)
-            }))
+                    viewModel.handleFavouriteItemClick(itemId)
+                },
+                onShareClickListener = { itemId ->
+                    viewModel.shareNews(itemId)
+                }
+            ))
             .add(NewsEndingDelegateAdapter())
             .build { id ->
                 viewModel.showDetails(id)
@@ -169,24 +180,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewBinding.newsSwipeRefresh.isRefreshing = false
         }
 
-        viewModel.goToDetailsEvent.observe(viewLifecycleOwner){
+        viewModel.goToDetailsEvent.observe(viewLifecycleOwner) {
             val bundle = Bundle()
-            bundle.putParcelable("item", DetailsUi(
-                id = it.id,
-                header = it.header,
-                body = it.body,
-                url = it.url,
-                imagesUriList = it.imagesUriList,
-                date = it.date,
-                userId = it.userId,
-                isFavorite = it.isFavorite
-            ))
+            bundle.putParcelable(
+                "item", DetailsUi(
+                    id = it.id,
+                    header = it.header,
+                    body = it.body,
+                    url = it.url,
+                    imagesUriList = it.imagesUriList,
+                    date = it.date,
+                    userId = it.userId,
+                    isFavorite = it.isFavorite
+                )
+            )
 
             this@HomeFragment.findNavController()
                 .navigate(R.id.action_homeFragment_to_homeDetailsFragment, bundle)
         }
 
-        viewModel.dataInitEvent.observe(viewLifecycleOwner){
+        viewModel.shareEvent.observe(viewLifecycleOwner) { url ->
+            val sharingText =
+                "${requireContext().resources.getText(R.string.sharing_text)} $url"
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, sharingText)
+            shareIntent.type = SEND_INTENT_TYPE
+
+            val chooserIntent = Intent.createChooser(shareIntent, null)
+            ContextCompat.startActivity(requireContext(), chooserIntent, null)
+        }
+
+        viewModel.dataInitEvent.observe(viewLifecycleOwner) {
             viewModel.loadNews()
         }
     }

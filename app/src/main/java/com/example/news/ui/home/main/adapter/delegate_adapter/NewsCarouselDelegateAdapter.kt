@@ -16,7 +16,8 @@ import com.example.news.ui.home.main.adapter.item.NewsCarouselItem
 
 class NewsCarouselDelegateAdapter(
     private val onFavouriteClickListener: (id: String) -> Unit,
-    private val onImageClickListener: (id: String, position: Int) -> Unit
+    private val onImageClickListener: (id: String, position: Int) -> Unit,
+    private val onShareClickListener: (id: String) -> Unit
 ) : BaseDelegateAdapter<NewsCarouselItem, NewsCarouselDelegateAdapter.ViewHolder>(NewsCarouselItem::class.java) {
 
     override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -71,22 +72,16 @@ class NewsCarouselDelegateAdapter(
                 true
             ).attach()
 
-            if (model.ui.isFavorite) {
-                addToFavoritesButton.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        addToFavoritesButton.context.resources,
-                        R.drawable.ic_favourite_active_ripple,
-                        null
-                    )
+            addToFavoritesButton.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    addToFavoritesButton.context.resources,
+                    if (model.ui.isFavorite) R.drawable.ic_favourite_active_ripple else R.drawable.ic_recycler_favourite_inactive,
+                    null
                 )
-            } else {
-                addToFavoritesButton.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        addToFavoritesButton.context.resources,
-                        R.drawable.ic_recycler_favourite_inactive,
-                        null
-                    )
-                )
+            )
+
+            shareButton.setOnClickListener {
+                onShareClickListener.invoke(model.ui.id)
             }
 
             addToFavoritesButton.setOnClickListener {

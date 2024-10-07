@@ -10,4 +10,5 @@ object GlobalConstants {
 
     const val FAVOURITES_COLLECTION = "favourites_list"
     const val USERS_COLLECTION = "profiles"
+    const val SEND_INTENT_TYPE = "text/plain"
 }

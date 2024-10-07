@@ -14,16 +14,14 @@ import com.example.news.ui.home.main.adapter.item.NewsImageItem
 
 class NewsImageDelegateAdapter(
     private val onFavouriteClickListener: (id: String) -> Unit,
-    private val onImageClickListener: (id: String, position: Int) -> Unit
+    private val onImageClickListener: (id: String, position: Int) -> Unit,
+    private val onShareClickListener: (id: String) -> Unit
 ) : BaseDelegateAdapter<NewsImageItem, NewsImageDelegateAdapter.ViewHolder>(NewsImageItem::class.java) {
-    override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder =
-        ViewHolder(
-            ItemNewsWithImageBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+    override fun createViewHolder(parent: ViewGroup): RecyclerView.ViewHolder = ViewHolder(
+        ItemNewsWithImageBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
         )
+    )
 
     override fun bindViewHolder(
         model: NewsImageItem,
@@ -52,22 +50,16 @@ class NewsImageDelegateAdapter(
                 10f
             )
 
-            if (model.ui.isFavorite) {
-                addToFavoritesButton.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        addToFavoritesButton.context.resources,
-                        R.drawable.ic_favourite_active_ripple,
-                        null
-                    )
+            addToFavoritesButton.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    addToFavoritesButton.context.resources,
+                    if (model.ui.isFavorite) R.drawable.ic_favourite_active_ripple else R.drawable.ic_recycler_favourite_inactive,
+                    null
                 )
-            } else {
-                addToFavoritesButton.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        addToFavoritesButton.context.resources,
-                        R.drawable.ic_recycler_favourite_inactive,
-                        null
-                    )
-                )
+            )
+
+            shareButton.setOnClickListener {
+                onShareClickListener.invoke(model.ui.id)
             }
 
             addToFavoritesButton.setOnClickListener {

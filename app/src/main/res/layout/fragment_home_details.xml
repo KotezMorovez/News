@@ -9,10 +9,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:theme="@style/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/blue_700"
+        android:theme="@style/toolbar"
         app:navigationIcon="@drawable/ic_arrow_back_24">
 
         <TextView
@@ -31,35 +31,35 @@
 
         <TextView
             android:id="@+id/header"
+            style="@style/news_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Header"
             android:layout_marginTop="8dp"
-            style="@style/news_header" />
+            tools:text="Header" />
 
         <TextView
             android:id="@+id/date"
+            style="@style/news_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            tools:text="today"
-            style="@style/news_date" />
+            tools:text="today" />
 
         <TextView
             android:id="@+id/body"
+            style="@style/news_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="Body"
-            style="@style/news_body" />
+            tools:text="Body" />
 
         <TextView
             android:id="@+id/link"
+            style="@style/news_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            tools:text="link"
-            style="@style/news_link" />
+            tools:text="link" />
 
         <ImageView
             android:id="@+id/newsImage"
@@ -69,12 +69,31 @@
             android:scaleType="center"
             tools:src="@drawable/ic_android" />
 
-        <ImageView
-            android:id="@+id/addToFavoritesButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginTop="8dp"
-            tools:src="@drawable/ic_favourite_active_ripple" />
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:id="@+id/addToFavoritesButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                tools:src="@drawable/ic_favourite_active_ripple" />
+
+            <ImageView
+                android:id="@+id/shareButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:adjustViewBounds="true"
+                android:background="@drawable/bg_with_tint"
+                android:tintMode="src_in"
+                android:foreground="@drawable/ic_share"
+                app:tint="@android:color/transparent" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

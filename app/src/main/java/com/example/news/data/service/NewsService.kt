@@ -1,7 +1,6 @@
 package com.example.news.data.service
 
 import android.util.Log
-import com.example.news.BuildConfig
 import com.example.news.data.model.news_api.NewsEntity
 import com.example.news.data.model.news_api.SourcesListEntity
 import com.example.news.domain.model.home.request.NewsEverythingRequest
@@ -15,9 +14,9 @@ interface NewsServiceInterface {
     suspend fun getSources(language: String): Result<SourcesListEntity>
 }
 
-class NewsService @Inject constructor() : NewsServiceInterface {
-    private val newsApi: NewsApi = NewsApi.getInstance()
-
+class NewsService @Inject constructor(
+    private val newsApi: NewsApi
+) : NewsServiceInterface {
     override suspend fun getEverything(newsEverythingRequest: NewsEverythingRequest): Result<NewsEntity> {
         try {
             val response =
@@ -32,8 +31,7 @@ class NewsService @Inject constructor() : NewsServiceInterface {
                     language = newsEverythingRequest.language,
                     sortBy = newsEverythingRequest.sortBy,
                     pageSize = newsEverythingRequest.pageSize,
-                    page = newsEverythingRequest.page,
-                    apiKey = BuildConfig.apiKey
+                    page = newsEverythingRequest.page
                 ).awaitResponse()
 
             if (!response.isSuccessful) {
@@ -62,8 +60,7 @@ class NewsService @Inject constructor() : NewsServiceInterface {
                     sources = newsEverythingRequest.sources?.joinToString(separator = ","),
                     query = newsEverythingRequest.query,
                     pageSize = newsEverythingRequest.pageSize,
-                    page = newsEverythingRequest.page,
-                    apiKey = BuildConfig.apiKey
+                    page = newsEverythingRequest.page
                 ).awaitResponse()
 
             if (!response.isSuccessful) {
@@ -85,8 +82,7 @@ class NewsService @Inject constructor() : NewsServiceInterface {
     override suspend fun getSources(language: String): Result<SourcesListEntity> {
         try {
             val response = newsApi.getSources(
-                language = language,
-                apiKey = BuildConfig.apiKey
+                language = language
             ).awaitResponse()
 
             if (!response.isSuccessful) {

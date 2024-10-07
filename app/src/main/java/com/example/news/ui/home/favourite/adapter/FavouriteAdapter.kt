@@ -11,7 +11,8 @@ import com.example.news.ui.common.setImageWithProgressbar
 
 class FavouriteAdapter(
     private val onImageClickListener: (id: String) -> Unit,
-    private val onLinkClickListener: (link: String) -> Unit
+    private val onLinkClickListener: (link: String) -> Unit,
+    private val onShareClickListener: (link: String) -> Unit,
 ) :
     ListAdapter<FavouriteItem, FavouriteAdapter.ViewHolder>(FavouriteAdapterDiffCallback()) {
 
@@ -37,6 +38,10 @@ class FavouriteAdapter(
             link.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             link.setOnClickListener {
                 onLinkClickListener.invoke(item.url)
+            }
+
+            shareButton.setOnClickListener {
+                onShareClickListener.invoke(item.url)
             }
 
             if (item.image != null) {
