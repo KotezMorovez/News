@@ -25,7 +25,8 @@ import javax.inject.Singleton
 @Component(
     modules = [
         SharedModule::class,
-        OriginalModule::class
+        OriginalModule::class,
+        ApiModule::class
     ]
 )
 

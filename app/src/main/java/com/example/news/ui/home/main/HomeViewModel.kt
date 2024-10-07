@@ -70,6 +70,10 @@ class HomeViewModel @Inject constructor(
     val goToDetailsEvent: LiveData<DetailsUi>
         get() = _goToDetailsEvent
 
+    private val _shareEvent = SingleLiveEvent<String>()
+    val shareEvent: LiveData<String>
+        get() = _shareEvent
+
     fun applySearchText(text: String) {
         if (text == currentQuery) {
             return
@@ -77,6 +81,16 @@ class HomeViewModel @Inject constructor(
         currentQuery = text
         resetPagination()
         loadNews()
+    }
+
+    fun shareNews(id: String){
+        val article = allArticles.firstOrNull{
+            it.id == id
+        }
+
+        if (article != null){
+            _shareEvent.value = article.url
+        }
     }
 
     fun initialize() {

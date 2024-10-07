@@ -4,10 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
+import com.example.news.common.ui.GlobalConstants
 import com.example.news.databinding.FragmentFavouriteBinding
 import com.example.news.di.AppComponentHolder
 import com.example.news.di.ViewModelFactory
@@ -29,8 +31,18 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
             viewModel.handleShowImageClick(id)
         },
         onLinkClickListener = { link ->
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link));
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
             startActivity(browserIntent)
+        },
+        onShareClickListener = { link ->
+            val sharingText =
+                "${requireContext().resources.getText(R.string.sharing_text)} $link"
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, sharingText)
+            shareIntent.type = GlobalConstants.SEND_INTENT_TYPE
+
+            val chooserIntent = Intent.createChooser(shareIntent, null)
+            ContextCompat.startActivity(requireContext(), chooserIntent, null)
         }
     )
 

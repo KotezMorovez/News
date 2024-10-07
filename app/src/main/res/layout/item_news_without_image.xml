@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -32,11 +33,30 @@
         android:layout_marginTop="8dp"
         tools:text="News Body Text" />
 
-    <ImageView
-        android:id="@+id/addToFavoritesButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:contentDescription="@string/home_page_description_favourite_button"
-        tools:src="@drawable/ic_recycler_favourite_inactive" />
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/addToFavoritesButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical"
+            tools:src="@drawable/ic_favourite_active_ripple" />
+
+        <ImageView
+            android:id="@+id/shareButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bg_with_tint"
+            android:tintMode="src_in"
+            android:foreground="@drawable/ic_share"
+            app:tint="@android:color/transparent" />
+    </LinearLayout>
 </LinearLayout>

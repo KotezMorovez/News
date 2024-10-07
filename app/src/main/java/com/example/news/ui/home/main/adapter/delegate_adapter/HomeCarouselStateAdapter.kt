@@ -24,12 +24,12 @@ class HomeCarouselStateAdapter(
     override fun getItemCount(): Int = imageUrlList.size
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
-        holder.setData(imageUrlList[position])
+        with(holder) {
+            setData(imageUrlList[position])
 
-
-
-        holder.binding.carouselImageView.setOnClickListener {
-            onImageItemClickListener.invoke(position)
+            binding.carouselImageView.setOnClickListener {
+                onImageItemClickListener.invoke(position)
+            }
         }
     }
 

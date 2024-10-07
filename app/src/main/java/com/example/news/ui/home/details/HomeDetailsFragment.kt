@@ -6,11 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
+import com.example.news.common.ui.GlobalConstants.SEND_INTENT_TYPE
 import com.example.news.databinding.FragmentHomeDetailsBinding
 import com.example.news.di.AppComponentHolder
 import com.example.news.di.ViewModelFactory
@@ -60,8 +62,19 @@ class HomeDetailsFragment : BaseFragment<FragmentHomeDetailsBinding>() {
 
             link.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             link.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link.text.toString()));
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link.text.toString()))
                 startActivity(browserIntent)
+            }
+
+            shareButton.setOnClickListener {
+                val sharingText =
+                    "${requireContext().resources.getText(R.string.sharing_text)} ${link.text}"
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.putExtra(Intent.EXTRA_TEXT, sharingText)
+                shareIntent.type = SEND_INTENT_TYPE
+
+                val chooserIntent = Intent.createChooser(shareIntent, null)
+                ContextCompat.startActivity(requireContext(), chooserIntent, null)
             }
 
             addToFavoritesButton.setOnClickListener {
